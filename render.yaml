@@ -1,0 +1,33 @@
+# Render Blueprint — nongdev 자동 배포 설정
+# 이 파일이 있으면 Render가 모든 설정을 자동으로 읽어가서 배포합니다.
+# 참고: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: nongdev
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: true
+
+    # SPA 라우팅: 모든 경로를 index.html 로 리라이트해야
+    # /services, /portfolio 같은 직접 접속이 404 없이 동작합니다.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    # 환경변수 — Render 대시보드에서 직접 값을 입력 (sync: false)
+    # 비밀값은 git 에 절대 올리지 마세요. 키만 선언해 두면 됩니다.
+    envVars:
+      - key: VITE_CHANNELTALK_PLUGIN_KEY
+        sync: false
+      - key: VITE_GA_ID
+        sync: false
+
+    # 캐시 헤더 (선택) — assets 폴더는 해시 파일명이라 길게 캐시
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
