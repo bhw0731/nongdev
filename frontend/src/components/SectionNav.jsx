@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react'
 
 const sections = [
-  { id: 'intro', num: '01', label: 'INTRO' },
-  { id: 'services', num: '02', label: 'SERVICES' },
-  { id: 'why', num: '03', label: 'WHY' },
-  { id: 'process', num: '04', label: 'PROCESS' },
-  { id: 'capabilities', num: '05', label: 'CAPABILITIES' },
-  { id: 'works', num: '06', label: 'WORKS' },
-  { id: 'reviews', num: '07', label: 'REVIEWS' },
-  { id: 'faq', num: '08', label: 'FAQ' },
-  { id: 'trust', num: '09', label: 'TRUST' },
+  { id: 'start', num: '01', label: 'START' },
+  { id: 'stages', num: '02', label: 'STAGES' },
+  { id: 'scores', num: '03', label: 'SCORES' },
+  { id: 'join', num: '04', label: 'JOIN' },
 ]
 
 // 우측 사이드에 떠 있는 섹션 네비 (scroll spy)

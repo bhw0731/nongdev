@@ -482,3 +482,341 @@
 .closing-cta .btn-primary { background: var(--bg); color: var(--text); }
 .closing-cta .btn-outline { background: transparent; color: var(--accent-ink); border-color: var(--accent-ink); }
 .closing-cta .btn-outline:hover { background: var(--accent-ink); color: var(--accent); }
+
+/* =====================================================
+   ARCADE SELECT SCREEN — Home redesign
+   ===================================================== */
+
+/* ---------- scanlines (CRT overlay) ---------- */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    var(--ink) 2px,
+    var(--ink) 3px
+  );
+  opacity: 0.05;
+  z-index: 1;
+}
+
+/* ---------- ARCADE HERO ---------- */
+.arcade-hero {
+  position: relative;
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 60px 0 100px;
+  border-bottom: var(--bd) solid var(--ink);
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center;
+}
+.arcade-hero__inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.arcade-hero__file {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  letter-spacing: 0.15em;
+}
+.arcade-hero__brand {
+  font-family: var(--font-mono);
+  font-size: clamp(3.4rem, 9vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0;
+}
+.arcade-hero__sub {
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 22px;
+  letter-spacing: 0.12em;
+}
+.arcade-hero__desc {
+  color: var(--text-soft);
+  font-size: 1.05rem;
+  margin: 26px auto 36px;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+.insert-coin { position: relative; }
+.insert-coin__cursor { animation: blink-coin 1s steps(1) infinite; }
+@keyframes blink-coin { 50% { opacity: 0; } }
+.blink { animation: blink-coin 1.2s steps(1) infinite; }
+
+.scroll-down {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+  animation: scroll-bob 1.8s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes scroll-bob {
+  50% { transform: translate(-50%, 8px); }
+}
+
+/* ---------- ARCADE SECTION HEADER ---------- */
+.arcade-section-head {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.arcade-section-head .section-title { margin-top: 14px; }
+.arcade-section-head .section-desc {
+  margin: 14px auto 0;
+  max-width: 520px;
+}
+
+/* ---------- STAGE GRID ---------- */
+.stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.stage-card {
+  display: block;
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  overflow: hidden;
+  color: inherit;
+}
+.stage-card:hover {
+  transform: translate(-5px, -5px);
+  box-shadow: 10px 10px 0 var(--ink);
+}
+.stage-card__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 14px;
+  background: var(--ink);
+  color: var(--bg);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.stage-card__num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--lime);
+}
+.stage-card__cat {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+.stage-card__image {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--surface-2);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.stage-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.04);
+  transition: transform 0.45s var(--ease);
+}
+.stage-card:hover .stage-card__image img { transform: scale(1.06); }
+.stage-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--ink) 78%, transparent);
+  color: var(--lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+.stage-card:hover .stage-card__overlay { opacity: 1; }
+.stage-card__meta { padding: 18px 20px; }
+.stage-card__title {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+.stage-card__client {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* STAGE: COMING SOON variant */
+.stage-card--soon { cursor: default; }
+.stage-card--soon:hover {
+  transform: none;
+  box-shadow: var(--shadow);
+}
+.stage-card--soon .stage-card__overlay { display: none; }
+.stage-card__image--soon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--surface-2),
+    var(--surface-2) 12px,
+    var(--bg-2) 12px,
+    var(--bg-2) 24px
+  );
+  text-align: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) { .stage-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .stage-grid { grid-template-columns: 1fr; } }
+
+/* ---------- HIGH SCORES (Review table) ---------- */
+.high-scores .hs-frame {
+  border: var(--bd) solid var(--ink);
+  background: var(--ink);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.hs-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--bg);
+  font-size: 0.92rem;
+}
+.hs-table thead tr {
+  background: color-mix(in srgb, var(--lime) 14%, transparent);
+  border-bottom: var(--bd) solid var(--lime);
+}
+.hs-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--lime);
+  font-size: 0.78rem;
+}
+.hs-table tbody tr + tr {
+  border-top: 1px dashed color-mix(in srgb, var(--bg) 22%, transparent);
+}
+.hs-table td {
+  padding: 16px;
+  vertical-align: top;
+}
+.hs-rank {
+  color: var(--lime);
+  font-weight: 800;
+  width: 64px;
+}
+.hs-score {
+  color: var(--lime);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  width: 130px;
+}
+.hs-player {
+  width: 130px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--bg) 95%, transparent);
+}
+.hs-comment {
+  color: color-mix(in srgb, var(--bg) 85%, transparent);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+@media (max-width: 680px) {
+  .hs-table { font-size: 0.78rem; }
+  .hs-table th, .hs-table td { padding: 10px; }
+  .hs-th-comment, .hs-comment { display: none; }
+  .hs-player { width: auto; }
+}
+
+/* ---------- PLAYER 2 JOIN (Closing CTA) ---------- */
+.player-two {
+  padding: 90px 0;
+  background: var(--ink);
+  color: var(--bg);
+  border-top: var(--bd) solid var(--ink);
+  border-bottom: var(--bd) solid var(--ink);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.player-two::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent 0, transparent 2px,
+    var(--lime) 2px, var(--lime) 3px
+  );
+  opacity: 0.05;
+  pointer-events: none;
+}
+.player-two__inner {
+  position: relative;
+  z-index: 2;
+}
+.player-two__label {
+  display: inline-block;
+  color: var(--lime);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 18px;
+}
+.player-two__title {
+  font-family: var(--font-mono);
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--lime);
+  line-height: 1;
+}
+.player-two__desc {
+  margin: 22px auto 34px;
+  font-size: 1.08rem;
+  color: color-mix(in srgb, var(--bg) 82%, transparent);
+  max-width: 520px;
+  line-height: 1.65;
+}
+.player-two .btn-primary {
+  background: var(--lime);
+  color: var(--lime-ink);
+  border-color: var(--lime);
+}
+.player-two .btn-primary:hover {
+  background: var(--bg);
+  color: var(--ink);
+  border-color: var(--bg);
+}
+.player-two__hint {
+  margin-top: 22px;
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--bg) 55%, transparent);
+  letter-spacing: 0.1em;
+}
