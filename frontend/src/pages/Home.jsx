@@ -66,8 +66,8 @@ function Hero() {
             웹·앱·쇼핑몰을 원스톱으로 만들어 드립니다.
           </p>
           <div className="hero-actions">
-            <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>
-              1:1 상담 시작하기
+            <button className="btn btn-primary btn-lg insert-coin" onClick={openChannelTalk}>
+              <span className="insert-coin__cursor">▶</span> INSERT COIN — 1:1 상담
             </button>
             <Link className="btn btn-outline btn-lg" to="/portfolio">
               포트폴리오 보기
@@ -372,29 +372,38 @@ function Works() {
 
 function ReviewsSection() {
   return (
-    <section id="reviews" className="section reviews-section">
+    <section id="reviews" className="section high-scores">
       <SectionNum num="07" />
       <div className="container-wide">
         <SectionHeader
-          label="REVIEWS"
+          label="HIGH SCORES"
           title="고객 후기"
           desc={'실제로 함께 일한 분들이 남겨주신 후기입니다.\n사람마다 결과는 다를 수 있어요.'}
         />
-        <div className="reviews-grid">
-          {reviews.map((r, i) => (
-            <Reveal as="figure" key={r.id} className="review-card" delay={(i % 3) * 70}>
-              <div className="review-stars" aria-label={`별점 ${r.rating}점`}>
-                <span className="review-stars__fill">{'★★★★★'.slice(0, r.rating)}</span>
-                <span className="review-stars__empty">{'★★★★★'.slice(r.rating)}</span>
-              </div>
-              <blockquote className="review-quote">&ldquo;{r.content}&rdquo;</blockquote>
-              <figcaption className="review-meta">
-                <strong>{r.author}</strong>
-                <span className="mono">{r.project}</span>
-              </figcaption>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="hs-frame">
+          <table className="hs-table mono">
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>SCORE</th>
+                <th>PLAYER</th>
+                <th className="hs-th-comment">COMMENT</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reviews.map((r, i) => (
+                <tr key={r.id}>
+                  <td className="hs-rank">{String(i + 1).padStart(2, '0')}</td>
+                  <td className="hs-score" aria-label={`별점 ${r.rating}점`}>
+                    {'★'.repeat(r.rating)}
+                  </td>
+                  <td className="hs-player">{r.author}</td>
+                  <td className="hs-comment">&ldquo;{r.content}&rdquo;</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Reveal>
       </div>
     </section>
   )
@@ -452,15 +461,22 @@ function Trust() {
 
 function ClosingCTA() {
   return (
-    <section className="closing-cta">
-      <div className="container closing-cta__inner">
+    <section className="player-two">
+      <div className="container player-two__inner">
         <Reveal>
-          <h2>프로젝트, 가볍게 시작해볼까요?</h2>
-          <p>간단한 아이디어만 있어도 괜찮습니다. 가능 여부와 예상 견적을 빠르게 알려드릴게요.</p>
-          <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>1:1 상담 시작하기</button>
-            <Link className="btn btn-outline btn-lg" to="/portfolio">포트폴리오 보기</Link>
-          </div>
+          <span className="player-two__label mono blink">▶ PRESS TO START</span>
+          <h2 className="player-two__title">PLAYER 2 JOIN?</h2>
+          <p className="player-two__desc">
+            다음 STAGE의 주인공이 될 수 있어요.
+            <br />
+            간단한 아이디어만 있어도 OK.
+          </p>
+          <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>
+            ▶ 1:1 상담 시작하기
+          </button>
+          <p className="player-two__hint mono">
+            평일 24시간 내 답변 · 보통 1시간 내
+          </p>
         </Reveal>
       </div>
     </section>

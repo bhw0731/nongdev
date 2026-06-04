@@ -482,3 +482,139 @@
 .closing-cta .btn-primary { background: var(--bg); color: var(--text); }
 .closing-cta .btn-outline { background: transparent; color: var(--accent-ink); border-color: var(--accent-ink); }
 .closing-cta .btn-outline:hover { background: var(--accent-ink); color: var(--accent); }
+
+/* =====================================================
+   ARCADE ACCENTS (Hero CTA · HIGH SCORES · PLAYER 2 JOIN)
+   ===================================================== */
+
+/* ---- INSERT COIN button (Hero) ---- */
+.insert-coin { position: relative; }
+.insert-coin__cursor { animation: blink 1s steps(1) infinite; }
+.blink { animation: blink 1.2s steps(1) infinite; }
+
+/* ---- HIGH SCORES (Review table) ---- */
+.high-scores .hs-frame {
+  border: var(--bd) solid var(--ink);
+  background: var(--ink);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-top: 40px;
+}
+.hs-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--bg);
+  font-size: 0.92rem;
+}
+.hs-table thead tr {
+  background: color-mix(in srgb, var(--lime) 14%, transparent);
+  border-bottom: var(--bd) solid var(--lime);
+}
+.hs-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--lime);
+  font-size: 0.78rem;
+}
+.hs-table tbody tr + tr {
+  border-top: 1px dashed color-mix(in srgb, var(--bg) 22%, transparent);
+}
+.hs-table td {
+  padding: 16px;
+  vertical-align: top;
+}
+.hs-rank {
+  color: var(--lime);
+  font-weight: 800;
+  width: 64px;
+}
+.hs-score {
+  color: var(--lime);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  width: 130px;
+}
+.hs-player {
+  width: 130px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--bg) 95%, transparent);
+}
+.hs-comment {
+  color: color-mix(in srgb, var(--bg) 85%, transparent);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+@media (max-width: 680px) {
+  .hs-table { font-size: 0.78rem; }
+  .hs-table th, .hs-table td { padding: 10px; }
+  .hs-th-comment, .hs-comment { display: none; }
+  .hs-player { width: auto; }
+}
+
+/* ---- PLAYER 2 JOIN (Closing CTA) ---- */
+.player-two {
+  padding: 90px 0;
+  background: var(--ink);
+  color: var(--bg);
+  border-top: var(--bd) solid var(--ink);
+  border-bottom: var(--bd) solid var(--ink);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.player-two::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent 0, transparent 2px,
+    var(--lime) 2px, var(--lime) 3px
+  );
+  opacity: 0.05;
+  pointer-events: none;
+}
+.player-two__inner {
+  position: relative;
+  z-index: 2;
+}
+.player-two__label {
+  display: inline-block;
+  color: var(--lime);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 18px;
+}
+.player-two__title {
+  font-family: var(--font-mono);
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--lime);
+  line-height: 1;
+}
+.player-two__desc {
+  margin: 22px auto 34px;
+  font-size: 1.08rem;
+  color: color-mix(in srgb, var(--bg) 82%, transparent);
+  max-width: 520px;
+  line-height: 1.65;
+}
+.player-two .btn-primary {
+  background: var(--lime);
+  color: var(--lime-ink);
+  border-color: var(--lime);
+}
+.player-two .btn-primary:hover {
+  background: var(--bg);
+  color: var(--ink);
+  border-color: var(--bg);
+}
+.player-two__hint {
+  margin-top: 22px;
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--bg) 55%, transparent);
+  letter-spacing: 0.1em;
+}
