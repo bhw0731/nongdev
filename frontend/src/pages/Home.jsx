@@ -214,13 +214,46 @@ function ServicesPreview() {
       <SectionNum num="02" />
       <div className="container-wide">
         <SectionHeader label="SERVICES" title={'필요한 결과물,\n바로 만들어드립니다'} />
-        <div className="services-grid">
-          {services.map((s, i) => (
-            <Reveal key={s.id} delay={(i % 3) * 80}>
-              <ServiceCard service={s} asLink href={`/services#${s.id}`} />
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="svc-terminal">
+          <div className="svc-terminal__head">
+            <span className="svc-terminal__dots">
+              <span className="svc-terminal__dot svc-terminal__dot--r" />
+              <span className="svc-terminal__dot svc-terminal__dot--y" />
+              <span className="svc-terminal__dot svc-terminal__dot--g" />
+            </span>
+            <span className="svc-terminal__file mono">package.json</span>
+          </div>
+          <div className="svc-terminal__body mono">
+            <div className="svc-line svc-line--cmd">
+              <span className="svc-prompt">$</span> npm install @nongdev/services
+            </div>
+            <div className="svc-spacer" />
+            {services.map((s, i) => {
+              const pkgId = s.id.replace(/^svc-/, '')
+              return (
+                <Reveal as="div" key={s.id} className="svc-line svc-line--pkg" delay={i * 60}>
+                  <a className="svc-pkg-link" href={`/services#${s.id}`}>
+                    <span className="svc-add">+</span>
+                    <span className="svc-name">@nongdev/{pkgId}</span>
+                    <span className="svc-version">@latest</span>
+                    <span className="svc-ko">{s.ko}</span>
+                    <span className="svc-meta">
+                      {s.price} <span className="svc-meta-sep">·</span> {s.period}
+                    </span>
+                  </a>
+                </Reveal>
+              )
+            })}
+            <div className="svc-spacer" />
+            <div className="svc-line svc-line--ok">
+              + added 6 packages, 0 vulnerabilities found
+            </div>
+            <div className="svc-line svc-line--cmd">
+              <span className="svc-prompt">$</span>
+              <span className="svc-cursor" />
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -487,11 +520,20 @@ function ClosingCTA() {
     <section className="closing-cta">
       <div className="container closing-cta__inner">
         <Reveal>
+          <div className="closing-cta__cmd mono">
+            <span className="closing-cta__prompt">$</span>
+            <span> ./start --project &quot;your idea&quot;</span>
+            <span className="closing-cta__cursor" />
+          </div>
           <h2>프로젝트, 가볍게 시작해볼까요?</h2>
-          <p>간단한 아이디어만 있어도 괜찮습니다. 가능 여부와 예상 견적을 빠르게 알려드릴게요.</p>
+          <p>간단한 아이디어만 있어도 OK. 가능 여부와 예상 견적을 빠르게 알려드릴게요.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>1:1 상담 시작하기</button>
-            <Link className="btn btn-outline btn-lg" to="/portfolio">포트폴리오 보기</Link>
+            <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>
+              ▶ 1:1 상담 시작하기
+            </button>
+            <Link className="btn btn-outline btn-lg" to="/portfolio">
+              <span className="mono">cat</span> 포트폴리오
+            </Link>
           </div>
         </Reveal>
       </div>

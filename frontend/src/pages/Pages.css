@@ -149,3 +149,41 @@
 .empty-state h1 { font-size: 2rem; margin-bottom: 12px; }
 .empty-state p { color: var(--text-soft); margin-bottom: 26px; }
 .notfound-code { display: block; font-family: var(--font-mono); font-size: clamp(4rem, 16vw, 9rem); font-weight: 800; line-height: 1; margin-bottom: 10px; color: var(--accent); }
+
+/* ---------- 404 — cat: file not found terminal ---------- */
+.nf-wrap {
+  text-align: center;
+  padding: 40px 0 60px;
+}
+.nf-terminal {
+  text-align: left;
+  border: var(--bd) solid var(--ink);
+  background: #14130e;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 640px;
+  margin: 0 auto 36px;
+  padding: 22px 24px;
+  font-size: 0.92rem;
+  line-height: 1.9;
+  color: #e6e3d6;
+}
+:root[data-theme='dark'] .nf-terminal { background: #0c0b07; }
+.nf-line { white-space: pre-wrap; word-break: break-all; }
+.nf-line--blank { height: 0.6em; }
+.nf-line--cmd { font-weight: 600; }
+.nf-prompt { color: #d8ff36; margin-right: 8px; font-weight: 700; }
+.nf-line--err { color: #ff7a7a; font-style: italic; }
+.nf-cursor {
+  display: inline-block;
+  width: 9px; height: 1em;
+  background: #d8ff36;
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+.nf-title { font-size: 2rem; margin-bottom: 12px; }
+.nf-desc { color: var(--text-soft); margin-bottom: 26px; }
+@media (max-width: 640px) {
+  .nf-terminal { padding: 16px 18px; font-size: 0.8rem; }
+}
