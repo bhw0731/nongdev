@@ -95,9 +95,10 @@ function Hero() {
         </div>
       </div>
 
-      <div className="scroll-hint" aria-hidden="true">
-        <span className="mono">SCROLL</span>
-        <span className="scroll-hint__line" />
+      <div className="scroll-hint mono" aria-hidden="true">
+        <span className="scroll-hint__prompt">$</span>
+        <span>./scroll --down</span>
+        <span className="scroll-hint__cursor" />
       </div>
     </section>
   )
@@ -295,18 +296,41 @@ function ProcessSection() {
       <SectionNum num="04" />
       <div className="container-wide">
         <SectionHeader label="HOW WE WORK" title={'아이디어부터\n런칭까지, 네 단계로'} />
-        <ol className="proc-list">
-          {process.map((step, i) => (
-            <Reveal as="li" key={step.num} className="proc-step" delay={i * 80}>
-              <div className="proc-step-num mono">{step.num}</div>
-              <div className="proc-step-body">
-                <div className="proc-step-tag mono">{step.tag}</div>
-                <h3 className="proc-step-title">{step.title}</h3>
-                <p className="proc-step-desc">{step.desc}</p>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
+        <Reveal className="proc-terminal">
+          <div className="proc-terminal__head">
+            <span className="proc-terminal__dots">
+              <span className="proc-terminal__dot proc-terminal__dot--r" />
+              <span className="proc-terminal__dot proc-terminal__dot--y" />
+              <span className="proc-terminal__dot proc-terminal__dot--g" />
+            </span>
+            <span className="proc-terminal__file mono">deploy.log</span>
+          </div>
+          <div className="proc-terminal__body mono">
+            <div className="proc-line proc-line--cmd">
+              <span className="proc-prompt">$</span> nongdev process --verbose
+            </div>
+            <div className="proc-spacer" />
+            {process.map((step, i) => (
+              <Reveal as="div" key={step.num} className="proc-step-block" delay={i * 90}>
+                <div className="proc-line proc-line--step">
+                  <span className="proc-bracket">[{step.num}]</span>
+                  <span className="proc-tag">{step.tag}</span>
+                  <span className="proc-ok">✓</span>
+                  <span className="proc-title">{step.title}</span>
+                </div>
+                <div className="proc-line proc-line--desc">→ {step.desc}</div>
+              </Reveal>
+            ))}
+            <div className="proc-spacer" />
+            <div className="proc-line proc-line--ok">
+              ✓ All stages ready · Total: 4
+            </div>
+            <div className="proc-line proc-line--cmd">
+              <span className="proc-prompt">$</span>
+              <span className="proc-cursor" />
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -436,15 +460,23 @@ function Trust() {
           desc="계약부터 사후 관리까지, 외주에서 불안할 수 있는 부분을 먼저 약속으로 정리했습니다."
           center
         />
-        <div className="trust-items">
-          {trust.map((t, i) => (
-            <Reveal key={t.title} className="trust-item" delay={(i % 3) * 70}>
-              <div className="trust-item__icon"><Icon name={t.icon} /></div>
-              <h3 className="trust-item__title">{t.title}</h3>
-              <p className="trust-item__desc">{t.desc}</p>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="trust-md">
+          <div className="trust-md__head">
+            <span className="trust-md__file mono">nongdev/promises.md</span>
+          </div>
+          <ul className="trust-md__body mono">
+            {trust.map((t, i) => (
+              <Reveal as="li" key={t.title} className="trust-md__item" delay={i * 60}>
+                <span className="trust-md__check">[x]</span>
+                <div className="trust-md__content">
+                  <strong className="trust-md__title">{t.title}</strong>
+                  <span className="trust-md__sep"> — </span>
+                  <span className="trust-md__desc">{t.desc}</span>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
   )

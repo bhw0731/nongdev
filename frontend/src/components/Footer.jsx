@@ -59,6 +59,11 @@ export default function Footer() {
         ))}
       </div>
 
+      <div className="container-wide footer-prompt mono" aria-hidden="true">
+        <span className="footer-prompt__path">nongdev@portfolio:~$</span>
+        <span className="footer-prompt__cursor" />
+      </div>
+
       <div className="container-wide footer-bottom">
         <span className="mono">© {new Date().getFullYear()} nongdev — all rights reserved.</span>
         <span className="footer-bottom-meta mono">built with React · made in Korea</span>

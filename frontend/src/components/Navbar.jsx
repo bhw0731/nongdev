@@ -28,9 +28,14 @@ export default function Navbar() {
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="navbar-inner">
-        <Link className="navbar-logo" to="/" translate="no">
-          nong<span className="navbar-logo-accent">dev</span><span className="navbar-logo-caret">_</span>
-        </Link>
+        <div className="navbar-brand">
+          <Link className="navbar-logo" to="/" translate="no">
+            nong<span className="navbar-logo-accent">dev</span><span className="navbar-logo-caret">_</span>
+          </Link>
+          <span className="navbar-status mono" aria-hidden="true">
+            <span className="navbar-status__dot" /> online
+          </span>
+        </div>
 
         <div className={`navbar-links${open ? ' open' : ''}`}>
           {links.map((l) => (

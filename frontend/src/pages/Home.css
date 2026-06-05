@@ -90,13 +90,23 @@
 @keyframes blink { 50% { opacity: 0; } }
 
 .scroll-hint {
-  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  position: absolute; bottom: 24px; left: 50%;
+  display: inline-flex; align-items: center; gap: 7px;
   font-family: var(--font-mono);
-  font-size: 0.68rem; letter-spacing: 0.2em; color: var(--text-dim);
+  font-size: 0.78rem; letter-spacing: 0.04em;
+  color: var(--text-dim);
+  transform: translateX(-50%);
+  animation: scroll-bob 1.8s ease-in-out infinite;
 }
-.scroll-hint__line { width: 2px; height: 38px; background: var(--ink); animation: scroll-line 1.6s var(--ease) infinite; }
-@keyframes scroll-line { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+.scroll-hint__prompt { color: var(--accent); font-weight: 700; }
+.scroll-hint__cursor {
+  display: inline-block;
+  width: 8px; height: 1em;
+  background: var(--accent);
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes scroll-bob { 50% { transform: translate(-50%, 5px); } }
 @media (max-width: 900px) { .hero-full__content { grid-template-columns: 1fr; } .crt-wrap { display: none; } }
 
 /* ---------- MARQUEE (two opposing rows) ---------- */
@@ -482,3 +492,137 @@
 .closing-cta .btn-primary { background: var(--bg); color: var(--text); }
 .closing-cta .btn-outline { background: transparent; color: var(--accent-ink); border-color: var(--accent-ink); }
 .closing-cta .btn-outline:hover { background: var(--accent-ink); color: var(--accent); }
+
+/* =====================================================
+   DEV-FLAIR — Process terminal · Trust markdown
+   ===================================================== */
+
+/* ---------- PROCESS — CLI deploy log ---------- */
+.proc-terminal {
+  border: var(--bd) solid var(--ink);
+  background: #14130e;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
+}
+:root[data-theme='dark'] .proc-terminal { background: #0c0b07; }
+.proc-terminal__head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 2px solid #f2efe4;
+}
+.proc-terminal__dots { display: flex; gap: 6px; }
+.proc-terminal__dot { width: 11px; height: 11px; border: 1.5px solid #0c0b07; }
+.proc-terminal__dot--r { background: #ff5f57; }
+.proc-terminal__dot--y { background: #febc2e; }
+.proc-terminal__dot--g { background: #28c840; }
+.proc-terminal__file {
+  margin-left: 8px;
+  font-size: 0.8rem;
+  color: #8b8676;
+  letter-spacing: 0.04em;
+}
+.proc-terminal__body {
+  padding: 26px 26px 24px;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: #e6e3d6;
+}
+.proc-step-block { margin: 4px 0 14px; }
+.proc-line { white-space: pre-wrap; }
+.proc-spacer { height: 0.7em; }
+.proc-prompt { color: #d8ff36; margin-right: 8px; font-weight: 700; }
+.proc-line--step { font-weight: 700; letter-spacing: 0.02em; }
+.proc-line--step .proc-bracket { color: #8b8676; margin-right: 14px; font-weight: 700; }
+.proc-line--step .proc-tag {
+  display: inline-block;
+  min-width: 110px;
+  color: #d8ff36;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.proc-line--step .proc-ok { color: #7dff8a; margin-right: 10px; font-weight: 700; }
+.proc-line--step .proc-title { color: #f2efe4; font-weight: 700; }
+.proc-line--desc {
+  padding-left: 54px;
+  color: #c2bfb1;
+  font-size: 0.88rem;
+  font-style: italic;
+}
+.proc-line--ok { color: #7dff8a; }
+.proc-cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1em;
+  background: #d8ff36;
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+@media (max-width: 720px) {
+  .proc-terminal__body { padding: 20px; font-size: 0.84rem; line-height: 1.75; }
+  .proc-line--step .proc-tag { min-width: 90px; }
+  .proc-line--desc { padding-left: 28px; font-size: 0.78rem; }
+}
+@media (max-width: 480px) {
+  .proc-terminal__body { font-size: 0.76rem; }
+  .proc-line--step .proc-tag { min-width: 0; margin-right: 6px; }
+}
+
+/* ---------- TRUST — TODO checklist markdown ---------- */
+.trust-md {
+  position: relative;
+  z-index: 1;
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  max-width: 880px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.trust-md__head {
+  padding: 11px 16px;
+  background: var(--ink);
+  color: var(--bg);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.trust-md__file {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.trust-md__body {
+  padding: 22px 26px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  display: flex; flex-direction: column;
+  gap: 14px;
+}
+.trust-md__item {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 4px 12px;
+  align-items: baseline;
+}
+.trust-md__check {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+.trust-md__content { display: inline; }
+.trust-md__title {
+  font-weight: 800;
+  color: var(--text);
+}
+.trust-md__sep { color: var(--text-dim); }
+.trust-md__desc {
+  color: var(--text-soft);
+  font-family: var(--font-sans);
+  font-style: italic;
+}
+@media (max-width: 640px) {
+  .trust-md__item { grid-template-columns: 30px 1fr; }
+  .trust-md__body { padding: 18px 20px; font-size: 0.88rem; }
+}
