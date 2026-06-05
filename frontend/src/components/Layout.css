@@ -104,8 +104,6 @@
 }
 .nav-link:hover { color: var(--text); }
 .nav-link.active { color: var(--text); border-bottom-color: var(--accent); }
-.nav-link--cta { background: none; border: none; color: var(--accent); }
-.nav-link--cta:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 .theme-toggle {
   display: inline-flex; align-items: center; justify-content: center;

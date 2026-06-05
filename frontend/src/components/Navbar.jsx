@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext.jsx'
-import { openChannelTalk } from '../lib/channeltalk.js'
 
 const links = [
   { to: '/services', label: 'SERVICES' },
@@ -43,9 +42,6 @@ export default function Navbar() {
               {l.label}
             </NavLink>
           ))}
-          <button type="button" className="nav-link nav-link--cta" onClick={openChannelTalk}>
-            CONTACT
-          </button>
           <button
             className="theme-toggle"
             onClick={toggle}
