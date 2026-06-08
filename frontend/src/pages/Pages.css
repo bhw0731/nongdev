@@ -725,45 +725,17 @@
   color: var(--text);
 }
 
-.tier-card__cta {
-  margin: 0;
-  border-radius: 0;
-  border-top: var(--bd) solid var(--ink);
-  border-bottom: 0;
-  border-left: 0;
-  border-right: 0;
-}
-
-/* ---- expandable add-ons section ---- */
-.tier-card__extras-toggle {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 0;
-  background: none;
-  border: none;
-  font-size: 0.85rem;
+/* ---- add-ons section (always visible) ---- */
+.tier-card__extras-head {
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--text);
-  cursor: pointer;
-  letter-spacing: 0.02em;
-  transition: color 0.15s;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
 }
-.tier-card__extras-toggle:hover { color: var(--accent); }
-.tier-card__extras-arrow {
-  color: var(--accent);
-  font-size: 0.78rem;
-}
-.tier-card__extras {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s var(--ease);
-}
-.tier-card__extras-inner { overflow: hidden; }
 .tier-card__extras-list {
   list-style: none;
-  margin: 8px 0 8px;
+  margin: 6px 0 0;
   padding: 10px 12px;
   border: 1.5px solid var(--ink);
   background: var(--bg-2);
@@ -791,12 +763,6 @@
   color: var(--accent);
   font-weight: 700;
   white-space: nowrap;
-}
-.tier-card__extras-note {
-  margin: 0 0 4px;
-  font-size: 0.74rem;
-  color: var(--text-dim);
-  letter-spacing: 0.02em;
 }
 
 .tier-note {
