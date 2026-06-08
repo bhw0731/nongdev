@@ -433,50 +433,86 @@ function Capabilities() {
     return arr
   }, [])
 
-  // start typing when IDE actually enters the viewport
+  // start typing when IDE enters viewport (with delay so Reveal fade-in completes first)
   useEffect(() => {
     const el = sectionRef.current
+    let startTimer
+    const trigger = () => {
+      startTimer = setTimeout(() => {
+        setPhase((p) => (p === 'idle' ? 'comment' : p))
+      }, 600)
+    }
     if (!el) {
-      setPhase((p) => (p === 'idle' ? 'comment' : p))
-      return
+      trigger()
+      return () => clearTimeout(startTimer)
     }
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            setPhase((p) => (p === 'idle' ? 'comment' : p))
+            trigger()
+            obs.unobserve(el)
           }
         })
       },
-      { threshold: 0.25, rootMargin: '0px 0px -80px 0px' },
+      { threshold: 0.2, rootMargin: '0px 0px -60px 0px' },
     )
     obs.observe(el)
-    return () => obs.disconnect()
+    return () => {
+      obs.disconnect()
+      clearTimeout(startTimer)
+    }
   }, [])
 
-  // phase: comment — type char-by-char
+  // phase: comment — single-fire animation loop (avoids React rerender issues)
   useEffect(() => {
     if (phase !== 'comment') return
-    if (comment.length < headerComment.length) {
-      const t = setTimeout(() => {
-        setComment(headerComment.slice(0, comment.length + 1))
-      }, 22)
-      return () => clearTimeout(t)
+    let cancelled = false
+    let i = 0
+    let timer
+    const tick = () => {
+      if (cancelled) return
+      if (i < headerComment.length) {
+        i++
+        setComment(headerComment.slice(0, i))
+        timer = setTimeout(tick, 28)
+      } else {
+        timer = setTimeout(() => {
+          if (!cancelled) setPhase('exports')
+        }, 280)
+      }
     }
-    const t = setTimeout(() => setPhase('exports'), 220)
-    return () => clearTimeout(t)
-  }, [phase, comment, headerComment])
+    timer = setTimeout(tick, 60)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [phase, headerComment])
 
-  // phase: exports — reveal line-by-line
+  // phase: exports — single-fire reveal loop
   useEffect(() => {
     if (phase !== 'exports') return
-    if (revealCount < capabilities.length) {
-      const t = setTimeout(() => setRevealCount((c) => c + 1), 130)
-      return () => clearTimeout(t)
+    let cancelled = false
+    let i = 0
+    let timer
+    const tick = () => {
+      if (cancelled) return
+      if (i < capabilities.length) {
+        i++
+        setRevealCount(i)
+        timer = setTimeout(tick, 140)
+      } else {
+        timer = setTimeout(() => {
+          if (!cancelled) setPhase('browse')
+        }, 400)
+      }
     }
-    const t = setTimeout(() => setPhase('browse'), 350)
-    return () => clearTimeout(t)
-  }, [phase, revealCount])
+    timer = setTimeout(tick, 100)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [phase])
 
   // demo auto-click — open Payment row once (only if user hasn't clicked yet)
   useEffect(() => {
