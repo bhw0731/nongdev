@@ -9,6 +9,83 @@ export const services = [
     price: '50만원~',
     period: '1~2주',
     features: ['반응형 디자인', '문의 폼 / 채널톡 연동', '기본 SEO·OG 세팅', '애널리틱스 연동'],
+    config: {
+      basePrice: 500000,
+      basePeriodWeeks: { min: 1, max: 2 },
+      options: [
+        {
+          id: 'pages', label: '페이지 수', type: 'choice',
+          tooltip: '1페이지 = 한 화면 스크롤형 (가장 흔함). 3페이지 = 메인+서브 2개. 5+ = 여러 서브페이지.',
+          default: '1',
+          choices: [
+            { value: '1', label: '1 페이지', delta: 0, weeks: 0 },
+            { value: '3', label: '3 페이지', delta: 200000, weeks: 0.5 },
+            { value: '5', label: '5 페이지', delta: 400000, weeks: 1 },
+            { value: '7+', label: '7+ 페이지', delta: 700000, weeks: 2 },
+          ],
+        },
+        {
+          id: 'design', label: '디자인 수준', type: 'choice',
+          tooltip: '기본 = 검증된 템플릿 변형. 커스텀 = 브랜드 톤에 맞춰 조정. 풀 = 처음부터 단독 설계 (시안 단계 포함).',
+          default: 'custom',
+          choices: [
+            { value: 'basic', label: '기본 (템플릿 변형)', delta: 0, weeks: 0 },
+            { value: 'custom', label: '커스텀', delta: 300000, weeks: 0.5 },
+            { value: 'full', label: '풀 디자인', delta: 600000, weeks: 1 },
+          ],
+        },
+        {
+          id: 'cms', label: 'CMS (콘텐츠 관리)', type: 'toggle',
+          tooltip: '관리자 페이지에서 글·이미지를 코딩 없이 추가/수정. 공지·블로그·포트폴리오 같은 자주 바뀌는 콘텐츠가 있을 때.',
+          delta: 200000, weeks: 0.5, default: false,
+        },
+        {
+          id: 'payment', label: '결제 연동', type: 'toggle',
+          tooltip: '토스페이먼츠·포트원(아임포트) 같은 PG로 결제 받기. 카드/계좌이체/간편결제 한 번에.',
+          delta: 300000, weeks: 0.5, default: false,
+        },
+        {
+          id: 'multilang', label: '다국어', type: 'toggle',
+          tooltip: '한/영 또는 추가 언어 지원. 사용자가 우상단 토글로 전환.',
+          delta: 200000, weeks: 0.5, default: false,
+        },
+        {
+          id: 'analytics', label: '애널리틱스', type: 'toggle',
+          tooltip: 'GA4 / Plausible 등. 방문자 수·체류 시간·전환율 추적.',
+          delta: 100000, weeks: 0, default: true,
+        },
+        {
+          id: 'chat', label: '채팅 위젯', type: 'toggle',
+          tooltip: '채널톡 · 카카오 채널 같은 실시간 상담 채팅 위젯.',
+          delta: 100000, weeks: 0, default: false,
+        },
+        {
+          id: 'auth', label: '회원 / 로그인', type: 'toggle',
+          tooltip: '회원가입, 카카오/구글 소셜 로그인. 회원 전용 콘텐츠가 필요할 때만.',
+          delta: 500000, weeks: 1, default: false,
+        },
+      ],
+      presets: {
+        minimal: { pages: '1', design: 'basic', analytics: false },
+        recommended: { pages: '3', design: 'custom', cms: true, analytics: true },
+        premium: { pages: '5', design: 'full', cms: true, payment: true, analytics: true, chat: true },
+      },
+      included: [
+        '도메인 연결 (소유 도메인 기준)',
+        'HTTPS / SSL 자동 적용',
+        '배포 (Render · Vercel 무료 플랜)',
+        '납품 후 2회 무상 수정',
+        '납품 후 2주 무상 A/S (버그 수정)',
+        '소스코드 전체 인계 (GitHub)',
+      ],
+      excluded: [
+        '도메인 구매 (.com 연 1~2만원)',
+        '호스팅 비용 (월 0~3만원, 트래픽에 따라)',
+        '3회차 이상 추가 수정 (회당 3~5만원)',
+        '디자인 시안 4안 이상',
+      ],
+      payment: { down: 30, mid: 40, final: 30 },
+    },
   },
   {
     id: 'svc-business',
