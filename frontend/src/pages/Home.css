@@ -22,145 +22,10 @@
 }
 .hero-full__content {
   position: relative;
-  width: 100%;
-}
-
-/* ---------- HERO BENTO ---------- */
-.hero-bento {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: auto auto auto;
-  grid-template-areas:
-    "title avail"
-    "title now"
-    "stack stack";
-  gap: 16px;
-}
-.hero-bento__cell {
-  position: relative;
-  border: var(--bd) solid var(--ink);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  padding: 28px 30px;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-button.hero-bento__cell {
-  font-family: inherit;
-  color: inherit;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
-}
-button.hero-bento__cell:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-lg);
-}
-
-.hero-bento__cell--title {
-  grid-area: title;
-  gap: 0;
-  padding: 40px 44px;
-  justify-content: center;
-}
-.hero-bento__cell--avail { grid-area: avail; gap: 14px; }
-.hero-bento__cell--now { grid-area: now; gap: 10px; }
-.hero-bento__cell--stack { grid-area: stack; gap: 14px; }
-
-/* universal bento tag (eyebrow) */
-.bento-tag {
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: var(--text-dim);
-}
-
-/* Availability widget */
-.bento-avail {
-  display: flex;
+  grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
-  gap: 16px;
-}
-.bento-avail__dot {
-  position: relative;
-  width: 14px;
-  height: 14px;
-  background: #28c840;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(40, 200, 64, 0.18);
-}
-.bento-avail__dot::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border: 2px solid #28c840;
-  border-radius: 50%;
-  animation: bentoPulse 2s ease-out infinite;
-  opacity: 0.6;
-}
-@keyframes bentoPulse {
-  0% { transform: scale(0.5); opacity: 0.9; }
-  100% { transform: scale(1.5); opacity: 0; }
-}
-.bento-avail__big { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.01em; }
-.bento-avail__sub { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
-.bento-avail__meta { font-size: 0.78rem; color: var(--text-soft); }
-.bento-avail__meta strong { color: var(--ink); }
-
-/* Now Building widget */
-.bento-now__head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.bento-now__icon { font-size: 1.3rem; }
-.bento-now__type { font-size: 1.05rem; font-weight: 800; }
-.bento-now__progress {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
-.bento-now__pct { color: var(--ink); font-weight: 800; }
-.bento-now__bar {
-  height: 10px;
-  background: var(--bg-2);
-  border: 2px solid var(--ink);
-  overflow: hidden;
-}
-.bento-now__bar > span {
-  display: block;
-  height: 100%;
-  background: var(--accent);
-  transition: width 1.6s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.bento-now__caption { font-size: 0.78rem; color: var(--text-soft); }
-
-/* Stack widget */
-.bento-stack { display: flex; flex-wrap: wrap; gap: 8px; }
-.bento-stack__chip {
-  padding: 7px 12px;
-  border: 2px solid var(--ink);
-  background: var(--bg);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease), background 0.12s var(--ease);
-}
-.bento-stack__chip:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 3px 3px 0 var(--ink);
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-@media (max-width: 900px) {
-  .hero-bento {
-    grid-template-columns: 1fr;
-    grid-template-areas: "title" "avail" "now" "stack";
-  }
-  .hero-bento__cell--title { padding: 28px 24px; }
+  gap: 48px;
 }
 .avb-chip {
   display: inline-flex;
@@ -242,6 +107,7 @@ button.hero-bento__cell:hover {
   animation: blink 1s steps(1) infinite;
 }
 @keyframes scroll-bob { 50% { transform: translate(-50%, 5px); } }
+@media (max-width: 900px) { .hero-full__content { grid-template-columns: 1fr; } .crt-wrap { display: none; } }
 
 /* ---------- MARQUEE (two opposing rows) ---------- */
 .marquee {
