@@ -161,7 +161,6 @@ function Intro() {
       </Sticker>
       <div className="container-wide intro-grid">
         <Reveal className="intro-left">
-          <span className="section-label">WHO WE ARE</span>
           <h2 className="intro-title">{profile.introTitle}</h2>
           <p className="intro-desc">{profile.introDesc}</p>
           <div className="intro-techs">
@@ -214,7 +213,7 @@ function ServicesPreview() {
     <section id="services" className="section services-section">
       <SectionNum num="02" />
       <div className="container-wide">
-        <SectionHeader label="SERVICES" title={'필요한 결과물,\n바로 만들어드립니다'} />
+        <SectionHeader title={'필요한 결과물,\n바로 만들어드립니다'} />
         <Reveal className="svc-terminal">
           <div className="svc-terminal__head">
             <span className="svc-terminal__dots">
@@ -266,7 +265,6 @@ function WhyFullstack() {
       <SectionNum num="03" />
       <div className="container-wide">
         <SectionHeader
-          label="WHY FULL-STACK"
           title="왜 풀스택 개발이어야 할까요?"
           desc={'여러 사람을 거치지 않는다는 건 단순히 빠른 게 아닙니다.\n오해도, 핸드오프 비용도, 책임 분산도 없습니다.'}
           center
@@ -348,7 +346,6 @@ function WhyFullstack() {
 
         <div className="why-benefits">
           <Reveal className="why-benefits-head">
-            <span className="section-label">KEY BENEFITS</span>
             <h3>풀스택 개발이 비즈니스에 주는 4가지 가치</h3>
           </Reveal>
           <div className="why-cards">
@@ -373,7 +370,7 @@ function ProcessSection() {
     <section id="process" className="section proc-section">
       <SectionNum num="04" />
       <div className="container-wide">
-        <SectionHeader label="HOW WE WORK" title={'아이디어부터\n런칭까지, 네 단계로'} />
+        <SectionHeader title={'아이디어부터\n런칭까지, 네 단계로'} />
         <Reveal className="ci-pipeline">
           <div className="ci-pipeline__head">
             <span className="ci-pipeline__icon">⚙</span>
@@ -432,7 +429,6 @@ function Capabilities() {
       <SectionNum num="05" />
       <div className="container-wide">
         <SectionHeader
-          label="WHAT I CAN BUILD"
           title={'이런 기능들,\n다 만들어드릴 수 있어요'}
           desc={'각 줄을 클릭하면 자세한 설명과 사용 가능한 기술 스택이 펼쳐져요.'}
         />
@@ -531,7 +527,6 @@ function Works() {
       <div className="container-wide">
         <Reveal className="section-header-row">
           <div>
-            <span className="section-label">WORKS</span>
             <h2 className="section-title">최근 프로젝트</h2>
           </div>
           <Link className="view-all" to="/portfolio">
@@ -559,7 +554,6 @@ function ReviewsSection() {
       <SectionNum num="07" />
       <div className="container-wide">
         <SectionHeader
-          label="REVIEWS"
           title="고객 후기"
           desc={'실제로 함께 일한 분들이 남겨주신 후기입니다.\n사람마다 결과는 다를 수 있어요.'}
         />
@@ -589,7 +583,6 @@ function FaqSection() {
       <SectionNum num="08" />
       <div className="container">
         <SectionHeader
-          label="FAQ"
           title="자주 묻는 질문"
           desc={'계약 전에 가장 많이 받는 질문들을 모았습니다.\n더 궁금한 점은 1:1 상담으로 편하게 물어봐주세요.'}
           center
@@ -614,7 +607,6 @@ function Trust() {
       <div className="trust-grid-bg" aria-hidden="true" />
       <div className="container-wide">
         <SectionHeader
-          label="// OUR PROMISE"
           title="안심하고 맡기세요"
           desc="계약부터 사후 관리까지, 외주에서 불안할 수 있는 부분을 먼저 약속으로 정리했습니다."
           center
