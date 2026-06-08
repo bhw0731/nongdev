@@ -838,7 +838,6 @@
   color: inherit;
   padding: 4px 8px;
   margin: 0 -8px;
-  cursor: pointer;
   font: inherit;
   transition: background 0.15s;
 }
@@ -946,7 +945,6 @@
   font: inherit;
   font-family: var(--font-mono);
   text-align: left;
-  cursor: pointer;
 }
 .faq-md__hash {
   color: var(--accent);

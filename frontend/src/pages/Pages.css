@@ -241,7 +241,6 @@
   border: 2px solid var(--ink);
   background: var(--surface);
   color: var(--text);
-  cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
 .qb__preset:hover { background: var(--ink); color: var(--bg); }
@@ -305,7 +304,6 @@
   color: var(--text-dim);
   font-size: 0.7rem;
   border-radius: 50%;
-  cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
   font-family: var(--font-mono);
   font-style: italic;
@@ -344,7 +342,6 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
-  cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
 .qb__choice-radio {
@@ -380,7 +377,6 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
-  cursor: pointer;
   width: fit-content;
   transition: background 0.15s, color 0.15s;
 }
@@ -476,7 +472,6 @@
   font-size: 0.85rem;
 }
 .qb__details-summary {
-  cursor: pointer;
   font-family: var(--font-mono);
   font-weight: 700;
   padding: 6px 0;
@@ -807,7 +802,6 @@
   font: inherit;
   color: inherit;
   text-align: left;
-  cursor: pointer;
 }
 .tier-card__addon-check {
   font-size: 1rem;
@@ -862,7 +856,6 @@
   font-family: var(--font-mono);
   font-weight: 800;
   font-size: 0.95rem;
-  cursor: pointer;
   padding: 0;
   transition: background 0.12s;
 }
