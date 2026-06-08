@@ -56,117 +56,117 @@ function TierCard({ svc, delay = 0 }) {
         <span className="tier-card__file">{svc.tier.toLowerCase()}.pkg.json</span>
       </div>
 
-      <div className="tier-card__body">
-        <div className="tier-card__tier mono">{svc.tier}</div>
-        <div className="tier-card__name">{svc.ko}</div>
-        <div className="tier-card__icon"><Icon name={svc.icon} /></div>
+      <div className="tier-card__inner">
+        {/* LEFT: package info */}
+        <div className="tier-card__main">
+          <div className="tier-card__tier mono">{svc.tier}</div>
+          <div className="tier-card__name">{svc.ko}</div>
+          <div className="tier-card__icon"><Icon name={svc.icon} /></div>
 
-        <div className="tier-card__price-block">
-          <div className="tier-card__price mono">{fmt(total)}원</div>
-          {optionsTotal > 0 && (
-            <div className="tier-card__price-breakdown mono">
-              base {fmt(svc.basePrice)} <span>+</span> 옵션 {fmt(optionsTotal)}
+          <div className="tier-card__price-block">
+            <div className="tier-card__price mono">{fmt(total)}원</div>
+            {optionsTotal > 0 && (
+              <div className="tier-card__price-breakdown mono">
+                base {fmt(svc.basePrice)} <span>+</span> 옵션 {fmt(optionsTotal)}
+              </div>
+            )}
+          </div>
+
+          <p className="tier-card__desc">{svc.desc}</p>
+
+          <div className="tier-card__divider" />
+
+          <div className="tier-card__section">
+            <span className="tier-card__section-label mono">$ npm pkg show features</span>
+            <ul className="tier-card__features mono">
+              {svc.features.map((f) => (
+                <li key={f} className="tier-card__feat is-yes">
+                  <span className="tier-card__feat-mark">✓</span> {f}
+                </li>
+              ))}
+              {svc.excluded.map((f) => (
+                <li key={f} className="tier-card__feat is-no">
+                  <span className="tier-card__feat-mark">✗</span> {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="tier-card__divider" />
+
+          <dl className="tier-card__specs mono">
+            <div className="tier-card__spec">
+              <dt>▸ pages</dt>
+              <dd>{svc.pages}페이지</dd>
             </div>
-          )}
+            <div className="tier-card__spec">
+              <dt>▸ extras</dt>
+              <dd>{svc.extras}개</dd>
+            </div>
+            <div className="tier-card__spec">
+              <dt>▸ days</dt>
+              <dd>{svc.period}</dd>
+            </div>
+            <div className="tier-card__spec">
+              <dt>▸ revisions</dt>
+              <dd>{svc.revisions}회</dd>
+            </div>
+          </dl>
         </div>
 
-        <p className="tier-card__desc">{svc.desc}</p>
-
-        <div className="tier-card__divider" />
-
-        <div className="tier-card__section">
-          <span className="tier-card__section-label mono">$ npm pkg show features</span>
-          <ul className="tier-card__features mono">
-            {svc.features.map((f) => (
-              <li key={f} className="tier-card__feat is-yes">
-                <span className="tier-card__feat-mark">✓</span> {f}
-              </li>
-            ))}
-            {svc.excluded.map((f) => (
-              <li key={f} className="tier-card__feat is-no">
-                <span className="tier-card__feat-mark">✗</span> {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="tier-card__divider" />
-
-        <dl className="tier-card__specs mono">
-          <div className="tier-card__spec">
-            <dt>▸ pages</dt>
-            <dd>{svc.pages}페이지</dd>
+        {/* RIGHT: addon options */}
+        <aside className="tier-card__addons">
+          <div className="tier-card__extras-head mono">
+            + 추가 옵션 <span className="tier-card__extras-hint">(클릭하면 합산)</span>
           </div>
-          <div className="tier-card__spec">
-            <dt>▸ extras</dt>
-            <dd>{svc.extras}개</dd>
-          </div>
-          <div className="tier-card__spec">
-            <dt>▸ days</dt>
-            <dd>{svc.period}</dd>
-          </div>
-          <div className="tier-card__spec">
-            <dt>▸ revisions</dt>
-            <dd>{svc.revisions}회</dd>
-          </div>
-        </dl>
-
-        <div className="tier-card__divider" />
-
-        <div className="tier-card__extras-head mono">
-          + 추가 옵션 <span className="tier-card__extras-hint">(클릭하면 합산)</span>
-        </div>
-        <ul className="tier-card__addon-list mono">
-          {addOns.map((a) => {
-            const n = selected[a.id] || 0
-            const on = n > 0
-            const lineTotal = n * a.price
-            return (
-              <li key={a.id} className={`tier-card__addon${on ? ' is-on' : ''}`}>
-                {a.type === 'toggle' ? (
-                  <button
-                    type="button"
-                    className="tier-card__addon-toggle"
-                    onClick={() => toggle(a.id)}
-                    aria-pressed={on}
-                  >
-                    <span className="tier-card__addon-check">{on ? '☑' : '☐'}</span>
-                    <span className="tier-card__addon-label">{a.label}</span>
-                    <span className="tier-card__addon-price">
-                      {on ? `+${fmt(a.price)}원` : `+${fmt(a.price)}원`}
-                    </span>
-                  </button>
-                ) : (
-                  <div className="tier-card__addon-count">
-                    <div className="tier-card__addon-counter">
-                      <button
-                        type="button"
-                        className="tier-card__cbtn"
-                        onClick={() => dec(a.id)}
-                        disabled={n === 0}
-                        aria-label={`${a.label} 줄이기`}
-                      >−</button>
-                      <span className="tier-card__cval">{n}</span>
-                      <button
-                        type="button"
-                        className="tier-card__cbtn"
-                        onClick={() => inc(a.id, a.max)}
-                        disabled={n >= a.max}
-                        aria-label={`${a.label} 늘리기`}
-                      >+</button>
+          <ul className="tier-card__addon-list mono">
+            {addOns.map((a) => {
+              const n = selected[a.id] || 0
+              const on = n > 0
+              const lineTotal = n * a.price
+              return (
+                <li key={a.id} className={`tier-card__addon${on ? ' is-on' : ''}`}>
+                  {a.type === 'toggle' ? (
+                    <button
+                      type="button"
+                      className="tier-card__addon-toggle"
+                      onClick={() => toggle(a.id)}
+                      aria-pressed={on}
+                    >
+                      <span className="tier-card__addon-check">{on ? '☑' : '☐'}</span>
+                      <span className="tier-card__addon-label">{a.label}</span>
+                      <span className="tier-card__addon-price">+{fmt(a.price)}원</span>
+                    </button>
+                  ) : (
+                    <div className="tier-card__addon-count">
+                      <div className="tier-card__addon-counter">
+                        <button
+                          type="button"
+                          className="tier-card__cbtn"
+                          onClick={() => dec(a.id)}
+                          disabled={n === 0}
+                          aria-label={`${a.label} 줄이기`}
+                        >−</button>
+                        <span className="tier-card__cval">{n}</span>
+                        <button
+                          type="button"
+                          className="tier-card__cbtn"
+                          onClick={() => inc(a.id, a.max)}
+                          disabled={n >= a.max}
+                          aria-label={`${a.label} 늘리기`}
+                        >+</button>
+                      </div>
+                      <span className="tier-card__addon-label">{a.label}</span>
+                      <span className="tier-card__addon-price">
+                        {n > 0 ? `+${fmt(lineTotal)}원` : `+${fmt(a.price)}/${a.unit}`}
+                      </span>
                     </div>
-                    <span className="tier-card__addon-label">
-                      {a.label} <span className="tier-card__addon-unit">/{a.unit}</span>
-                    </span>
-                    <span className="tier-card__addon-price">
-                      {n > 0 ? `+${fmt(lineTotal)}원` : `+${fmt(a.price)}/${a.unit}`}
-                    </span>
-                  </div>
-                )}
-              </li>
-            )
-          })}
-        </ul>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </aside>
       </div>
     </Reveal>
   )
