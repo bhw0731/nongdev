@@ -725,44 +725,152 @@
   color: var(--text);
 }
 
-/* ---- add-ons section (always visible) ---- */
-.tier-card__extras-head {
-  font-size: 0.8rem;
-  font-weight: 700;
+/* ---- price block with live total ---- */
+.tier-card__price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tier-card__price-breakdown {
+  font-size: 0.74rem;
   color: var(--text-dim);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+}
+.tier-card__price-breakdown span {
+  color: var(--accent);
+  margin: 0 4px;
+}
+
+/* ---- interactive add-on options ---- */
+.tier-card__extras-head {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
   margin-top: 2px;
 }
-.tier-card__extras-list {
+.tier-card__extras-hint {
+  color: var(--text-dim);
+  font-weight: 500;
+  font-size: 0.74rem;
+  letter-spacing: 0;
+}
+.tier-card__addon-list {
   list-style: none;
-  margin: 6px 0 0;
-  padding: 10px 12px;
-  border: 1.5px solid var(--ink);
-  background: var(--bg-2);
+  margin: 8px 0 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
   font-size: 0.85rem;
 }
-.tier-card__extra {
-  display: grid;
-  grid-template-columns: 16px 1fr auto;
-  gap: 6px;
-  align-items: baseline;
+.tier-card__addon {
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.15s, background 0.15s;
 }
-.tier-card__extra-plus {
-  color: var(--accent);
-  font-weight: 800;
+.tier-card__addon.is-on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+/* toggle type */
+.tier-card__addon-toggle {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.tier-card__addon-check {
+  font-size: 1rem;
+  color: var(--text-dim);
   text-align: center;
 }
-.tier-card__extra-label {
+.tier-card__addon.is-on .tier-card__addon-check {
+  color: var(--accent);
+}
+.tier-card__addon-label {
   color: var(--text);
   font-weight: 600;
 }
-.tier-card__extra-price {
+.tier-card__addon-unit {
+  color: var(--text-dim);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+.tier-card__addon-price {
   color: var(--accent);
   font-weight: 700;
   white-space: nowrap;
+  font-size: 0.85rem;
+}
+.tier-card__addon:not(.is-on) .tier-card__addon-price {
+  color: var(--text-dim);
+}
+
+/* count type */
+.tier-card__addon-count {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 6px;
+}
+.tier-card__addon-counter {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--ink);
+  background: var(--surface);
+}
+.tier-card__cbtn {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.12s;
+}
+.tier-card__cbtn:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.tier-card__cbtn:disabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.tier-card__cval {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 0 4px;
+  border-left: 1.5px solid var(--ink);
+  border-right: 1.5px solid var(--ink);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  height: 26px;
+  background: var(--bg-2);
+}
+.tier-card__addon.is-on .tier-card__cval {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .tier-note {

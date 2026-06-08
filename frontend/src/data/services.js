@@ -1,7 +1,14 @@
 // 제공 서비스 — 크몽 기준 3 티어 패키지
 // addOns: 패키지 기준 외 추가 비용 (모든 티어 동일 적용)
+// type: 'count' (몇 개 추가) / 'toggle' (포함 여부만)
 export const addOns = [
-  { id: 'extra-page', label: '페이지 추가', price: 39000, unit: '페이지' },
+  { id: 'extra-page',     label: '페이지 추가',        price: 19000, unit: '페이지', type: 'count', max: 10 },
+  { id: 'extra-revision', label: '수정 횟수 추가',     price: 9000,  unit: '회',    type: 'count', max: 10 },
+  { id: 'multilang',      label: '다국어 지원',        price: 29000, unit: '언어',  type: 'count', max: 5 },
+  { id: 'rush',           label: '빠른 작업 (3일 단축)', price: 29000,                type: 'toggle' },
+  { id: 'payment',        label: '결제 시스템 연동',   price: 49000,                type: 'toggle' },
+  { id: 'auth',           label: '회원/로그인',        price: 59000,                type: 'toggle' },
+  { id: 'maintenance',    label: '유지보수 1개월',     price: 29000,                type: 'toggle' },
 ]
 
 export const services = [
@@ -12,6 +19,7 @@ export const services = [
     en: 'Standard',
     ko: '랜딩페이지 제작',
     desc: '심플하고 깔끔한 반응형 랜딩페이지를 제작해드립니다.',
+    basePrice: 49000,
     price: '49,000원',
     period: '7일',
     pages: 1,
@@ -27,6 +35,7 @@ export const services = [
     en: 'Deluxe',
     ko: '기존 웹 리뉴얼',
     desc: '기존에 가지고 있던 홈페이지를 리뉴얼해드립니다.',
+    basePrice: 99000,
     price: '99,000원',
     period: '7일',
     pages: 3,
@@ -42,6 +51,7 @@ export const services = [
     en: 'Premium',
     ko: '홈페이지 제작 · 풀스택',
     desc: '고급 맞춤 홈페이지 제작, 전환 중심 풀커스텀 디자인으로 제작해드립니다.',
+    basePrice: 199000,
     price: '199,000원',
     period: '15일',
     pages: 5,

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import PageHero from '../components/PageHero.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -12,6 +12,39 @@ import './Pages.css'
 const fmt = (n) => n.toLocaleString('ko-KR')
 
 function TierCard({ svc, delay = 0 }) {
+  // selected: { [addonId]: count }  (0 = 미선택, 1+ = 선택)
+  const [selected, setSelected] = useState({})
+
+  const optionsTotal = useMemo(() => {
+    return addOns.reduce((sum, a) => {
+      const n = selected[a.id] || 0
+      return sum + n * a.price
+    }, 0)
+  }, [selected])
+
+  const total = svc.basePrice + optionsTotal
+
+  const toggle = (id) => {
+    setSelected((s) => {
+      const cur = s[id] || 0
+      return { ...s, [id]: cur > 0 ? 0 : 1 }
+    })
+  }
+
+  const inc = (id, max) => {
+    setSelected((s) => {
+      const cur = s[id] || 0
+      return { ...s, [id]: Math.min(cur + 1, max) }
+    })
+  }
+
+  const dec = (id) => {
+    setSelected((s) => {
+      const cur = s[id] || 0
+      return { ...s, [id]: Math.max(cur - 1, 0) }
+    })
+  }
+
   return (
     <Reveal as="article" className={`tier-card${svc.highlight ? ' tier-card--reco' : ''}`} delay={delay}>
       <div className="tier-card__head mono">
@@ -27,7 +60,16 @@ function TierCard({ svc, delay = 0 }) {
         <div className="tier-card__tier mono">{svc.tier}</div>
         <div className="tier-card__name">{svc.ko}</div>
         <div className="tier-card__icon"><Icon name={svc.icon} /></div>
-        <div className="tier-card__price mono">{svc.price}</div>
+
+        <div className="tier-card__price-block">
+          <div className="tier-card__price mono">{fmt(total)}원</div>
+          {optionsTotal > 0 && (
+            <div className="tier-card__price-breakdown mono">
+              base {fmt(svc.basePrice)} <span>+</span> 옵션 {fmt(optionsTotal)}
+            </div>
+          )}
+        </div>
+
         <p className="tier-card__desc">{svc.desc}</p>
 
         <div className="tier-card__divider" />
@@ -71,17 +113,59 @@ function TierCard({ svc, delay = 0 }) {
 
         <div className="tier-card__divider" />
 
-        <div className="tier-card__extras-head mono">+ 추가 옵션</div>
-        <ul className="tier-card__extras-list mono">
-          {addOns.map((a) => (
-            <li key={a.id} className="tier-card__extra">
-              <span className="tier-card__extra-plus">+</span>
-              <span className="tier-card__extra-label">{a.label}</span>
-              <span className="tier-card__extra-price">
-                +{fmt(a.price)}원 / {a.unit}
-              </span>
-            </li>
-          ))}
+        <div className="tier-card__extras-head mono">
+          + 추가 옵션 <span className="tier-card__extras-hint">(클릭하면 합산)</span>
+        </div>
+        <ul className="tier-card__addon-list mono">
+          {addOns.map((a) => {
+            const n = selected[a.id] || 0
+            const on = n > 0
+            const lineTotal = n * a.price
+            return (
+              <li key={a.id} className={`tier-card__addon${on ? ' is-on' : ''}`}>
+                {a.type === 'toggle' ? (
+                  <button
+                    type="button"
+                    className="tier-card__addon-toggle"
+                    onClick={() => toggle(a.id)}
+                    aria-pressed={on}
+                  >
+                    <span className="tier-card__addon-check">{on ? '☑' : '☐'}</span>
+                    <span className="tier-card__addon-label">{a.label}</span>
+                    <span className="tier-card__addon-price">
+                      {on ? `+${fmt(a.price)}원` : `+${fmt(a.price)}원`}
+                    </span>
+                  </button>
+                ) : (
+                  <div className="tier-card__addon-count">
+                    <div className="tier-card__addon-counter">
+                      <button
+                        type="button"
+                        className="tier-card__cbtn"
+                        onClick={() => dec(a.id)}
+                        disabled={n === 0}
+                        aria-label={`${a.label} 줄이기`}
+                      >−</button>
+                      <span className="tier-card__cval">{n}</span>
+                      <button
+                        type="button"
+                        className="tier-card__cbtn"
+                        onClick={() => inc(a.id, a.max)}
+                        disabled={n >= a.max}
+                        aria-label={`${a.label} 늘리기`}
+                      >+</button>
+                    </div>
+                    <span className="tier-card__addon-label">
+                      {a.label} <span className="tier-card__addon-unit">/{a.unit}</span>
+                    </span>
+                    <span className="tier-card__addon-price">
+                      {n > 0 ? `+${fmt(lineTotal)}원` : `+${fmt(a.price)}/${a.unit}`}
+                    </span>
+                  </div>
+                )}
+              </li>
+            )
+          })}
         </ul>
       </div>
     </Reveal>
@@ -91,7 +175,7 @@ function TierCard({ svc, delay = 0 }) {
 export default function Services() {
   useDocumentMeta(
     '서비스 · 가격 | nongdev',
-    'STANDARD · DELUXE · PREMIUM 3가지 패키지. 랜딩페이지부터 풀스택 홈페이지까지.',
+    'STANDARD · DELUXE · PREMIUM 3가지 패키지. 옵션을 클릭하면 가격이 실시간으로 합산됩니다.',
   )
   const { hash } = useLocation()
 
@@ -107,7 +191,7 @@ export default function Services() {
       <PageHero
         label="SERVICES"
         title="패키지 선택"
-        desc="3가지 패키지 중에서 골라주세요. 클릭하면 견적표가 자동 복사돼서 채팅이 열려요."
+        desc="3가지 패키지 중에서 골라주세요. 추가 옵션을 클릭하면 가격이 실시간으로 합산돼요."
       />
 
       <section className="section">
@@ -124,7 +208,7 @@ export default function Services() {
             ))}
           </div>
           <p className="tier-note mono">
-            * 표준 패키지 기준이며, 작업 범위가 다르면 상담에서 맞춤 견적 가능합니다.
+            * 표준 패키지 기준이며, 작업 범위가 다르면 우측 하단 1:1 상담에서 맞춤 견적 가능합니다.
           </p>
         </div>
       </section>
