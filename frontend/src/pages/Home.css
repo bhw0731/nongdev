@@ -993,3 +993,418 @@
   line-height: 1.7;
   font-family: var(--font-sans);
 }
+
+/* =====================================================
+   PHASE 2 SECTIONS — distinct dev-tool metaphors
+   ===================================================== */
+
+/* ---------- PROCESS — CI/CD Pipeline (GitHub Actions) ---------- */
+.ci-pipeline {
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.ci-pipeline__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--ink);
+  color: var(--bg);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.ci-pipeline__icon { font-size: 1.1rem; color: var(--lime); }
+.ci-pipeline__file { font-size: 0.86rem; font-weight: 600; }
+.ci-pipeline__status {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  background: rgba(125, 255, 138, 0.15);
+  color: #7dff8a;
+  border: 1.5px solid #7dff8a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.ci-pipeline__status-dot {
+  width: 8px; height: 8px;
+  background: #7dff8a;
+  border-radius: 50%;
+  animation: blink 1.6s steps(1) infinite;
+}
+.ci-pipeline__sub {
+  padding: 10px 18px;
+  background: var(--bg-2);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+}
+.ci-stages {
+  list-style: none;
+  margin: 0; padding: 26px 18px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ci-stage {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 14px;
+  position: relative;
+  padding: 0 0 24px;
+}
+.ci-stage:last-child { padding-bottom: 0; }
+.ci-stage__rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.ci-stage__rail::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  bottom: -24px;
+  left: 50%;
+  width: 3px;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+.ci-stage:last-child .ci-stage__rail::before { display: none; }
+.ci-stage__node {
+  position: relative;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 4px var(--surface);
+}
+.ci-stage__check {
+  color: var(--accent-ink);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.ci-stage__card {
+  border: var(--bd) solid var(--ink);
+  background: var(--bg-2);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+.ci-stage__card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow);
+}
+.ci-stage__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.ci-stage__num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  background: var(--ink);
+  color: var(--bg);
+}
+.ci-stage__tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+.ci-stage__time {
+  margin-left: auto;
+  font-size: 0.74rem;
+  color: var(--text-dim);
+}
+.ci-stage__title {
+  font-size: 1.15rem;
+  margin: 2px 0 6px;
+}
+.ci-stage__desc {
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+.ci-pipeline__footer {
+  padding: 12px 18px;
+  background: rgba(125, 255, 138, 0.08);
+  border-top: var(--bd) solid var(--ink);
+  color: #2da848;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+:root[data-theme='dark'] .ci-pipeline__footer { color: #7dff8a; }
+@media (max-width: 640px) {
+  .ci-stage { grid-template-columns: 36px 1fr; gap: 10px; }
+  .ci-stage__node { width: 28px; height: 28px; }
+  .ci-stage__check { font-size: 0.9rem; }
+  .ci-stage__rail::before { top: 26px; }
+}
+
+/* ---------- CAPABILITIES — VS Code IDE ---------- */
+.caps-ide {
+  border: var(--bd) solid var(--ink);
+  background: #1e1e1e;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 940px;
+  margin: 0 auto;
+}
+.caps-ide__titlebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: #3c3c3c;
+  border-bottom: 1px solid #1e1e1e;
+}
+.caps-ide__win-dots { display: flex; gap: 6px; }
+.caps-ide__win-dot { width: 11px; height: 11px; border: 1.5px solid #1e1e1e; }
+.caps-ide__win-dot--r { background: #ff5f57; }
+.caps-ide__win-dot--y { background: #febc2e; }
+.caps-ide__win-dot--g { background: #28c840; }
+.caps-ide__title {
+  font-size: 0.78rem;
+  color: #cccccc;
+  margin: 0 auto;
+}
+.caps-ide__tabs {
+  display: flex;
+  background: #2d2d2d;
+  border-bottom: 1px solid #1e1e1e;
+  font-size: 0.82rem;
+  overflow-x: auto;
+}
+.caps-ide__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  color: #969696;
+  border-right: 1px solid #1e1e1e;
+  white-space: nowrap;
+}
+.caps-ide__tab.is-active {
+  background: #1e1e1e;
+  color: #ffffff;
+  position: relative;
+}
+.caps-ide__tab.is-active::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: #d8ff36;
+}
+.caps-ide__tab-icon { font-size: 0.9rem; }
+.caps-ide__tab-x {
+  margin-left: 4px;
+  color: #969696;
+  font-size: 1rem;
+  line-height: 1;
+}
+.caps-ide__editor {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  min-height: 380px;
+}
+.caps-ide__gutter {
+  background: #1e1e1e;
+  padding: 14px 8px 14px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 0.86rem;
+  line-height: 1.85;
+  color: #6e6e6e;
+  border-right: 1px solid #2d2d2d;
+  user-select: none;
+}
+.caps-ide__lineno {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+}
+.caps-ide__code {
+  padding: 14px 18px;
+  color: #d4d4d4;
+  font-size: 0.9rem;
+  line-height: 1.85;
+}
+.caps-ide__statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 5px 14px;
+  background: #007acc;
+  color: #ffffff;
+  font-size: 0.74rem;
+  flex-wrap: wrap;
+}
+.caps-ide__status-left, .caps-ide__status-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.caps-ide__status-item { letter-spacing: 0.02em; }
+
+/* override caps-line colors for IDE dark theme */
+.caps-ide .caps-line--com { color: #6a9955; }
+.caps-ide .caps-kw { color: #c586c0; }
+.caps-ide .caps-name { color: #4fc1ff; }
+.caps-ide .caps-brace { color: #d4d4d4; }
+.caps-ide .caps-str { color: #ce9178; }
+.caps-ide .caps-com { color: #6a9955; }
+.caps-ide .caps-line--export:hover { background: rgba(216, 255, 54, 0.06); }
+.caps-ide .caps-block.is-open .caps-line--export { background: rgba(216, 255, 54, 0.1); }
+.caps-ide .caps-detail__desc { color: #cccccc; }
+.caps-ide .caps-detail__tag { color: #d8ff36; }
+
+@media (max-width: 760px) {
+  .caps-ide__editor { grid-template-columns: 36px 1fr; min-height: 0; }
+  .caps-ide__gutter { padding: 12px 6px 12px 0; font-size: 0.72rem; }
+  .caps-ide__code { padding: 12px 14px; font-size: 0.78rem; line-height: 1.7; }
+  .caps-ide__statusbar { font-size: 0.66rem; padding: 4px 10px; }
+}
+
+/* ---------- TRUST — Jest test output ---------- */
+.trust-jest {
+  position: relative;
+  z-index: 1;
+  border: var(--bd) solid var(--ink);
+  background: #14130e;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 880px;
+  margin: 0 auto;
+  color: #e6e3d6;
+}
+:root[data-theme='dark'] .trust-jest { background: #0c0b07; }
+.trust-jest__topbar {
+  padding: 11px 18px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(242, 239, 228, 0.15);
+  font-size: 0.86rem;
+  color: #c2bfb1;
+}
+.trust-jest__topbar-prompt {
+  color: #d8ff36;
+  margin-right: 8px;
+  font-weight: 700;
+}
+.trust-jest__topbar-cursor {
+  display: inline-block;
+  width: 9px; height: 1em;
+  background: #d8ff36;
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+.trust-jest__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px 10px;
+  font-size: 0.92rem;
+}
+.trust-jest__pass {
+  display: inline-block;
+  background: #28c840;
+  color: #14130e;
+  font-weight: 800;
+  padding: 3px 11px;
+  letter-spacing: 0.1em;
+}
+.trust-jest__file { color: #f2efe4; font-weight: 600; }
+.trust-jest__time { margin-left: auto; color: #8b8676; font-size: 0.82rem; }
+.trust-jest__suite { padding: 4px 18px 16px; }
+.trust-jest__describe {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f2efe4;
+  margin: 8px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.trust-jest__describe-arrow { color: #d8ff36; }
+.trust-jest__tests {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.trust-jest__test {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  padding-left: 18px;
+  font-size: 0.92rem;
+}
+.trust-jest__check {
+  color: #7dff8a;
+  font-weight: 800;
+  font-size: 1rem;
+}
+.trust-jest__name { color: #e6e3d6; font-weight: 600; }
+.trust-jest__duration {
+  color: #8b8676;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+.trust-jest__desc {
+  grid-column: 2 / 4;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: #a8a294;
+  line-height: 1.55;
+  margin-top: 2px;
+  font-style: italic;
+}
+.trust-jest__footer {
+  padding: 16px 18px 18px;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(242, 239, 228, 0.15);
+  font-size: 0.86rem;
+  color: #c2bfb1;
+  line-height: 1.85;
+}
+.trust-jest__footer-row { display: flex; gap: 8px; }
+.trust-jest__footer-label {
+  display: inline-block;
+  min-width: 120px;
+  font-weight: 600;
+  color: #f2efe4;
+}
+.trust-jest__pass-text { color: #7dff8a; font-weight: 800; }
+.trust-jest__footer-msg {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(242, 239, 228, 0.12);
+  color: #c2bfb1;
+}
+.trust-jest__success { color: #7dff8a; font-weight: 700; }
+
+@media (max-width: 640px) {
+  .trust-jest__head, .trust-jest__topbar, .trust-jest__suite, .trust-jest__footer { padding-left: 14px; padding-right: 14px; }
+  .trust-jest__footer-label { min-width: 100px; }
+  .trust-jest__test { padding-left: 8px; font-size: 0.84rem; }
+}

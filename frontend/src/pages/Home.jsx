@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Reveal from '../components/Reveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
@@ -341,44 +341,45 @@ function WhyFullstack() {
 }
 
 function ProcessSection() {
+  const durations = ['1d', '2d', '7d', '1d']
   return (
     <section id="process" className="section proc-section">
       <SectionNum num="04" />
       <div className="container-wide">
         <SectionHeader label="HOW WE WORK" title={'아이디어부터\n런칭까지, 네 단계로'} />
-        <Reveal className="proc-terminal">
-          <div className="proc-terminal__head">
-            <span className="proc-terminal__dots">
-              <span className="proc-terminal__dot proc-terminal__dot--r" />
-              <span className="proc-terminal__dot proc-terminal__dot--y" />
-              <span className="proc-terminal__dot proc-terminal__dot--g" />
+        <Reveal className="ci-pipeline">
+          <div className="ci-pipeline__head">
+            <span className="ci-pipeline__icon">⚙</span>
+            <span className="ci-pipeline__file mono">.github/workflows/client-project.yml</span>
+            <span className="ci-pipeline__status mono">
+              <span className="ci-pipeline__status-dot" /> passing
             </span>
-            <span className="proc-terminal__file mono">deploy.log</span>
           </div>
-          <div className="proc-terminal__body mono">
-            <div className="proc-line proc-line--cmd">
-              <span className="proc-prompt">$</span> nongdev process --verbose
-            </div>
-            <div className="proc-spacer" />
+          <div className="ci-pipeline__sub mono">
+            Run #42 · main · triggered by nongdev
+          </div>
+          <ol className="ci-stages">
             {process.map((step, i) => (
-              <Reveal as="div" key={step.num} className="proc-step-block" delay={i * 90}>
-                <div className="proc-line proc-line--step">
-                  <span className="proc-bracket">[{step.num}]</span>
-                  <span className="proc-tag">{step.tag}</span>
-                  <span className="proc-ok">✓</span>
-                  <span className="proc-title">{step.title}</span>
+              <Reveal as="li" key={step.num} className="ci-stage" delay={i * 120}>
+                <div className="ci-stage__rail" aria-hidden="true">
+                  <span className="ci-stage__node">
+                    <span className="ci-stage__check">✓</span>
+                  </span>
                 </div>
-                <div className="proc-line proc-line--desc">→ {step.desc}</div>
+                <div className="ci-stage__card">
+                  <div className="ci-stage__head">
+                    <span className="ci-stage__num mono">JOB {step.num}</span>
+                    <span className="ci-stage__tag mono">{step.tag}</span>
+                    <span className="ci-stage__time mono">~{durations[i]}</span>
+                  </div>
+                  <h3 className="ci-stage__title">{step.title}</h3>
+                  <p className="ci-stage__desc">{step.desc}</p>
+                </div>
               </Reveal>
             ))}
-            <div className="proc-spacer" />
-            <div className="proc-line proc-line--ok">
-              ✓ All stages ready · Total: 4
-            </div>
-            <div className="proc-line proc-line--cmd">
-              <span className="proc-prompt">$</span>
-              <span className="proc-cursor" />
-            </div>
+          </ol>
+          <div className="ci-pipeline__footer mono">
+            ✓ Run completed · 4/4 jobs passed · total ~11d
           </div>
         </Reveal>
       </div>
@@ -390,6 +391,14 @@ function Capabilities() {
   const [openIdx, setOpenIdx] = useState(null)
   const maxLen = Math.max(...capabilities.map((c) => c.module.length))
   const padModule = (m) => m + ' '.repeat(maxLen - m.length)
+  // 각 캡 항목이 차지하는 줄 수: 헤더(// 9 modules) 1줄 + 공백 1줄 + 항목당 1줄 + 펼침 시 추가
+  const lineNumbers = useMemo(() => {
+    const arr = []
+    arr.push('1', '2')
+    capabilities.forEach((_, i) => arr.push(String(i + 3)))
+    arr.push(String(capabilities.length + 3), String(capabilities.length + 4))
+    return arr
+  }, [])
 
   return (
     <section id="capabilities" className="section caps-section">
@@ -400,54 +409,87 @@ function Capabilities() {
           title={'이런 기능들,\n다 만들어드릴 수 있어요'}
           desc={'각 줄을 클릭하면 자세한 설명과 사용 가능한 기술 스택이 펼쳐져요.'}
         />
-        <Reveal className="caps-module">
-          <div className="caps-module__head">
-            <span className="caps-module__dots">
-              <span className="caps-module__dot caps-module__dot--r" />
-              <span className="caps-module__dot caps-module__dot--y" />
-              <span className="caps-module__dot caps-module__dot--g" />
+        <Reveal className="caps-ide">
+          {/* IDE title bar */}
+          <div className="caps-ide__titlebar">
+            <span className="caps-ide__win-dots">
+              <span className="caps-ide__win-dot caps-ide__win-dot--r" />
+              <span className="caps-ide__win-dot caps-ide__win-dot--y" />
+              <span className="caps-ide__win-dot caps-ide__win-dot--g" />
             </span>
-            <span className="caps-module__file mono">src/capabilities/index.ts</span>
+            <span className="caps-ide__title mono">nongdev — Visual Studio Code</span>
           </div>
-          <div className="caps-module__body mono">
-            <div className="caps-line caps-line--com">// {capabilities.length} modules · 0 hidden dependencies</div>
-            <div className="caps-spacer" />
-            {capabilities.map((c, i) => {
-              const isOpen = openIdx === i
-              return (
-                <div key={c.title} className={`caps-block${isOpen ? ' is-open' : ''}`}>
-                  <button
-                    type="button"
-                    className="caps-line caps-line--export"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpenIdx(isOpen ? null : i)}
-                  >
-                    <span className="caps-kw">export</span>{' '}
-                    <span className="caps-brace">{'{'}</span>{' '}
-                    <span className="caps-name">{padModule(c.module)}</span>{' '}
-                    <span className="caps-brace">{'}'}</span>{' '}
-                    <span className="caps-kw">from</span>{' '}
-                    <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
-                    <span className="caps-com">// {c.title}</span>
-                  </button>
-                  <div className="caps-detail" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
-                    <div className="caps-detail__inner">
-                      <p className="caps-detail__desc">→ {c.desc}</p>
-                      <div className="caps-detail__tags">
-                        {c.tags.map((t) => (
-                          <span key={t} className="caps-detail__tag">[{t}]</span>
-                        ))}
+          {/* tabs */}
+          <div className="caps-ide__tabs mono">
+            <span className="caps-ide__tab is-active">
+              <span className="caps-ide__tab-icon">⚛</span>
+              capabilities.ts
+              <span className="caps-ide__tab-x">×</span>
+            </span>
+            <span className="caps-ide__tab">
+              <span className="caps-ide__tab-icon">📦</span>
+              package.json
+            </span>
+            <span className="caps-ide__tab">
+              <span className="caps-ide__tab-icon">📄</span>
+              README.md
+            </span>
+          </div>
+          {/* editor area: gutter + code */}
+          <div className="caps-ide__editor">
+            <div className="caps-ide__gutter mono" aria-hidden="true">
+              {lineNumbers.map((n, idx) => (
+                <span key={idx} className="caps-ide__lineno">{n}</span>
+              ))}
+            </div>
+            <div className="caps-ide__code mono">
+              <div className="caps-line caps-line--com">// {capabilities.length} modules · 0 hidden dependencies</div>
+              <div className="caps-spacer" />
+              {capabilities.map((c, i) => {
+                const isOpen = openIdx === i
+                return (
+                  <div key={c.title} className={`caps-block${isOpen ? ' is-open' : ''}`}>
+                    <button
+                      type="button"
+                      className="caps-line caps-line--export"
+                      aria-expanded={isOpen}
+                      onClick={() => setOpenIdx(isOpen ? null : i)}
+                    >
+                      <span className="caps-kw">export</span>{' '}
+                      <span className="caps-brace">{'{'}</span>{' '}
+                      <span className="caps-name">{padModule(c.module)}</span>{' '}
+                      <span className="caps-brace">{'}'}</span>{' '}
+                      <span className="caps-kw">from</span>{' '}
+                      <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
+                      <span className="caps-com">// {c.title}</span>
+                    </button>
+                    <div className="caps-detail" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
+                      <div className="caps-detail__inner">
+                        <p className="caps-detail__desc">→ {c.desc}</p>
+                        <div className="caps-detail__tags">
+                          {c.tags.map((t) => (
+                            <span key={t} className="caps-detail__tag">[{t}]</span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
-            <div className="caps-spacer" />
-            <div className="caps-line caps-line--cmd">
-              <span className="caps-prompt">$</span>
-              <span className="caps-cursor" />
+                )
+              })}
+              <div className="caps-spacer" />
             </div>
+          </div>
+          {/* status bar */}
+          <div className="caps-ide__statusbar mono">
+            <span className="caps-ide__status-left">
+              <span className="caps-ide__status-item">⎇ main</span>
+              <span className="caps-ide__status-item">⚙ 0 errors · 0 warnings</span>
+            </span>
+            <span className="caps-ide__status-right">
+              <span className="caps-ide__status-item">Ln {capabilities.length + 2}, Col 1</span>
+              <span className="caps-ide__status-item">UTF-8</span>
+              <span className="caps-ide__status-item">TypeScript</span>
+            </span>
           </div>
         </Reveal>
       </div>
@@ -550,22 +592,50 @@ function Trust() {
           desc="계약부터 사후 관리까지, 외주에서 불안할 수 있는 부분을 먼저 약속으로 정리했습니다."
           center
         />
-        <Reveal className="trust-md">
-          <div className="trust-md__head">
-            <span className="trust-md__file mono">nongdev/promises.md</span>
+        <Reveal className="trust-jest">
+          <div className="trust-jest__topbar mono">
+            <span className="trust-jest__topbar-prompt">$</span> jest src/promises.test.ts
+            <span className="trust-jest__topbar-cursor" />
           </div>
-          <ul className="trust-md__body mono">
-            {trust.map((t, i) => (
-              <Reveal as="li" key={t.title} className="trust-md__item" delay={i * 60}>
-                <span className="trust-md__check">[x]</span>
-                <div className="trust-md__content">
-                  <strong className="trust-md__title">{t.title}</strong>
-                  <span className="trust-md__sep"> — </span>
-                  <span className="trust-md__desc">{t.desc}</span>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
+          <div className="trust-jest__head mono">
+            <span className="trust-jest__pass">PASS</span>
+            <span className="trust-jest__file">src/promises.test.ts</span>
+            <span className="trust-jest__time">(0.42s)</span>
+          </div>
+          <div className="trust-jest__suite mono">
+            <div className="trust-jest__describe">
+              <span className="trust-jest__describe-arrow">▼</span> Trust contract
+            </div>
+            <ul className="trust-jest__tests">
+              {trust.map((t, i) => (
+                <Reveal as="li" key={t.title} className="trust-jest__test" delay={i * 50}>
+                  <span className="trust-jest__check">✓</span>
+                  <span className="trust-jest__name">{t.title}</span>
+                  <span className="trust-jest__duration">({(i + 1) * 2}ms)</span>
+                  <div className="trust-jest__desc">{t.desc}</div>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+          <div className="trust-jest__footer mono">
+            <div className="trust-jest__footer-row">
+              <span className="trust-jest__footer-label">Test Suites:</span>
+              <span><strong className="trust-jest__pass-text">1 passed</strong>, 1 total</span>
+            </div>
+            <div className="trust-jest__footer-row">
+              <span className="trust-jest__footer-label">Tests:</span>
+              <span><strong className="trust-jest__pass-text">{trust.length} passed</strong>, {trust.length} total</span>
+            </div>
+            <div className="trust-jest__footer-row">
+              <span className="trust-jest__footer-label">Snapshots:</span>
+              <span>0 total</span>
+            </div>
+            <div className="trust-jest__footer-row">
+              <span className="trust-jest__footer-label">Time:</span>
+              <span>0.42s</span>
+            </div>
+            <div className="trust-jest__footer-msg">Ran all test suites. <span className="trust-jest__success">✓ green</span></div>
+          </div>
         </Reveal>
       </div>
     </section>
