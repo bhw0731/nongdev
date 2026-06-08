@@ -37,60 +37,90 @@ function Roller({ words }) {
   )
 }
 
+const STACK_CHIPS = [
+  'React', 'TypeScript', 'Next.js', 'Node.js', 'Python', 'Flutter',
+  'PostgreSQL', 'Vercel', 'AWS', 'Docker', 'Figma', 'Git',
+]
+const NOW_BUILDING = { type: '쇼핑몰 · 풀스택', day: 4, total: 12, note: '결제 연동 작업중' }
+
 function Hero() {
+  const [barFilled, setBarFilled] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setBarFilled(true), 400)
+    return () => clearTimeout(t)
+  }, [])
+  const pct = Math.round((NOW_BUILDING.day / NOW_BUILDING.total) * 100)
+
   return (
     <section className="hero-full">
       <div className="hero-full__bg" />
-      <Sticker
-        tone="lime"
-        tilt={-6}
-        style={{ position: 'absolute', top: '120px', right: '32px', zIndex: 5 }}
-      >
-        [ STATUS: AVAILABLE ]
-      </Sticker>
       <div className="container-wide hero-full__content">
-        <div className="hero-full__text">
-          <button type="button" className="avb-chip" onClick={openChannelTalk}>
-            <span className="avb-dot" />
-            <span className="avb-chip-tag">[INFO]</span>
-            availability: 1 slot
-            <span className="avb-chip-hint">· response ~1h</span>
-          </button>
-          <h1 className="hero-full__title">
-            <span translate="no">{profile.brand}</span>
-            <Roller words={profile.roller} />
-            <span className="hero-sub">{profile.heroSub}</span>
-          </h1>
-          <p className="hero-full__desc">
-            기획부터 디자인, 개발, 배포까지 — 한 사람의 손에서 일관되게.
-            <br />
-            웹·앱·쇼핑몰을 원스톱으로 만들어 드립니다.
-          </p>
-          <div className="hero-actions">
-            <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>
-              1:1 상담 시작하기
-            </button>
-            <Link className="btn btn-outline btn-lg" to="/portfolio">
-              포트폴리오 보기
-            </Link>
-          </div>
-        </div>
-
-        <div className="crt-wrap" aria-hidden="true">
-          <div className="crt-window">
-            <div className="crt-header">
-              <span className="crt-dot crt-dot--red" />
-              <span className="crt-dot crt-dot--yellow" />
-              <span className="crt-dot crt-dot--green" />
-              <span className="crt-header-title mono">~/nongdev — zsh</span>
+        <div className="hero-bento">
+          {/* TITLE — biggest cell */}
+          <div className="hero-bento__cell hero-bento__cell--title">
+            <h1 className="hero-full__title">
+              <span translate="no">{profile.brand}</span>
+              <Roller words={profile.roller} />
+              <span className="hero-sub">{profile.heroSub}</span>
+            </h1>
+            <p className="hero-full__desc">
+              기획부터 디자인, 개발, 배포까지 — 한 사람의 손에서 일관되게.
+              <br />
+              웹·앱·쇼핑몰을 원스톱으로 만들어 드립니다.
+            </p>
+            <div className="hero-actions">
+              <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>
+                1:1 상담 시작하기
+              </button>
+              <Link className="btn btn-outline btn-lg" to="/portfolio">
+                포트폴리오 보기
+              </Link>
             </div>
-            <div className="crt-body mono">
-              <div className="crt-row"><span className="crt-prompt">$</span> nongdev init --client "당신"</div>
-              <div className="crt-row crt-dim">→ 요구사항 정리 완료</div>
-              <div className="crt-row crt-info">→ 기획 · 디자인 · 개발 · 배포 진행중…</div>
-              <div className="crt-row crt-ok">✓ 제품이 완성되었습니다 (2.4s)</div>
-              <div className="crt-row crt-dim"># 추가 비용 깜짝 청구 없음</div>
-              <div className="crt-row"><span className="crt-prompt">$</span> deploy --to production<span className="crt-caret" /></div>
+          </div>
+
+          {/* AVAILABILITY */}
+          <button
+            type="button"
+            className="hero-bento__cell hero-bento__cell--avail"
+            onClick={openChannelTalk}
+          >
+            <span className="bento-tag mono">AVAILABILITY</span>
+            <div className="bento-avail">
+              <span className="bento-avail__dot" aria-hidden="true" />
+              <div>
+                <div className="bento-avail__big">1 slot</div>
+                <div className="bento-avail__sub mono">신규 작업 가능</div>
+              </div>
+            </div>
+            <div className="bento-avail__meta mono">
+              평균 응답 <strong>~1시간</strong> · 클릭하면 상담 시작
+            </div>
+          </button>
+
+          {/* NOW BUILDING */}
+          <div className="hero-bento__cell hero-bento__cell--now">
+            <span className="bento-tag mono">NOW BUILDING</span>
+            <div className="bento-now__head">
+              <span className="bento-now__icon" aria-hidden="true">🔨</span>
+              <span className="bento-now__type">{NOW_BUILDING.type}</span>
+            </div>
+            <div className="bento-now__progress mono">
+              <span>Day {NOW_BUILDING.day} / {NOW_BUILDING.total}</span>
+              <span className="bento-now__pct">{pct}%</span>
+            </div>
+            <div className="bento-now__bar" aria-hidden="true">
+              <span style={{ width: barFilled ? `${pct}%` : '0%' }} />
+            </div>
+            <div className="bento-now__caption mono">{NOW_BUILDING.note}</div>
+          </div>
+
+          {/* STACK */}
+          <div className="hero-bento__cell hero-bento__cell--stack">
+            <span className="bento-tag mono">STACK</span>
+            <div className="bento-stack">
+              {STACK_CHIPS.map((t) => (
+                <span key={t} className="bento-stack__chip mono">{t}</span>
+              ))}
             </div>
           </div>
         </div>
