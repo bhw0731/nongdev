@@ -1,4 +1,9 @@
 // 제공 서비스 — 크몽 기준 3 티어 패키지
+// addOns: 패키지 기준 외 추가 비용 (모든 티어 동일 적용)
+export const addOns = [
+  { id: 'extra-page', label: '페이지 추가', price: 39000, unit: '페이지' },
+]
+
 export const services = [
   {
     id: 'svc-standard',

@@ -1,13 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import PageHero from '../components/PageHero.jsx'
 import Reveal from '../components/Reveal.jsx'
 import Icon from '../components/Icon.jsx'
 import { openChannelTalk } from '../lib/channeltalk.js'
 import useDocumentMeta from '../hooks/useDocumentMeta.js'
-import { services } from '../data/services.js'
+import { services, addOns } from '../data/services.js'
 import { process } from '../data/process.js'
 import './Pages.css'
+
+const fmt = (n) => n.toLocaleString('ko-KR')
 
 function buildPackageMessage(svc) {
   const lines = [
@@ -19,12 +21,16 @@ function buildPackageMessage(svc) {
     `· 작업일: 약 ${svc.period}`,
     `· 수정 횟수: ${svc.revisions}회`,
     '─'.repeat(30),
+    '추가 옵션 (참고):',
+    ...addOns.map((a) => `  · ${a.label}: +${fmt(a.price)}원 / ${a.unit}`),
+    '─'.repeat(30),
     '이 패키지로 상담 부탁드립니다 🙏',
   ]
   return lines.join('\n')
 }
 
 function TierCard({ svc, delay = 0 }) {
+  const [extrasOpen, setExtrasOpen] = useState(false)
   const onInstall = async () => {
     const msg = buildPackageMessage(svc)
     try {
@@ -95,6 +101,39 @@ function TierCard({ svc, delay = 0 }) {
             <dd>{svc.revisions}회</dd>
           </div>
         </dl>
+
+        <div className="tier-card__divider" />
+
+        <button
+          type="button"
+          className="tier-card__extras-toggle mono"
+          aria-expanded={extrasOpen}
+          onClick={() => setExtrasOpen((v) => !v)}
+        >
+          <span className="tier-card__extras-arrow">{extrasOpen ? '▼' : '▶'}</span>
+          추가 옵션 ({addOns.length})
+        </button>
+        <div
+          className="tier-card__extras"
+          style={{ gridTemplateRows: extrasOpen ? '1fr' : '0fr' }}
+        >
+          <div className="tier-card__extras-inner">
+            <ul className="tier-card__extras-list mono">
+              {addOns.map((a) => (
+                <li key={a.id} className="tier-card__extra">
+                  <span className="tier-card__extra-plus">+</span>
+                  <span className="tier-card__extra-label">{a.label}</span>
+                  <span className="tier-card__extra-price">
+                    +{fmt(a.price)}원 / {a.unit}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="tier-card__extras-note">
+              * 추가 옵션은 상담 시 요청하시면 견적에 반영됩니다.
+            </p>
+          </div>
+        </div>
       </div>
 
       <button className="btn btn-primary btn-block tier-card__cta" onClick={onInstall}>

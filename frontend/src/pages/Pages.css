@@ -734,6 +734,71 @@
   border-right: 0;
 }
 
+/* ---- expandable add-ons section ---- */
+.tier-card__extras-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.tier-card__extras-toggle:hover { color: var(--accent); }
+.tier-card__extras-arrow {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+.tier-card__extras {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s var(--ease);
+}
+.tier-card__extras-inner { overflow: hidden; }
+.tier-card__extras-list {
+  list-style: none;
+  margin: 8px 0 8px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.tier-card__extra {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 6px;
+  align-items: baseline;
+}
+.tier-card__extra-plus {
+  color: var(--accent);
+  font-weight: 800;
+  text-align: center;
+}
+.tier-card__extra-label {
+  color: var(--text);
+  font-weight: 600;
+}
+.tier-card__extra-price {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tier-card__extras-note {
+  margin: 0 0 4px;
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
 .tier-note {
   text-align: center;
   margin: 28px 0 0;
