@@ -1,70 +1,74 @@
-// 왜 풀스택 개발인가 — 빌더 서비스 vs 풀스택 비교
-export const compareRows = [
+// 왜 풀스택 개발인가 — "분업 외주" vs "풀스택 1인" 비교
+export const splitFlow = [
   {
-    feature: '디자인 자유도',
-    builder: { text: '템플릿 기반, 제한적', good: false },
-    custom: { text: '완전한 커스터마이징 가능', good: true },
+    role: '디자이너',
+    tag: '#design',
+    avatar: 'D',
+    msg: '시안 드렸어요. 코딩은 퍼블리셔분께 전달 부탁드려요.',
   },
   {
-    feature: '월 구독료',
-    builder: { text: '월 25,000원 ~ 50,000원', good: false },
-    custom: { text: '도메인/호스팅만 (연 5만원~)', good: true },
+    role: '퍼블리셔',
+    tag: '#frontend',
+    avatar: 'F',
+    msg: 'API 연동은 백엔드 담당자분께 문의해주세요.',
   },
   {
-    feature: '확장성',
-    builder: { text: '플랫폼 종속, 마이그레이션 어려움', good: false },
-    custom: { text: '소스코드 소유, 자유로운 확장', good: true },
+    role: '백엔드',
+    tag: '#backend',
+    avatar: 'B',
+    msg: 'DB 스키마는 다시 회의 후 결정해야 할 것 같아요.',
   },
   {
-    feature: 'SEO 최적화',
-    builder: { text: '기본 수준, 깊은 제어 불가', good: false },
-    custom: { text: 'SSR / 메타 / 스키마 완전 제어', good: true },
+    role: '배포 담당',
+    tag: '#deploy',
+    avatar: 'O',
+    msg: '도메인 권한 요청드렸는데 답변 대기 중입니다…',
+    waiting: true,
   },
-  {
-    feature: '성능 (속도)',
-    builder: { text: '공용 인프라, 무거운 빌더 코드', good: false },
-    custom: { text: '최적화된 코드, CDN 직접 설정', good: true },
-  },
-  {
-    feature: '복잡한 기능',
-    builder: { text: '플러그인 한계 / 외부 연동 제한', good: false },
-    custom: { text: '결제·CRM·API 자유롭게 통합', good: true },
-  },
-  {
-    feature: '데이터 소유권',
-    builder: { text: '플랫폼 보관 (이전 어려움)', good: false },
-    custom: { text: '본인 DB 완전 소유', good: true },
-  },
-  {
-    feature: '초기 제작 속도',
-    builder: { text: '빠름 (드래그앤드롭)', good: true },
-    custom: { text: '설계 단계 필요', good: false },
-  },
+]
+
+export const splitStats = [
+  { label: '담당자', value: '4명+' },
+  { label: '회의', value: '주 3회' },
+  { label: '핸드오프 지연', value: '평균 3일' },
+]
+
+export const fullstackLayers = [
+  { layer: 'Frontend', tech: 'React · Vite' },
+  { layer: 'Backend', tech: 'Node · Express' },
+  { layer: 'Database', tech: 'PostgreSQL · Mongo' },
+  { layer: 'Deploy', tech: 'Vercel · Render · AWS' },
+]
+
+export const fullstackStats = [
+  { label: '담당자', value: '1명' },
+  { label: '회의', value: '1:1' },
+  { label: '의사결정', value: '즉시' },
 ]
 
 export const benefits = [
   {
     num: '01',
-    title: '소스코드 완전 소유',
-    highlight: '플랫폼에서 자유롭게',
-    desc: '제작된 코드를 직접 소유하여, 플랫폼 종속 없이 언제든 이전·운영할 수 있습니다.',
+    title: '커뮤니케이션 비용 0',
+    highlight: '1:1 직접 소통',
+    desc: '디자이너 → 퍼블리셔 → 프론트 → 백엔드 핸드오프가 없습니다. 한 사람과만 이야기하면 끝입니다.',
   },
   {
     num: '02',
-    title: '무한한 기능 확장',
-    highlight: '필요한 기능 무엇이든',
-    desc: 'PG 결제, CRM, ERP, 자체 API 등 어떤 외부 시스템이든 자유롭게 통합 가능합니다.',
+    title: '책임 소재 명확',
+    highlight: '처음부터 끝까지 한 사람',
+    desc: '문제가 생겨도 "그건 다른 담당자에게…"라는 답을 들을 일이 없습니다. 끝까지 책임집니다.',
   },
   {
     num: '03',
-    title: '운영 비용 절감',
-    highlight: '월 구독료 0원',
-    desc: '도메인·호스팅 비용만 발생하여, 장기 운영 시 빌더 대비 수백만원 이상 절감됩니다.',
+    title: '즉시 반영 가능',
+    highlight: '회의 없이 바로 수정',
+    desc: '한 줄 바꾸려고 3명에게 컨펌받지 않습니다. 의견 주신 직후 반영하고 바로 확인하실 수 있어요.',
   },
   {
     num: '04',
-    title: '브랜드 정체성 확립',
-    highlight: '오직 당신만의 사이트',
-    desc: '템플릿 한계 없이 비즈니스에 최적화된 고유한 디자인과 사용자 경험을 구현합니다.',
+    title: '전체 맥락 이해',
+    highlight: '디자인부터 인프라까지',
+    desc: '프론트가 백엔드를, 백엔드가 인프라를 이해합니다. 부분 최적화가 아닌 전체 최적화가 가능합니다.',
   },
 ]

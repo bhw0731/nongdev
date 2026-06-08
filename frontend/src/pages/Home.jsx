@@ -15,7 +15,7 @@ import { profile } from '../data/profile.js'
 import { services } from '../data/services.js'
 import { capabilities } from '../data/capabilities.js'
 import { process } from '../data/process.js'
-import { compareRows, benefits } from '../data/whyFullstack.js'
+import { splitFlow, splitStats, fullstackLayers, fullstackStats, benefits } from '../data/whyFullstack.js'
 import { faq } from '../data/faq.js'
 import { trust } from '../data/trust.js'
 import { works } from '../data/works.js'
@@ -268,56 +268,83 @@ function WhyFullstack() {
         <SectionHeader
           label="WHY FULL-STACK"
           title="왜 풀스택 개발이어야 할까요?"
-          desc={'아임웹, Wix 같은 빌더는 간편하지만 한계가 명확합니다.\n비즈니스가 성장할수록 커스텀 개발의 가치가 빛납니다.'}
+          desc={'여러 사람을 거치지 않는다는 건 단순히 빠른 게 아닙니다.\n오해도, 핸드오프 비용도, 책임 분산도 없습니다.'}
           center
         />
-        <Reveal className="diff-terminal">
-          <div className="diff-terminal__head">
-            <span className="diff-terminal__dots">
-              <span className="diff-terminal__dot diff-terminal__dot--r" />
-              <span className="diff-terminal__dot diff-terminal__dot--y" />
-              <span className="diff-terminal__dot diff-terminal__dot--g" />
-            </span>
-            <span className="diff-terminal__file mono">builders...nongdev.diff</span>
-          </div>
-          <div className="diff-terminal__body mono">
-            <div className="diff-line diff-line--cmd">
-              <span className="diff-prompt">$</span> git diff builders...nongdev
+        <div className="fs-compare">
+          {/* LEFT — 외주 분업의 혼란 */}
+          <Reveal as="div" className="fs-col fs-col--bad">
+            <div className="fs-col__head">
+              <span className="fs-col__mark mono">✗</span>
+              <div>
+                <div className="fs-col__title">다수 외주 (분업)</div>
+                <div className="fs-col__sub mono">multi-vendor handoff</div>
+              </div>
             </div>
-            <div className="diff-spacer" />
-            <div className="diff-line diff-line--header">
-              <span className="diff-meta-old">--- a/builders</span>
+            <div className="fs-chat">
+              <div className="fs-chat__topbar mono">
+                <span className="fs-chat__topbar-icon">#</span> project-channel · 4명
+              </div>
+              <ul className="fs-chat__list">
+                {splitFlow.map((m, i) => (
+                  <Reveal as="li" key={m.role} className="fs-chat__row" delay={i * 80}>
+                    <span className="fs-chat__avatar" data-r={i}>{m.avatar}</span>
+                    <div className="fs-chat__body">
+                      <div className="fs-chat__meta mono">
+                        <span className="fs-chat__role">{m.role}</span>
+                        <span className="fs-chat__tag">{m.tag}</span>
+                      </div>
+                      <div className="fs-chat__msg">
+                        {m.msg}
+                        {m.waiting && <span className="fs-chat__dots"><span /><span /><span /></span>}
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </ul>
             </div>
-            <div className="diff-line diff-line--header">
-              <span className="diff-meta-new">+++ b/nongdev</span>
+            <dl className="fs-stat fs-stat--bad mono">
+              {splitStats.map((s) => (
+                <div key={s.label} className="fs-stat__row">
+                  <dt>{s.label}</dt>
+                  <dd>{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+
+          {/* RIGHT — 풀스택 1인 */}
+          <Reveal as="div" className="fs-col fs-col--good" delay={120}>
+            <div className="fs-col__head">
+              <span className="fs-col__mark mono">✓</span>
+              <div>
+                <div className="fs-col__title">풀스택 (1인)</div>
+                <div className="fs-col__sub mono">nongdev · single owner</div>
+              </div>
             </div>
-            <div className="diff-spacer" />
-            {compareRows.map((row, i) => {
-              const isTradeoff = row.builder.good && !row.custom.good
-              return (
-                <Reveal as="div" key={row.feature} className="diff-block" delay={i * 50}>
-                  <div className="diff-line diff-line--hunk">
-                    @@ {row.feature} @@{isTradeoff && <span className="diff-tradeoff"> ⚠ trade-off</span>}
+            <div className="fs-stack">
+              {fullstackLayers.map((l, i) => (
+                <Reveal as="div" key={l.layer} className="fs-stack__layer" delay={i * 80}>
+                  <div className="fs-stack__layer-main">
+                    <span className="fs-stack__layer-name">{l.layer}</span>
+                    <span className="fs-stack__layer-tech mono">{l.tech}</span>
                   </div>
-                  <div className="diff-line diff-line--del">
-                    <span className="diff-sign">-</span> {row.builder.text}
-                  </div>
-                  <div className="diff-line diff-line--add">
-                    <span className="diff-sign">+</span> {row.custom.text}
-                  </div>
+                  <span className="fs-stack__owner mono">
+                    <span className="fs-stack__owner-check">✓</span> nongdev
+                  </span>
                 </Reveal>
-              )
-            })}
-            <div className="diff-spacer" />
-            <div className="diff-line diff-line--ok">
-              ✓ 8 features · 7 improvements · 1 trade-off
+              ))}
             </div>
-            <div className="diff-line diff-line--cmd">
-              <span className="diff-prompt">$</span>
-              <span className="diff-cursor" />
-            </div>
-          </div>
-        </Reveal>
+            <dl className="fs-stat fs-stat--good mono">
+              {fullstackStats.map((s) => (
+                <div key={s.label} className="fs-stat__row">
+                  <dt>{s.label}</dt>
+                  <dd>{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
 
         <div className="why-benefits">
           <Reveal className="why-benefits-head">
