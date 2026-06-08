@@ -433,10 +433,13 @@ function Capabilities() {
     return arr
   }, [])
 
-  // start typing when section scrolls into view
+  // start typing when IDE actually enters the viewport
   useEffect(() => {
     const el = sectionRef.current
-    if (!el) return
+    if (!el) {
+      setPhase((p) => (p === 'idle' ? 'comment' : p))
+      return
+    }
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -445,7 +448,7 @@ function Capabilities() {
           }
         })
       },
-      { threshold: 0.15 },
+      { threshold: 0.25, rootMargin: '0px 0px -80px 0px' },
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -501,13 +504,14 @@ function Capabilities() {
   }
 
   return (
-    <section id="capabilities" className="section caps-section" ref={sectionRef}>
+    <section id="capabilities" className="section caps-section">
       <SectionNum num="05" />
       <div className="container-wide">
         <SectionHeader
           title={'이런 기능들,\n다 만들어드릴 수 있어요'}
           desc={'각 줄을 클릭하면 자세한 설명과 사용 가능한 기술 스택이 펼쳐져요.'}
         />
+        <div ref={sectionRef}>
         <Reveal className="caps-ide">
           {/* IDE title bar */}
           <div className="caps-ide__titlebar">
@@ -613,6 +617,7 @@ function Capabilities() {
             </span>
           </div>
         </Reveal>
+        </div>
       </div>
     </section>
   )
