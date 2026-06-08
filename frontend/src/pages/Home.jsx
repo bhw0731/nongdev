@@ -55,9 +55,9 @@ function Hero() {
     <section className="hero-full">
       <div className="hero-full__bg" />
       <div className="container-wide hero-full__content">
-        <div className="hero-bento">
-          {/* TITLE — biggest cell */}
-          <div className="hero-bento__cell hero-bento__cell--title">
+        <div className="hero-floating">
+          {/* Center title */}
+          <div className="hero-floating__title">
             <h1 className="hero-full__title">
               <span translate="no">{profile.brand}</span>
               <Roller words={profile.roller} />
@@ -78,49 +78,49 @@ function Hero() {
             </div>
           </div>
 
-          {/* AVAILABILITY */}
+          {/* Floating: AVAILABILITY */}
           <button
             type="button"
-            className="hero-bento__cell hero-bento__cell--avail"
+            className="hero-card hero-card--avail"
             onClick={openChannelTalk}
+            aria-label="1:1 상담 시작"
           >
-            <span className="bento-tag mono">AVAILABILITY</span>
-            <div className="bento-avail">
-              <span className="bento-avail__dot" aria-hidden="true" />
-              <div>
-                <div className="bento-avail__big">1 slot</div>
-                <div className="bento-avail__sub mono">신규 작업 가능</div>
+            <div className="hero-card__bob">
+              <div className="hero-card__head mono">
+                <span className="hero-card__dot" aria-hidden="true" />
+                AVAILABLE
               </div>
-            </div>
-            <div className="bento-avail__meta mono">
-              평균 응답 <strong>~1시간</strong> · 클릭하면 상담 시작
+              <div className="hero-card__big">1 slot</div>
+              <div className="hero-card__sub mono">평균 응답 ~1시간</div>
             </div>
           </button>
 
-          {/* NOW BUILDING */}
-          <div className="hero-bento__cell hero-bento__cell--now">
-            <span className="bento-tag mono">NOW BUILDING</span>
-            <div className="bento-now__head">
-              <span className="bento-now__icon" aria-hidden="true">🔨</span>
-              <span className="bento-now__type">{NOW_BUILDING.type}</span>
+          {/* Floating: STACK */}
+          <div className="hero-card hero-card--stack" aria-hidden="true">
+            <div className="hero-card__bob">
+              <div className="hero-card__head mono">STACK</div>
+              <ul className="hero-card__stack mono">
+                {STACK_CHIPS.slice(0, 8).map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
             </div>
-            <div className="bento-now__progress mono">
-              <span>Day {NOW_BUILDING.day} / {NOW_BUILDING.total}</span>
-              <span className="bento-now__pct">{pct}%</span>
-            </div>
-            <div className="bento-now__bar" aria-hidden="true">
-              <span style={{ width: barFilled ? `${pct}%` : '0%' }} />
-            </div>
-            <div className="bento-now__caption mono">{NOW_BUILDING.note}</div>
           </div>
 
-          {/* STACK */}
-          <div className="hero-bento__cell hero-bento__cell--stack">
-            <span className="bento-tag mono">STACK</span>
-            <div className="bento-stack">
-              {STACK_CHIPS.map((t) => (
-                <span key={t} className="bento-stack__chip mono">{t}</span>
-              ))}
+          {/* Floating: NOW BUILDING */}
+          <div className="hero-card hero-card--now">
+            <div className="hero-card__bob">
+              <div className="hero-card__head mono">
+                <span className="hero-card__icon" aria-hidden="true">🔨</span> NOW BUILDING
+              </div>
+              <div className="hero-card__type">{NOW_BUILDING.type}</div>
+              <div className="hero-card__progress mono">
+                <span>Day {NOW_BUILDING.day} / {NOW_BUILDING.total}</span>
+                <span className="hero-card__pct">{pct}%</span>
+              </div>
+              <div className="hero-card__bar" aria-hidden="true">
+                <span style={{ width: barFilled ? `${pct}%` : '0%' }} />
+              </div>
             </div>
           </div>
         </div>
