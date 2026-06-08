@@ -23,10 +23,6 @@ function TierCard({ svc, delay = 0 }) {
         <span className="tier-card__file">{svc.tier.toLowerCase()}.pkg.json</span>
       </div>
 
-      {svc.highlight && (
-        <div className="tier-card__ribbon mono">⭐ RECOMMENDED</div>
-      )}
-
       <div className="tier-card__body">
         <div className="tier-card__tier mono">{svc.tier}</div>
         <div className="tier-card__name">{svc.ko}</div>
