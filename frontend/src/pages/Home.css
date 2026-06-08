@@ -719,3 +719,279 @@
   vertical-align: -2px;
   animation: blink 1s steps(1) infinite;
 }
+
+/* ---------- avb-chip tag enhancement ---------- */
+.avb-chip-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-right: 2px;
+}
+
+/* =====================================================
+   DEV-FLAIR Phase 2 — git diff · module exports · faq.md
+   ===================================================== */
+
+/* ---------- WHY FULL-STACK — git diff terminal ---------- */
+.diff-terminal {
+  border: var(--bd) solid var(--ink);
+  background: #14130e;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 940px;
+  margin: 0 auto;
+}
+:root[data-theme='dark'] .diff-terminal { background: #0c0b07; }
+.diff-terminal__head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 2px solid #f2efe4;
+}
+.diff-terminal__dots { display: flex; gap: 6px; }
+.diff-terminal__dot { width: 11px; height: 11px; border: 1.5px solid #0c0b07; }
+.diff-terminal__dot--r { background: #ff5f57; }
+.diff-terminal__dot--y { background: #febc2e; }
+.diff-terminal__dot--g { background: #28c840; }
+.diff-terminal__file { margin-left: 8px; font-size: 0.8rem; color: #8b8676; letter-spacing: 0.04em; }
+.diff-terminal__body {
+  padding: 26px 26px 24px;
+  font-size: 0.92rem;
+  line-height: 1.9;
+  color: #e6e3d6;
+}
+.diff-line { white-space: pre-wrap; word-break: keep-all; }
+.diff-spacer { height: 0.6em; }
+.diff-prompt { color: #d8ff36; margin-right: 8px; font-weight: 700; }
+.diff-meta-old { color: #ff7a7a; font-weight: 700; }
+.diff-meta-new { color: #7dff8a; font-weight: 700; }
+.diff-block { margin-bottom: 14px; }
+.diff-line--hunk {
+  color: #6ea8ff;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+.diff-tradeoff { color: #febc2e; font-size: 0.85em; }
+.diff-line--del {
+  color: #ff7a7a;
+  background: rgba(255, 95, 87, 0.08);
+  padding-left: 6px;
+}
+.diff-line--add {
+  color: #7dff8a;
+  background: rgba(40, 200, 64, 0.08);
+  padding-left: 6px;
+}
+.diff-sign { display: inline-block; width: 16px; font-weight: 700; }
+.diff-line--ok { color: #7dff8a; font-weight: 600; }
+.diff-cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1em;
+  background: #d8ff36;
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+@media (max-width: 720px) {
+  .diff-terminal__body { padding: 18px; font-size: 0.82rem; line-height: 1.7; }
+}
+
+/* ---------- CAPABILITIES — module exports ---------- */
+.caps-module {
+  border: var(--bd) solid var(--ink);
+  background: #14130e;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 940px;
+  margin: 0 auto;
+}
+:root[data-theme='dark'] .caps-module { background: #0c0b07; }
+.caps-module__head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 2px solid #f2efe4;
+}
+.caps-module__dots { display: flex; gap: 6px; }
+.caps-module__dot { width: 11px; height: 11px; border: 1.5px solid #0c0b07; }
+.caps-module__dot--r { background: #ff5f57; }
+.caps-module__dot--y { background: #febc2e; }
+.caps-module__dot--g { background: #28c840; }
+.caps-module__file { margin-left: 8px; font-size: 0.8rem; color: #8b8676; letter-spacing: 0.04em; }
+.caps-module__body {
+  padding: 24px 24px 22px;
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: #e6e3d6;
+}
+.caps-line { white-space: nowrap; }
+.caps-spacer { height: 0.6em; }
+.caps-line--com { color: #8b8676; font-style: italic; }
+.caps-line--export {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 4px 8px;
+  margin: 0 -8px;
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.15s;
+}
+.caps-line--export:hover { background: rgba(216, 255, 54, 0.08); }
+.caps-block.is-open .caps-line--export {
+  background: rgba(216, 255, 54, 0.12);
+}
+.caps-kw { color: #ff79c6; font-weight: 700; }
+.caps-brace { color: #f2efe4; }
+.caps-name { color: #d8ff36; font-weight: 700; white-space: pre; }
+.caps-str { color: #7dff8a; }
+.caps-com { color: #8b8676; margin-left: 4px; }
+.caps-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s var(--ease);
+}
+.caps-detail__inner {
+  overflow: hidden;
+  padding: 0 8px 0 24px;
+}
+.caps-block.is-open .caps-detail__inner { padding: 8px 8px 14px 24px; }
+.caps-detail__desc {
+  color: #c2bfb1;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0 0 10px;
+  white-space: normal;
+}
+.caps-detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.caps-detail__tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #d8ff36;
+  letter-spacing: 0.02em;
+}
+.caps-prompt { color: #d8ff36; margin-right: 8px; font-weight: 700; }
+.caps-line--cmd { font-weight: 600; }
+.caps-cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1em;
+  background: #d8ff36;
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+@media (max-width: 760px) {
+  .caps-module__body { padding: 18px; font-size: 0.78rem; line-height: 1.7; }
+  .caps-line { white-space: normal; word-break: break-all; }
+  .caps-name { white-space: normal; }
+}
+
+/* ---------- FAQ — markdown notebook ---------- */
+.faq-md {
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.faq-md__head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.faq-md__dots { display: flex; gap: 6px; }
+.faq-md__dot { width: 11px; height: 11px; border: 1.5px solid var(--ink); }
+.faq-md__dot--r { background: #ff5f57; }
+.faq-md__dot--y { background: #febc2e; }
+.faq-md__dot--g { background: #28c840; }
+.faq-md__file {
+  margin-left: 6px;
+  font-size: 0.8rem;
+  color: var(--text-soft);
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+.faq-md__file-meta { color: var(--text-dim); font-weight: 500; }
+.faq-md__body {
+  padding: 20px 24px;
+  font-size: 0.95rem;
+}
+.faq-md__item {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.faq-md__item:last-child { border-bottom: none; }
+.faq-md__q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  color: var(--text);
+  font: inherit;
+  font-family: var(--font-mono);
+  text-align: left;
+  cursor: pointer;
+}
+.faq-md__hash {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.faq-md__qid {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.faq-md__sep { color: var(--text-dim); }
+.faq-md__qtext {
+  flex: 1;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.faq-md__toggle {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.faq-md__item.is-open .faq-md__toggle { color: var(--accent); }
+.faq-md__a-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--ease);
+}
+.faq-md__a-inner { overflow: hidden; }
+.faq-md__a {
+  margin: 8px 0 0;
+  padding: 10px 14px 12px;
+  background: var(--bg-2);
+  border-left: 3px solid var(--accent);
+  display: flex;
+  gap: 10px;
+}
+.faq-md__gt {
+  color: var(--accent);
+  font-weight: 800;
+  font-family: var(--font-mono);
+}
+.faq-md__atext {
+  color: var(--text-soft);
+  white-space: pre-line;
+  line-height: 1.7;
+  font-family: var(--font-sans);
+}

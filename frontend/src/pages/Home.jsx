@@ -46,14 +46,15 @@ function Hero() {
         tilt={-6}
         style={{ position: 'absolute', top: '120px', right: '32px', zIndex: 5 }}
       >
-        ★ AVAILABLE NOW ★
+        [ STATUS: AVAILABLE ]
       </Sticker>
       <div className="container-wide hero-full__content">
         <div className="hero-full__text">
           <button type="button" className="avb-chip" onClick={openChannelTalk}>
             <span className="avb-dot" />
-            이번 달 1건 신규 의뢰 접수 가능
-            <span className="avb-chip-hint">· 평일 24시간 내 답변</span>
+            <span className="avb-chip-tag">[INFO]</span>
+            availability: 1 slot
+            <span className="avb-chip-hint">· response ~1h</span>
           </button>
           <h1 className="hero-full__title">
             <span translate="no">{profile.brand}</span>
@@ -156,7 +157,7 @@ function Intro() {
         tilt={4}
         style={{ position: 'absolute', bottom: 30, right: 28, zIndex: 2 }}
       >
-        ★ 1H REPLY ★
+        [ REPLY: ~1H ]
       </Sticker>
       <div className="container-wide intro-grid">
         <Reveal className="intro-left">
@@ -270,36 +271,52 @@ function WhyFullstack() {
           desc={'아임웹, Wix 같은 빌더는 간편하지만 한계가 명확합니다.\n비즈니스가 성장할수록 커스텀 개발의 가치가 빛납니다.'}
           center
         />
-        <Reveal className="compare-table">
-          <div className="compare-head">
-            <div className="compare-cell compare-cell--feature" />
-            <div className="compare-cell compare-cell--builder">
-              <span className="compare-tag compare-tag--gray">빌더 서비스</span>
-              <h3>아임웹 / Wix</h3>
+        <Reveal className="diff-terminal">
+          <div className="diff-terminal__head">
+            <span className="diff-terminal__dots">
+              <span className="diff-terminal__dot diff-terminal__dot--r" />
+              <span className="diff-terminal__dot diff-terminal__dot--y" />
+              <span className="diff-terminal__dot diff-terminal__dot--g" />
+            </span>
+            <span className="diff-terminal__file mono">builders...nongdev.diff</span>
+          </div>
+          <div className="diff-terminal__body mono">
+            <div className="diff-line diff-line--cmd">
+              <span className="diff-prompt">$</span> git diff builders...nongdev
             </div>
-            <div className="compare-cell compare-cell--custom">
-              <span className="compare-tag compare-tag--brand" translate="no">nongdev</span>
-              <h3>풀스택 개발</h3>
-              <span className="compare-recommended">RECOMMENDED</span>
+            <div className="diff-spacer" />
+            <div className="diff-line diff-line--header">
+              <span className="diff-meta-old">--- a/builders</span>
+            </div>
+            <div className="diff-line diff-line--header">
+              <span className="diff-meta-new">+++ b/nongdev</span>
+            </div>
+            <div className="diff-spacer" />
+            {compareRows.map((row, i) => {
+              const isTradeoff = row.builder.good && !row.custom.good
+              return (
+                <Reveal as="div" key={row.feature} className="diff-block" delay={i * 50}>
+                  <div className="diff-line diff-line--hunk">
+                    @@ {row.feature} @@{isTradeoff && <span className="diff-tradeoff"> ⚠ trade-off</span>}
+                  </div>
+                  <div className="diff-line diff-line--del">
+                    <span className="diff-sign">-</span> {row.builder.text}
+                  </div>
+                  <div className="diff-line diff-line--add">
+                    <span className="diff-sign">+</span> {row.custom.text}
+                  </div>
+                </Reveal>
+              )
+            })}
+            <div className="diff-spacer" />
+            <div className="diff-line diff-line--ok">
+              ✓ 8 features · 7 improvements · 1 trade-off
+            </div>
+            <div className="diff-line diff-line--cmd">
+              <span className="diff-prompt">$</span>
+              <span className="diff-cursor" />
             </div>
           </div>
-          {compareRows.map((row) => (
-            <div className="compare-row" key={row.feature}>
-              <div className="compare-cell compare-cell--feature">{row.feature}</div>
-              <div className="compare-cell">
-                <span className={`compare-mark compare-mark--${row.builder.good ? 'good' : 'bad'}`}>
-                  {row.builder.good ? '✓' : '✕'}
-                </span>
-                <span className="compare-text">{row.builder.text}</span>
-              </div>
-              <div className={`compare-cell${row.custom.good ? ' compare-cell--winner' : ''}`}>
-                <span className={`compare-mark compare-mark--${row.custom.good ? 'good' : 'bad'}`}>
-                  {row.custom.good ? '✓' : '✕'}
-                </span>
-                <span className="compare-text">{row.custom.text}</span>
-              </div>
-            </div>
-          ))}
         </Reveal>
 
         <div className="why-benefits">
@@ -370,6 +387,10 @@ function ProcessSection() {
 }
 
 function Capabilities() {
+  const [openIdx, setOpenIdx] = useState(null)
+  const maxLen = Math.max(...capabilities.map((c) => c.module.length))
+  const padModule = (m) => m + ' '.repeat(maxLen - m.length)
+
   return (
     <section id="capabilities" className="section caps-section">
       <SectionNum num="05" />
@@ -377,22 +398,58 @@ function Capabilities() {
         <SectionHeader
           label="WHAT I CAN BUILD"
           title={'이런 기능들,\n다 만들어드릴 수 있어요'}
-          desc={'복잡한 기술 용어 대신, 사용자가 실제로 쓰는 모습으로 설명드려요.\n어떤 게 필요한지 모르시겠으면 1:1 상담에서 같이 정해드립니다.'}
+          desc={'각 줄을 클릭하면 자세한 설명과 사용 가능한 기술 스택이 펼쳐져요.'}
         />
-        <div className="caps-grid">
-          {capabilities.map((c, i) => (
-            <Reveal as="article" key={c.title} className="caps-card" delay={(i % 3) * 70}>
-              <div className="caps-card-icon"><Icon name={c.icon} /></div>
-              <h3 className="caps-card-title">{c.title}</h3>
-              <p className="caps-card-desc">{c.desc}</p>
-              <ul className="caps-card-tags">
-                {c.tags.map((t) => (
-                  <li key={t} className="caps-card-tag">{t}</li>
-                ))}
-              </ul>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="caps-module">
+          <div className="caps-module__head">
+            <span className="caps-module__dots">
+              <span className="caps-module__dot caps-module__dot--r" />
+              <span className="caps-module__dot caps-module__dot--y" />
+              <span className="caps-module__dot caps-module__dot--g" />
+            </span>
+            <span className="caps-module__file mono">src/capabilities/index.ts</span>
+          </div>
+          <div className="caps-module__body mono">
+            <div className="caps-line caps-line--com">// {capabilities.length} modules · 0 hidden dependencies</div>
+            <div className="caps-spacer" />
+            {capabilities.map((c, i) => {
+              const isOpen = openIdx === i
+              return (
+                <div key={c.title} className={`caps-block${isOpen ? ' is-open' : ''}`}>
+                  <button
+                    type="button"
+                    className="caps-line caps-line--export"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpenIdx(isOpen ? null : i)}
+                  >
+                    <span className="caps-kw">export</span>{' '}
+                    <span className="caps-brace">{'{'}</span>{' '}
+                    <span className="caps-name">{padModule(c.module)}</span>{' '}
+                    <span className="caps-brace">{'}'}</span>{' '}
+                    <span className="caps-kw">from</span>{' '}
+                    <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
+                    <span className="caps-com">// {c.title}</span>
+                  </button>
+                  <div className="caps-detail" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
+                    <div className="caps-detail__inner">
+                      <p className="caps-detail__desc">→ {c.desc}</p>
+                      <div className="caps-detail__tags">
+                        {c.tags.map((t) => (
+                          <span key={t} className="caps-detail__tag">[{t}]</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+            <div className="caps-spacer" />
+            <div className="caps-line caps-line--cmd">
+              <span className="caps-prompt">$</span>
+              <span className="caps-cursor" />
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -483,7 +540,7 @@ function Trust() {
         tilt={-5}
         style={{ position: 'absolute', top: 30, right: 28, zIndex: 2 }}
       >
-        ★ NO HIDDEN COSTS ★
+        [ COSTS: NO HIDDEN ]
       </Sticker>
       <div className="trust-grid-bg" aria-hidden="true" />
       <div className="container-wide">
