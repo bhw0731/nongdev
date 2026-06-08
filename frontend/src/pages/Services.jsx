@@ -65,11 +65,13 @@ function TierCard({ svc, delay = 0 }) {
 
           <div className="tier-card__price-block">
             <div className="tier-card__price mono">{fmt(total)}원</div>
-            {optionsTotal > 0 && (
-              <div className="tier-card__price-breakdown mono">
-                base {fmt(svc.basePrice)} <span>+</span> 옵션 {fmt(optionsTotal)}
-              </div>
-            )}
+            <div
+              className="tier-card__price-breakdown mono"
+              style={{ visibility: optionsTotal > 0 ? 'visible' : 'hidden' }}
+              aria-hidden={optionsTotal === 0}
+            >
+              base {fmt(svc.basePrice)} <span>+</span> 옵션 {fmt(optionsTotal)}
+            </div>
           </div>
 
           <p className="tier-card__desc">{svc.desc}</p>
