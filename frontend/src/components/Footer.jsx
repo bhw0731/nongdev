@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom'
 
 const cols = [
   {
-    title: 'SERVICES',
+    title: 'PACKAGES',
     links: [
-      { label: '랜딩 페이지', to: '/services#svc-landing' },
-      { label: '기업 홈페이지', to: '/services#svc-business' },
-      { label: '웹 애플리케이션', to: '/services#svc-webapp' },
-      { label: '쇼핑몰 구축', to: '/services#svc-ecommerce' },
+      { label: 'STANDARD · 랜딩페이지', to: '/services#svc-standard' },
+      { label: 'DELUXE · 웹 리뉴얼', to: '/services#svc-deluxe' },
+      { label: 'PREMIUM · 풀스택', to: '/services#svc-premium' },
+      { label: '전체 보기', to: '/services' },
     ],
   },
   {

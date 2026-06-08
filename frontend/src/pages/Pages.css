@@ -518,3 +518,226 @@
   color: var(--text-dim);
   letter-spacing: 0.02em;
 }
+
+/* =====================================================
+   TIER PACKAGE CARDS — Services page (Kmong 3 packages)
+   ===================================================== */
+
+.tier-cmd {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+}
+.tier-cmd__prompt { color: var(--accent); font-weight: 700; }
+.tier-cmd__cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: blink 1s steps(1) infinite;
+}
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+@media (max-width: 980px) {
+  .tier-grid { grid-template-columns: 1fr; max-width: 540px; margin: 0 auto; }
+}
+
+.tier-card {
+  display: flex;
+  flex-direction: column;
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: visible;
+  position: relative;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+.tier-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.tier-card--reco {
+  border-color: var(--accent);
+  box-shadow: 5px 5px 0 var(--accent);
+}
+.tier-card--reco:hover {
+  box-shadow: 8px 8px 0 var(--accent);
+}
+
+.tier-card__ribbon {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: var(--bd) solid var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+/* head bar (terminal-like) */
+.tier-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--ink);
+  color: var(--bg);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.tier-card__dots { display: flex; gap: 6px; }
+.tier-card__dot { width: 10px; height: 10px; border: 1.5px solid var(--bg); }
+.tier-card__dot--r { background: #ff5f57; }
+.tier-card__dot--y { background: #febc2e; }
+.tier-card__dot--g { background: #28c840; }
+.tier-card__file { font-size: 0.78rem; margin-left: 4px; letter-spacing: 0.02em; }
+
+.tier-card__body {
+  padding: 24px 22px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tier-card__tier {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+.tier-card--reco .tier-card__tier { color: var(--accent); }
+
+.tier-card__name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-top: -4px;
+}
+
+.tier-card__icon {
+  position: absolute;
+  top: 56px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border: var(--bd) solid var(--ink);
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.tier-card__price {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.tier-card__desc {
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+  min-height: 60px;
+}
+
+.tier-card__divider {
+  height: 0;
+  border-top: 1px dashed var(--border);
+}
+
+.tier-card__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tier-card__section-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+.tier-card__features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tier-card__feat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+.tier-card__feat-mark {
+  width: 16px;
+  flex: 0 0 16px;
+  text-align: center;
+  font-weight: 800;
+}
+.tier-card__feat.is-yes .tier-card__feat-mark { color: #28c840; }
+.tier-card__feat.is-no {
+  color: var(--text-dim);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.tier-card__feat.is-no .tier-card__feat-mark { color: #ff5f57; text-decoration: none; }
+
+.tier-card__specs {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 14px;
+  font-size: 0.85rem;
+}
+.tier-card__spec {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+.tier-card__spec dt {
+  color: var(--text-dim);
+}
+.tier-card__spec dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tier-card__cta {
+  margin: 0;
+  border-radius: 0;
+  border-top: var(--bd) solid var(--ink);
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.tier-note {
+  text-align: center;
+  margin: 28px 0 0;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}

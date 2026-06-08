@@ -247,7 +247,7 @@ function ServicesPreview() {
             })}
             <div className="svc-spacer" />
             <div className="svc-line svc-line--ok">
-              + added 6 packages, 0 vulnerabilities found
+              + added {services.length} packages, 0 vulnerabilities found
             </div>
             <div className="svc-line svc-line--cmd">
               <span className="svc-prompt">$</span>
