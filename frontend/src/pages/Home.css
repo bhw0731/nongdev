@@ -1238,7 +1238,27 @@
 .caps-ide__lineno {
   font-variant-numeric: tabular-nums;
   font-size: 0.8rem;
+  transition: color 0.15s ease;
 }
+.caps-ide__lineno.is-active { color: #d8ff36; }
+
+/* live-typing visibility + blinking caret */
+.caps-ide .caps-block { visibility: hidden; }
+.caps-ide .caps-block.is-revealed { visibility: visible; }
+.caps-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #d8ff36;
+  margin-left: 2px;
+  vertical-align: -2px;
+  animation: capsCaret 1s steps(1) infinite;
+}
+@keyframes capsCaret {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.caps-line--caret { padding-left: 0; min-height: 1em; }
 .caps-ide__code {
   padding: 14px 18px;
   color: #d4d4d4;

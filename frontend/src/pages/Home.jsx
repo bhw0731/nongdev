@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Reveal from '../components/Reveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
@@ -413,9 +413,18 @@ function ProcessSection() {
 
 function Capabilities() {
   const [openIdx, setOpenIdx] = useState(null)
-  const maxLen = Math.max(...capabilities.map((c) => c.module.length))
+  const [comment, setComment] = useState('')
+  const [revealCount, setRevealCount] = useState(0)
+  const [phase, setPhase] = useState('idle')
+  const [userInteracted, setUserInteracted] = useState(false)
+  const sectionRef = useRef(null)
+
+  const maxLen = useMemo(() => Math.max(...capabilities.map((c) => c.module.length)), [])
   const padModule = (m) => m + ' '.repeat(maxLen - m.length)
-  // 각 캡 항목이 차지하는 줄 수: 헤더(// 9 modules) 1줄 + 공백 1줄 + 항목당 1줄 + 펼침 시 추가
+  const headerComment = useMemo(
+    () => `// ${capabilities.length} modules · 0 hidden dependencies`,
+    [],
+  )
   const lineNumbers = useMemo(() => {
     const arr = []
     arr.push('1', '2')
@@ -424,8 +433,75 @@ function Capabilities() {
     return arr
   }, [])
 
+  // start typing when section scrolls into view
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setPhase((p) => (p === 'idle' ? 'comment' : p))
+          }
+        })
+      },
+      { threshold: 0.15 },
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  // phase: comment — type char-by-char
+  useEffect(() => {
+    if (phase !== 'comment') return
+    if (comment.length < headerComment.length) {
+      const t = setTimeout(() => {
+        setComment(headerComment.slice(0, comment.length + 1))
+      }, 22)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(() => setPhase('exports'), 220)
+    return () => clearTimeout(t)
+  }, [phase, comment, headerComment])
+
+  // phase: exports — reveal line-by-line
+  useEffect(() => {
+    if (phase !== 'exports') return
+    if (revealCount < capabilities.length) {
+      const t = setTimeout(() => setRevealCount((c) => c + 1), 130)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(() => setPhase('browse'), 350)
+    return () => clearTimeout(t)
+  }, [phase, revealCount])
+
+  // demo auto-click — open Payment row once (only if user hasn't clicked yet)
+  useEffect(() => {
+    if (phase !== 'browse' || userInteracted) return
+    const t = setTimeout(() => {
+      setOpenIdx((cur) => (cur === null ? 1 : cur))
+    }, 700)
+    return () => clearTimeout(t)
+  }, [phase, userInteracted])
+
+  const handleLineClick = (i) => {
+    setUserInteracted(true)
+    setOpenIdx(openIdx === i ? null : i)
+  }
+
+  // status bar position
+  let statusLine = 1
+  let statusCol = 1
+  if (phase === 'comment') {
+    statusCol = Math.max(1, comment.length + 1)
+  } else if (phase === 'exports') {
+    statusLine = 2 + Math.max(1, revealCount)
+  } else if (phase !== 'idle') {
+    statusLine = capabilities.length + 3
+  }
+
   return (
-    <section id="capabilities" className="section caps-section">
+    <section id="capabilities" className="section caps-section" ref={sectionRef}>
       <SectionNum num="05" />
       <div className="container-wide">
         <SectionHeader
@@ -462,21 +538,37 @@ function Capabilities() {
           <div className="caps-ide__editor">
             <div className="caps-ide__gutter mono" aria-hidden="true">
               {lineNumbers.map((n, idx) => (
-                <span key={idx} className="caps-ide__lineno">{n}</span>
+                <span
+                  key={idx}
+                  className={`caps-ide__lineno${parseInt(n, 10) === statusLine ? ' is-active' : ''}`}
+                >
+                  {n}
+                </span>
               ))}
             </div>
             <div className="caps-ide__code mono">
-              <div className="caps-line caps-line--com">// {capabilities.length} modules · 0 hidden dependencies</div>
+              <div className="caps-line caps-line--com">
+                {comment || ' '}
+                {phase === 'comment' && <span className="caps-caret" aria-hidden="true" />}
+              </div>
               <div className="caps-spacer" />
               {capabilities.map((c, i) => {
+                const isRevealed =
+                  (phase === 'exports' && i < revealCount) ||
+                  phase === 'browse' ||
+                  phase === 'done'
+                const showCaretHere = phase === 'exports' && i === revealCount - 1
                 const isOpen = openIdx === i
                 return (
-                  <div key={c.title} className={`caps-block${isOpen ? ' is-open' : ''}`}>
+                  <div
+                    key={c.title}
+                    className={`caps-block${isOpen ? ' is-open' : ''}${isRevealed ? ' is-revealed' : ''}`}
+                  >
                     <button
                       type="button"
                       className="caps-line caps-line--export"
                       aria-expanded={isOpen}
-                      onClick={() => setOpenIdx(isOpen ? null : i)}
+                      onClick={() => handleLineClick(i)}
                     >
                       <span className="caps-kw">export</span>{' '}
                       <span className="caps-brace">{'{'}</span>{' '}
@@ -485,6 +577,7 @@ function Capabilities() {
                       <span className="caps-kw">from</span>{' '}
                       <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
                       <span className="caps-com">// {c.title}</span>
+                      {showCaretHere && <span className="caps-caret" aria-hidden="true" />}
                     </button>
                     <div className="caps-detail" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
                       <div className="caps-detail__inner">
@@ -500,6 +593,11 @@ function Capabilities() {
                 )
               })}
               <div className="caps-spacer" />
+              {(phase === 'browse' || phase === 'done') && (
+                <div className="caps-line caps-line--caret">
+                  <span className="caps-caret" aria-hidden="true" />
+                </div>
+              )}
             </div>
           </div>
           {/* status bar */}
@@ -509,7 +607,7 @@ function Capabilities() {
               <span className="caps-ide__status-item">⚙ 0 errors · 0 warnings</span>
             </span>
             <span className="caps-ide__status-right">
-              <span className="caps-ide__status-item">Ln {capabilities.length + 2}, Col 1</span>
+              <span className="caps-ide__status-item">Ln {statusLine}, Col {statusCol}</span>
               <span className="caps-ide__status-item">UTF-8</span>
               <span className="caps-ide__status-item">TypeScript</span>
             </span>
