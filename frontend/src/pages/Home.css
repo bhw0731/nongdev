@@ -1591,13 +1591,12 @@
 
 /* ---------- WHY FULL-STACK — split-vendor vs single-owner ---------- */
 .fs-compare {
-  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
   max-width: 1080px;
   margin: 0 auto;
-  align-items: stretch;
+  align-items: start;
 }
 .fs-col {
   border: var(--bd) solid var(--ink);
@@ -1607,34 +1606,33 @@
   flex-direction: column;
   overflow: hidden;
 }
-.fs-col--bad { background: #f3eee2; }
-:root[data-theme='dark'] .fs-col--bad { background: #25221c; }
+.fs-col--bad { background: #fff8ee; }
+:root[data-theme='dark'] .fs-col--bad { background: #2a221a; }
 .fs-col--good {
-  background: linear-gradient(180deg, var(--surface) 0%, rgba(216, 255, 54, 0.05) 100%);
-  border-color: var(--ink);
+  background: linear-gradient(180deg, var(--surface) 0%, rgba(216, 255, 54, 0.04) 100%);
+  border-color: var(--accent-ink);
 }
 
 .fs-col__head {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 18px 20px;
+  padding: 16px 18px;
   border-bottom: var(--bd) solid var(--ink);
-  min-height: 78px;
 }
-.fs-col--bad .fs-col__head { background: #e7decd; }
-:root[data-theme='dark'] .fs-col--bad .fs-col__head { background: #332e25; }
+.fs-col--bad .fs-col__head { background: #ffeed4; }
+:root[data-theme='dark'] .fs-col--bad .fs-col__head { background: #3a2d1f; }
 .fs-col--good .fs-col__head { background: var(--accent); color: var(--accent-ink); }
 .fs-col__mark {
-  width: 34px; height: 34px;
+  width: 32px; height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   border: 2px solid var(--ink);
 }
-.fs-col--bad .fs-col__mark { background: #c43e1f; color: #fff; }
+.fs-col--bad .fs-col__mark { background: #ff7a45; color: #fff; }
 .fs-col--good .fs-col__mark { background: var(--ink); color: var(--accent); }
 .fs-col__title { font-size: 1.05rem; font-weight: 800; }
 .fs-col__sub {
@@ -1645,44 +1643,20 @@
 }
 .fs-col--good .fs-col__sub { color: var(--accent-ink); opacity: 0.72; }
 
-/* VS badge floating between columns */
-.fs-vs {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 5;
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: var(--accent);
-  border: 3px solid var(--accent);
-  box-shadow: 4px 4px 0 var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 1.1rem;
-  letter-spacing: 0.08em;
-  transform: translate(-50%, -50%) rotate(-8deg);
-}
-@media (max-width: 760px) { .fs-vs { display: none; } }
-
 /* chat (left) */
 .fs-chat {
   display: flex;
   flex-direction: column;
-  padding: 0 20px 20px;
-  flex: 1;
-  min-height: 410px;
+  padding: 0 18px 18px;
 }
 .fs-chat__topbar {
   font-size: 0.78rem;
   color: var(--text-dim);
   padding: 14px 0 12px;
   border-bottom: 1px dashed var(--border);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-.fs-chat__topbar-icon { color: #c43e1f; font-weight: 800; margin-right: 4px; }
+.fs-chat__topbar-icon { color: #ff7a45; font-weight: 800; margin-right: 4px; }
 .fs-chat__list {
   list-style: none;
   margin: 0;
@@ -1745,7 +1719,7 @@
   font-size: 0.72rem;
 }
 .fs-chat__role { font-weight: 800; color: var(--ink); font-size: 0.8rem; }
-.fs-chat__tag { color: #a04020; }
+.fs-chat__tag { color: #c46430; }
 .fs-chat__msg {
   font-size: 0.86rem;
   color: var(--text-soft);
@@ -1776,11 +1750,9 @@
 .fs-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 22px 20px;
+  gap: 10px;
+  padding: 18px;
   position: relative;
-  flex: 1;
-  min-height: 410px;
 }
 .fs-stack::before {
   content: '';
@@ -1802,7 +1774,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 17px 18px;
+  padding: 14px 16px;
   background: var(--bg);
   border: var(--bd) solid var(--ink);
   box-shadow: var(--shadow-sm);
@@ -1870,8 +1842,8 @@
   font-size: 1rem;
   font-weight: 800;
 }
-.fs-stat--bad .fs-stat__row dd { color: #a04020; }
-.fs-stat--good { background: rgba(216, 255, 54, 0.15); }
+.fs-stat--bad .fs-stat__row dd { color: #c44a1f; }
+.fs-stat--good { background: rgba(216, 255, 54, 0.12); }
 .fs-stat--good .fs-stat__row dd { color: var(--ink); }
 :root[data-theme='dark'] .fs-stat--good .fs-stat__row dd { color: var(--accent); }
 

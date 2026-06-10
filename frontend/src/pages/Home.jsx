@@ -529,7 +529,6 @@ function WhyFullstack() {
           center
         />
         <div className="fs-compare">
-          <span className="fs-vs mono" aria-hidden="true">VS</span>
           {/* LEFT — 외주 분업의 혼란 */}
           <Reveal as="div" className="fs-col fs-col--bad">
             <div className="fs-col__head">
