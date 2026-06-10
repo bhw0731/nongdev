@@ -148,6 +148,233 @@ function Marquee() {
   )
 }
 
+const TERM_INITIAL = [
+  { type: 'out', text: 'nongdev terminal — v1.0' },
+  { type: 'out', text: 'Type "help" to see what you can do.' },
+  { type: 'spacer' },
+]
+
+function IntroTerminal() {
+  const [history, setHistory] = useState(TERM_INITIAL)
+  const [input, setInput] = useState('')
+  const [cmds, setCmds] = useState([])
+  const [cmdIdx, setCmdIdx] = useState(-1)
+  const bodyRef = useRef(null)
+  const inputRef = useRef(null)
+
+  const append = (entries) => setHistory((h) => [...h, ...entries])
+
+  const runCommand = (raw) => {
+    const trimmed = raw.trim()
+    const cmd = trimmed.toLowerCase()
+    if (trimmed) {
+      setCmds((c) => [...c, trimmed])
+    }
+    setCmdIdx(-1)
+
+    if (!trimmed) {
+      append([{ type: 'cmd', text: '' }])
+      return
+    }
+    if (cmd === 'clear' || cmd === 'cls') {
+      setHistory([])
+      return
+    }
+
+    const cmdRow = { type: 'cmd', text: trimmed }
+    let output
+
+    switch (cmd) {
+      case 'help':
+        output = [
+          'Available commands:',
+          '  help              사용 가능한 명령어',
+          '  whoami            nongdev 소개',
+          '  services          제공 서비스 + 가격',
+          '  portfolio         최근 프로젝트 목록',
+          '  stack             사용 기술 스택',
+          '  contact           1:1 상담 시작 (ChannelTalk)',
+          '  ls                파일 목록',
+          '  cat readme.md     README 보기',
+          '  clear             터미널 비우기',
+          '',
+          'tip: ↑/↓ 화살표로 이전 명령어 불러오기',
+        ].join('\n')
+        break
+      case 'whoami':
+      case 'about':
+        output = [
+          'nongdev — 1인 풀스택 개발 스튜디오',
+          '2022 — NOW · 외주 50건+ 진행',
+          '',
+          profile.introDesc,
+        ].join('\n')
+        break
+      case 'services':
+      case 'pricing':
+        output = [
+          'TIER       PRICE      DELIVERY   DESCRIPTION',
+          '────────── ────────── ────────── ──────────────────────────',
+          ...services.map(
+            (s) =>
+              `${s.tier.padEnd(10)} ₩${String(s.basePrice.toLocaleString('ko-KR')).padEnd(9)} ${s.period.padEnd(10)} ${s.ko}`,
+          ),
+          '',
+          '→ 자세히: 상단 [SERVICES] 메뉴',
+        ].join('\n')
+        break
+      case 'portfolio':
+      case 'works':
+        output = [
+          'Recent works:',
+          ...works.slice(0, 5).map(
+            (w, i) => `  ${String(i + 1).padStart(2, '0')}. ${w.name}  —  ${w.category} · ${w.year}`,
+          ),
+          '',
+          '→ 전체 보기: 상단 [PORTFOLIO] 메뉴',
+        ].join('\n')
+        break
+      case 'stack':
+      case 'tech':
+        output = [
+          'Tech stack:',
+          ...profile.skills.map((g) => `  ${g.group.padEnd(10)} ${g.items.join(' · ')}`),
+        ].join('\n')
+        break
+      case 'contact':
+      case 'chat':
+        openChannelTalk()
+        output = 'Opening ChannelTalk...\n→ 평균 응답시간 ~1시간'
+        break
+      case 'ls':
+        output = 'README.md   services/    portfolio/   about.md\nstack.json  contact.sh   .secrets'
+        break
+      case 'cat readme.md':
+      case 'cat readme':
+      case 'readme':
+        output = [
+          '# nongdev',
+          '',
+          '1인 풀스택 개발 스튜디오입니다.',
+          '웹·앱·쇼핑몰을 한 사람의 손에서 끝까지 완성합니다.',
+          '',
+          '## Available',
+          '- 신규 작업 1슬롯 · 평균 응답 ~1시간',
+          '',
+          '## Contact',
+          '- ChannelTalk: 우측 하단 채팅',
+          '- 또는 "contact" 명령어를 실행하세요',
+        ].join('\n')
+        break
+      case 'cat .secrets':
+        output = 'permission denied: 그게 보일 리가...'
+        break
+      case 'sudo hire nongdev':
+        openChannelTalk()
+        output = '[sudo] password for nongdev: ********\n✓ Authentication successful.\n→ ChannelTalk으로 채용 협상 시작.'
+        break
+      case 'echo $brand':
+        output = profile.brand
+        break
+      case 'date':
+        output = new Date().toString()
+        break
+      default:
+        output = `nongdev: command not found: ${trimmed}\nType "help" for available commands.`
+    }
+
+    const isErr = output.startsWith('nongdev: command') || output.startsWith('permission')
+    append([cmdRow, { type: isErr ? 'err' : 'out', text: output }, { type: 'spacer' }])
+  }
+
+  const handleKey = (e) => {
+    if (e.key === 'Enter') {
+      runCommand(input)
+      setInput('')
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      if (cmds.length === 0) return
+      const newIdx = cmdIdx === -1 ? cmds.length - 1 : Math.max(0, cmdIdx - 1)
+      setCmdIdx(newIdx)
+      setInput(cmds[newIdx])
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      if (cmdIdx === -1) return
+      const newIdx = cmdIdx + 1
+      if (newIdx >= cmds.length) {
+        setCmdIdx(-1)
+        setInput('')
+      } else {
+        setCmdIdx(newIdx)
+        setInput(cmds[newIdx])
+      }
+    } else if (e.key === 'Tab') {
+      e.preventDefault()
+      const known = ['help', 'whoami', 'services', 'portfolio', 'stack', 'contact', 'ls', 'cat readme.md', 'clear']
+      const match = known.find((k) => k.startsWith(input.toLowerCase()) && k !== input.toLowerCase())
+      if (match) setInput(match)
+    }
+  }
+
+  useEffect(() => {
+    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
+  }, [history])
+
+  return (
+    <div className="intro-term" onClick={() => inputRef.current?.focus()}>
+      <div className="intro-term__head">
+        <span className="intro-term__dots">
+          <span className="intro-term__dot intro-term__dot--r" />
+          <span className="intro-term__dot intro-term__dot--y" />
+          <span className="intro-term__dot intro-term__dot--g" />
+        </span>
+        <span className="intro-term__title mono">guest@nongdev — bash</span>
+      </div>
+      <div className="intro-term__body mono" ref={bodyRef}>
+        {history.map((h, i) => {
+          if (h.type === 'cmd') {
+            return (
+              <div key={i} className="intro-term__row intro-term__row--cmd">
+                <span className="intro-term__prompt">guest@nongdev</span>
+                <span className="intro-term__sep">:</span>
+                <span className="intro-term__path">~</span>
+                <span className="intro-term__dollar">$</span>
+                <span>{h.text}</span>
+              </div>
+            )
+          }
+          if (h.type === 'spacer') return <div key={i} className="intro-term__spacer" />
+          return (
+            <pre
+              key={i}
+              className={`intro-term__row intro-term__row--${h.type === 'err' ? 'err' : 'out'}`}
+            >
+              {h.text}
+            </pre>
+          )
+        })}
+        <div className="intro-term__row intro-term__row--input">
+          <span className="intro-term__prompt">guest@nongdev</span>
+          <span className="intro-term__sep">:</span>
+          <span className="intro-term__path">~</span>
+          <span className="intro-term__dollar">$</span>
+          <input
+            ref={inputRef}
+            className="intro-term__input mono"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKey}
+            spellCheck={false}
+            autoCapitalize="off"
+            autoCorrect="off"
+            aria-label="terminal input"
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Intro() {
   return (
     <section id="intro" className="section intro-section">
@@ -163,6 +390,9 @@ function Intro() {
         <Reveal className="intro-left">
           <h2 className="intro-title">{profile.introTitle}</h2>
           <p className="intro-desc">{profile.introDesc}</p>
+          <p className="intro-tip mono">
+            → 우측 터미널에 직접 입력해보세요. <code>help</code> 로 시작.
+          </p>
           <div className="intro-techs">
             {profile.techs.map((t) => (
               <span key={t} className="intro-tech-badge">{t}</span>
@@ -170,38 +400,7 @@ function Intro() {
           </div>
         </Reveal>
         <Reveal className="intro-right" delay={150}>
-          <div className="intro-image-stack">
-            <div className="intro-img-deco" />
-            <div className="intro-card intro-card--code">
-              <div className="intro-card__head">
-                <span className="intro-card__dots">
-                  <span className="intro-card__dot intro-card__dot--r" />
-                  <span className="intro-card__dot intro-card__dot--y" />
-                  <span className="intro-card__dot intro-card__dot--g" />
-                </span>
-                <span className="intro-card__file">how-we-make.js</span>
-              </div>
-              <pre className="intro-code">
-<span className="tk-com">{`// nongdev 작업 흐름`}</span>
-{`\n`}<span className="tk-key">const</span> <span className="tk-fn">makeProduct</span> = <span className="tk-key">async</span> {`(idea) => {`}
-{`\n  `}<span className="tk-key">const</span> spec   = <span className="tk-fn">research</span>{`(idea)`}
-{`\n  `}<span className="tk-key">const</span> design = <span className="tk-fn">craft</span>{`(spec)`}
-{`\n  `}<span className="tk-key">const</span> app    = <span className="tk-fn">build</span>{`(design)`}
-{`\n  `}<span className="tk-key">return</span> <span className="tk-fn">deploy</span>{`(app)`}
-{`\n}`}
-{`\n\n`}<span className="tk-com">{`// 한 사람의 손에서 끝까지`}</span>
-              </pre>
-            </div>
-            <div className="intro-card intro-card--metric">
-              <span className="intro-metric__label">STATUS</span>
-              <div className="intro-metric__row">
-                <span className="intro-metric__pulse" />
-                ONLINE · 24H
-              </div>
-              <span className="intro-metric__label">RESPONSE</span>
-              <span className="intro-metric__big">≈ 1H</span>
-            </div>
-          </div>
+          <IntroTerminal />
         </Reveal>
       </div>
     </section>
