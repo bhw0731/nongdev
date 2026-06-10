@@ -1669,7 +1669,13 @@
   display: grid;
   grid-template-columns: 36px 1fr;
   gap: 12px;
+  animation: fsRowIn 0.4s ease-out both;
 }
+@keyframes fsRowIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fs-chat__row.is-typing .fs-chat__body { background: var(--bg-2); }
 .fs-chat__avatar {
   width: 36px;
   height: 36px;
@@ -1733,6 +1739,8 @@
 }
 .fs-chat__dots span:nth-child(2) { animation-delay: 0.2s; }
 .fs-chat__dots span:nth-child(3) { animation-delay: 0.4s; }
+.fs-chat__dots--big { margin-left: 0; gap: 5px; }
+.fs-chat__dots--big span { width: 8px; height: 8px; background: var(--ink); }
 @keyframes fsDot {
   0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
   30% { opacity: 1; transform: translateY(-2px); }
@@ -1755,6 +1763,9 @@
   width: 3px;
   background: var(--accent);
   z-index: 0;
+  transform: scaleY(var(--rail-scale, 0));
+  transform-origin: top;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .fs-stack__layer {
   position: relative;
@@ -1767,7 +1778,12 @@
   background: var(--bg);
   border: var(--bd) solid var(--ink);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  animation: fsLayerIn 0.4s ease-out both;
+  transition: box-shadow 0.15s var(--ease), transform 0.15s var(--ease);
+}
+@keyframes fsLayerIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 .fs-stack__layer:hover {
   transform: translate(-2px, -2px);

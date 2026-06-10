@@ -463,8 +463,64 @@ function ServicesPreview() {
 }
 
 function WhyFullstack() {
+  const totalSteps = Math.max(splitFlow.length, fullstackLayers.length)
+  const [step, setStep] = useState(0)
+  const [typingIdx, setTypingIdx] = useState(-1)
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduce) {
+      setStep(totalSteps)
+      setTypingIdx(-1)
+      return
+    }
+    const el = sectionRef.current
+    if (!el) {
+      setStep(totalSteps)
+      return
+    }
+    let cancelled = false
+    let triggered = false
+    let timer
+
+    const playStep = (i) => {
+      if (cancelled || i >= totalSteps) return
+      setTypingIdx(i)
+      timer = setTimeout(() => {
+        if (cancelled) return
+        setTypingIdx(-1)
+        setStep(i + 1)
+        timer = setTimeout(() => playStep(i + 1), 320)
+      }, 480)
+    }
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !triggered) {
+            triggered = true
+            obs.unobserve(el)
+            timer = setTimeout(() => playStep(0), 450)
+          }
+        })
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -50px 0px' },
+    )
+    obs.observe(el)
+    return () => {
+      cancelled = true
+      obs.disconnect()
+      clearTimeout(timer)
+    }
+  }, [totalSteps])
+
+  const railScale = Math.min(1, step / totalSteps)
+
   return (
-    <section id="why" className="section why-section">
+    <section id="why" className="section why-section" ref={sectionRef}>
       <SectionNum num="03" />
       <div className="container-wide">
         <SectionHeader
@@ -487,21 +543,41 @@ function WhyFullstack() {
                 <span className="fs-chat__topbar-icon">#</span> project-channel · 4명
               </div>
               <ul className="fs-chat__list">
-                {splitFlow.map((m, i) => (
-                  <Reveal as="li" key={m.role} className="fs-chat__row" delay={i * 80}>
-                    <span className="fs-chat__avatar" data-r={i}>{m.avatar}</span>
-                    <div className="fs-chat__body">
-                      <div className="fs-chat__meta mono">
-                        <span className="fs-chat__role">{m.role}</span>
-                        <span className="fs-chat__tag">{m.tag}</span>
+                {splitFlow.map((m, i) => {
+                  const shown = i < step
+                  const typing = i === typingIdx
+                  if (!shown && !typing) return null
+                  return (
+                    <li
+                      key={m.role}
+                      className={`fs-chat__row${typing ? ' is-typing' : ''}${shown ? ' is-shown' : ''}`}
+                    >
+                      <span className="fs-chat__avatar" data-r={i}>{m.avatar}</span>
+                      <div className="fs-chat__body">
+                        <div className="fs-chat__meta mono">
+                          <span className="fs-chat__role">{m.role}</span>
+                          <span className="fs-chat__tag">{m.tag}</span>
+                        </div>
+                        <div className="fs-chat__msg">
+                          {typing ? (
+                            <span className="fs-chat__dots fs-chat__dots--big">
+                              <span /><span /><span />
+                            </span>
+                          ) : (
+                            <>
+                              {m.msg}
+                              {m.waiting && (
+                                <span className="fs-chat__dots">
+                                  <span /><span /><span />
+                                </span>
+                              )}
+                            </>
+                          )}
+                        </div>
                       </div>
-                      <div className="fs-chat__msg">
-                        {m.msg}
-                        {m.waiting && <span className="fs-chat__dots"><span /><span /><span /></span>}
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
+                    </li>
+                  )
+                })}
               </ul>
             </div>
             <dl className="fs-stat fs-stat--bad mono">
@@ -523,18 +599,21 @@ function WhyFullstack() {
                 <div className="fs-col__sub mono">nongdev · single owner</div>
               </div>
             </div>
-            <div className="fs-stack">
-              {fullstackLayers.map((l, i) => (
-                <Reveal as="div" key={l.layer} className="fs-stack__layer" delay={i * 80}>
-                  <div className="fs-stack__layer-main">
-                    <span className="fs-stack__layer-name">{l.layer}</span>
-                    <span className="fs-stack__layer-tech mono">{l.tech}</span>
+            <div className="fs-stack" style={{ '--rail-scale': railScale }}>
+              {fullstackLayers.map((l, i) => {
+                if (i >= step) return null
+                return (
+                  <div key={l.layer} className="fs-stack__layer">
+                    <div className="fs-stack__layer-main">
+                      <span className="fs-stack__layer-name">{l.layer}</span>
+                      <span className="fs-stack__layer-tech mono">{l.tech}</span>
+                    </div>
+                    <span className="fs-stack__owner mono">
+                      <span className="fs-stack__owner-check">✓</span> nongdev
+                    </span>
                   </div>
-                  <span className="fs-stack__owner mono">
-                    <span className="fs-stack__owner-check">✓</span> nongdev
-                  </span>
-                </Reveal>
-              ))}
+                )
+              })}
             </div>
             <dl className="fs-stat fs-stat--good mono">
               {fullstackStats.map((s) => (
