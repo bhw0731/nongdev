@@ -358,17 +358,21 @@ function IntroTerminal() {
           <span className="intro-term__sep">:</span>
           <span className="intro-term__path">~</span>
           <span className="intro-term__dollar">$</span>
-          <input
-            ref={inputRef}
-            className="intro-term__input mono"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKey}
-            spellCheck={false}
-            autoCapitalize="off"
-            autoCorrect="off"
-            aria-label="terminal input"
-          />
+          <span className="intro-term__inputbox">
+            <span className="intro-term__typed">{input}</span>
+            <span className="intro-term__caret" aria-hidden="true" />
+            <input
+              ref={inputRef}
+              className="intro-term__input mono"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              spellCheck={false}
+              autoCapitalize="off"
+              autoCorrect="off"
+              aria-label="terminal input"
+            />
+          </span>
         </div>
       </div>
     </div>
