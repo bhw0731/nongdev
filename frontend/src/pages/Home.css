@@ -1329,7 +1329,15 @@
   color: #969696;
   border-right: 1px solid #1e1e1e;
   white-space: nowrap;
+  background: transparent;
+  border-top: 0;
+  border-left: 0;
+  border-bottom: 0;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
 }
+.caps-ide__tab:hover { background: #252525; color: #d4d4d4; }
 .caps-ide__tab.is-active {
   background: #1e1e1e;
   color: #ffffff;
@@ -1426,6 +1434,28 @@
 .caps-ide .caps-block.is-open .caps-line--export { background: rgba(216, 255, 54, 0.1); }
 .caps-ide .caps-detail__desc { color: #cccccc; }
 .caps-ide .caps-detail__tag { color: #d8ff36; }
+
+/* JSON syntax tokens (package.json tab) */
+.caps-ide .jstk-key { color: #9cdcfe; }
+.caps-ide .jstk-str { color: #ce9178; }
+.caps-ide .jstk-num { color: #b5cea8; }
+.caps-ide .jstk-bool { color: #569cd6; }
+
+/* Markdown tokens (README.md tab) */
+.caps-ide .mdtk-h1 { color: #569cd6; font-weight: 800; }
+.caps-ide .mdtk-h2 { color: #9cdcfe; font-weight: 800; }
+.caps-ide .mdtk-h3 { color: #4ec9b0; font-weight: 700; }
+.caps-ide .mdtk-quote { color: #6a9955; font-style: italic; }
+.caps-ide .mdtk-bullet { color: #d8ff36; font-weight: 700; }
+.caps-ide .mdtk-code {
+  background: rgba(216, 255, 54, 0.1);
+  color: #ce9178;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+
+/* plain content wrapper (package / readme tabs) */
+.caps-ide__plain { display: flex; flex-direction: column; }
 
 @media (max-width: 760px) {
   .caps-ide__editor { grid-template-columns: 36px 1fr; min-height: 0; }

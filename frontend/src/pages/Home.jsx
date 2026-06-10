@@ -614,7 +614,160 @@ function ProcessSection() {
   )
 }
 
+const PKG_JSON_LINES = [
+  '{',
+  '  "name": "@nongdev/portfolio",',
+  '  "version": "1.0.0",',
+  '  "description": "1인 풀스택 개발 스튜디오 — 기획부터 배포까지",',
+  '  "author": "nongdev <bhw0731@gmail.com>",',
+  '  "tiers": ["STANDARD", "DELUXE", "PREMIUM"],',
+  '  "scripts": {',
+  '    "consult":   "channeltalk open",',
+  '    "build":     "design + code + deploy",',
+  '    "deliver":   "one developer, end-to-end"',
+  '  },',
+  '  "stack": {',
+  '    "frontend": ["React", "TypeScript", "Next.js"],',
+  '    "backend":  ["Node.js", "Express", "PostgreSQL"],',
+  '    "mobile":   ["React Native", "Flutter"],',
+  '    "infra":    ["Vercel", "AWS", "Docker"]',
+  '  },',
+  '  "availability": "1 slot",',
+  '  "responseTime": "~1h",',
+  '  "license": "MIT"',
+  '}',
+]
+
+const README_LINES = [
+  '# nongdev',
+  '',
+  '> 1인 풀스택 개발 스튜디오',
+  '> 기획부터 배포까지 한 사람의 손에서.',
+  '',
+  '## What I build',
+  '',
+  '- 웹사이트 · 랜딩페이지',
+  '- 쇼핑몰 (커머스)',
+  '- 웹앱 · 관리자 시스템',
+  '- 모바일 앱 (React Native / Flutter)',
+  '',
+  '## Why fullstack',
+  '',
+  '여러 외주를 거치지 않고 한 사람과만 소통하면 됩니다.',
+  '',
+  '- 커뮤니케이션 비용 0',
+  '- 책임 소재 명확',
+  '- 즉시 반영 가능',
+  '- 전체 맥락 이해',
+  '',
+  '## How it works',
+  '',
+  '1. ChannelTalk으로 1:1 상담',
+  '2. 요구사항 정리 (24h 이내)',
+  '3. 패키지 선택 (`STANDARD` / `DELUXE` / `PREMIUM`)',
+  '4. 시안 → 수정 → 최종 전달',
+  '5. 배포 & 안정화',
+  '',
+  '## Contact',
+  '',
+  '- ChannelTalk: 우측 하단 채팅',
+  '- 평균 응답: 1시간 이내',
+]
+
+function tokenizeJson(line) {
+  const tokens = []
+  let i = 0
+  while (i < line.length) {
+    const c = line[i]
+    if (c === '"') {
+      let j = i + 1
+      while (j < line.length) {
+        if (line[j] === '\\') { j += 2; continue }
+        if (line[j] === '"') break
+        j++
+      }
+      const str = line.slice(i, j + 1)
+      let k = j + 1
+      while (k < line.length && /\s/.test(line[k])) k++
+      tokens.push({ type: line[k] === ':' ? 'key' : 'str', value: str })
+      i = j + 1
+    } else if (/\d/.test(c) || (c === '-' && /\d/.test(line[i + 1] || ''))) {
+      let j = i + 1
+      while (j < line.length && /[\d.]/.test(line[j])) j++
+      tokens.push({ type: 'num', value: line.slice(i, j) })
+      i = j
+    } else if (/[a-z]/i.test(c)) {
+      let j = i + 1
+      while (j < line.length && /[a-z]/i.test(line[j])) j++
+      const word = line.slice(i, j)
+      tokens.push({
+        type: (word === 'true' || word === 'false' || word === 'null') ? 'bool' : 'text',
+        value: word,
+      })
+      i = j
+    } else {
+      let j = i + 1
+      while (
+        j < line.length &&
+        line[j] !== '"' &&
+        !/[\da-z]/i.test(line[j]) &&
+        !(line[j] === '-' && /\d/.test(line[j + 1] || ''))
+      ) j++
+      tokens.push({ type: 'text', value: line.slice(i, j) })
+      i = j
+    }
+  }
+  return tokens
+}
+
+function renderJsonLine(line) {
+  if (!line) return ' '
+  return tokenizeJson(line).map((t, i) =>
+    t.type === 'text'
+      ? <span key={i}>{t.value}</span>
+      : <span key={i} className={`jstk-${t.type}`}>{t.value}</span>
+  )
+}
+
+function renderInlineMd(text, keyBase) {
+  const parts = text.split(/(`[^`]+`)/g)
+  return parts.map((p, i) => {
+    const k = `${keyBase}-${i}`
+    if (p.length >= 2 && p.startsWith('`') && p.endsWith('`')) {
+      return <span key={k} className="mdtk-code">{p}</span>
+    }
+    return <span key={k}>{p}</span>
+  })
+}
+
+function renderMarkdownLine(line, idx) {
+  if (!line) return ' '
+  if (line.startsWith('### ')) return <span className="mdtk-h3">{line}</span>
+  if (line.startsWith('## ')) return <span className="mdtk-h2">{line}</span>
+  if (line.startsWith('# ')) return <span className="mdtk-h1">{line}</span>
+  if (line.startsWith('> ')) return <span className="mdtk-quote">{line}</span>
+  if (line.startsWith('- ') || line.startsWith('* ')) {
+    return (
+      <>
+        <span className="mdtk-bullet">{line.slice(0, 2)}</span>
+        {renderInlineMd(line.slice(2), idx)}
+      </>
+    )
+  }
+  const olMatch = line.match(/^(\d+\. )/)
+  if (olMatch) {
+    return (
+      <>
+        <span className="mdtk-bullet">{olMatch[1]}</span>
+        {renderInlineMd(line.slice(olMatch[1].length), idx)}
+      </>
+    )
+  }
+  return renderInlineMd(line, idx)
+}
+
 function Capabilities() {
+  const [activeTab, setActiveTab] = useState('caps')
   const [openIdx, setOpenIdx] = useState(null)
   const [comment, setComment] = useState('')
   const [revealCount, setRevealCount] = useState(0)
@@ -629,12 +782,16 @@ function Capabilities() {
     [],
   )
   const lineNumbers = useMemo(() => {
+    if (activeTab === 'package') return PKG_JSON_LINES.map((_, i) => String(i + 1))
+    if (activeTab === 'readme') return README_LINES.map((_, i) => String(i + 1))
     const arr = []
     arr.push('1', '2')
     capabilities.forEach((_, i) => arr.push(String(i + 3)))
     arr.push(String(capabilities.length + 3), String(capabilities.length + 4))
     return arr
-  }, [])
+  }, [activeTab])
+
+  const TAB_LANG = { caps: 'TypeScript', package: 'JSON', readme: 'Markdown' }
 
   // start typing when IDE enters viewport (with delay so Reveal fade-in completes first)
   useEffect(() => {
@@ -734,12 +891,14 @@ function Capabilities() {
   // status bar position
   let statusLine = 1
   let statusCol = 1
-  if (phase === 'comment') {
-    statusCol = Math.max(1, comment.length + 1)
-  } else if (phase === 'exports') {
-    statusLine = 2 + Math.max(1, revealCount)
-  } else if (phase !== 'idle') {
-    statusLine = capabilities.length + 3
+  if (activeTab === 'caps') {
+    if (phase === 'comment') {
+      statusCol = Math.max(1, comment.length + 1)
+    } else if (phase === 'exports') {
+      statusLine = 2 + Math.max(1, revealCount)
+    } else if (phase !== 'idle') {
+      statusLine = capabilities.length + 3
+    }
   }
 
   return (
@@ -763,19 +922,22 @@ function Capabilities() {
           </div>
           {/* tabs */}
           <div className="caps-ide__tabs mono">
-            <span className="caps-ide__tab is-active">
-              <span className="caps-ide__tab-icon">⚛</span>
-              capabilities.ts
-              <span className="caps-ide__tab-x">×</span>
-            </span>
-            <span className="caps-ide__tab">
-              <span className="caps-ide__tab-icon">📦</span>
-              package.json
-            </span>
-            <span className="caps-ide__tab">
-              <span className="caps-ide__tab-icon">📄</span>
-              README.md
-            </span>
+            {[
+              { id: 'caps', icon: '⚛', name: 'capabilities.ts' },
+              { id: 'package', icon: '📦', name: 'package.json' },
+              { id: 'readme', icon: '📄', name: 'README.md' },
+            ].map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className={`caps-ide__tab${activeTab === t.id ? ' is-active' : ''}`}
+                onClick={() => setActiveTab(t.id)}
+              >
+                <span className="caps-ide__tab-icon">{t.icon}</span>
+                {t.name}
+                {activeTab === t.id && <span className="caps-ide__tab-x" aria-hidden="true">×</span>}
+              </button>
+            ))}
           </div>
           {/* editor area: gutter + code */}
           <div className="caps-ide__editor">
@@ -783,15 +945,17 @@ function Capabilities() {
               {lineNumbers.map((n, idx) => (
                 <span
                   key={idx}
-                  className={`caps-ide__lineno${parseInt(n, 10) === statusLine ? ' is-active' : ''}`}
+                  className={`caps-ide__lineno${activeTab === 'caps' && parseInt(n, 10) === statusLine ? ' is-active' : ''}`}
                 >
                   {n}
                 </span>
               ))}
             </div>
             <div className="caps-ide__code mono">
+              {activeTab === 'caps' && (
+              <>
               <div className="caps-line caps-line--com">
-                {comment || ' '}
+                {comment || ' '}
                 {phase === 'comment' && <span className="caps-caret" aria-hidden="true" />}
               </div>
               <div className="caps-spacer" />
@@ -841,6 +1005,22 @@ function Capabilities() {
                   <span className="caps-caret" aria-hidden="true" />
                 </div>
               )}
+              </>
+              )}
+              {activeTab === 'package' && (
+                <div className="caps-ide__plain">
+                  {PKG_JSON_LINES.map((line, i) => (
+                    <div key={i} className="caps-line">{renderJsonLine(line)}</div>
+                  ))}
+                </div>
+              )}
+              {activeTab === 'readme' && (
+                <div className="caps-ide__plain">
+                  {README_LINES.map((line, i) => (
+                    <div key={i} className="caps-line">{renderMarkdownLine(line, i)}</div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           {/* status bar */}
@@ -852,7 +1032,7 @@ function Capabilities() {
             <span className="caps-ide__status-right">
               <span className="caps-ide__status-item">Ln {statusLine}, Col {statusCol}</span>
               <span className="caps-ide__status-item">UTF-8</span>
-              <span className="caps-ide__status-item">TypeScript</span>
+              <span className="caps-ide__status-item">{TAB_LANG[activeTab]}</span>
             </span>
           </div>
         </Reveal>
