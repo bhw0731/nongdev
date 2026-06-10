@@ -865,7 +865,6 @@
 }
 .tier-card__cbtn:disabled {
   color: var(--text-dim);
-  cursor: not-allowed;
   opacity: 0.5;
 }
 .tier-card__cval {

@@ -14,12 +14,14 @@
 .reading-progress__bar { height: 100%; background: var(--accent); }
 
 /* ---------- cursor fx (desktop only, square) ---------- */
+/* Fortress rule: on fine pointer devices, ZERO native cursor leaks.
+   The custom lime square is the only cursor that may ever appear.
+   `!important` on the universal selector defeats any explicit
+   `cursor:` declaration anywhere else in the codebase. */
 .cursor-fx { display: none; }
 @media (pointer: fine) {
   .cursor-fx { display: block; }
-  body { cursor: none; }
-  a, button, input, textarea, select, [role='button'] { cursor: none; }
-  input, textarea { cursor: text; }
+  *, *::before, *::after { cursor: none !important; }
 
   .cursor-dot, .cursor-ring {
     position: fixed; top: 0; left: 0;
