@@ -846,11 +846,9 @@ function renderMarkdownLine(line, idx) {
 
 function Capabilities() {
   const [activeTab, setActiveTab] = useState('caps')
-  const [openIdx, setOpenIdx] = useState(null)
   const [comment, setComment] = useState('')
   const [revealCount, setRevealCount] = useState(0)
   const [phase, setPhase] = useState('idle')
-  const [userInteracted, setUserInteracted] = useState(false)
   const sectionRef = useRef(null)
 
   const maxLen = useMemo(() => Math.max(...capabilities.map((c) => c.module.length)), [])
@@ -862,10 +860,16 @@ function Capabilities() {
   const lineNumbers = useMemo(() => {
     if (activeTab === 'package') return PKG_JSON_LINES.map((_, i) => String(i + 1))
     if (activeTab === 'readme') return README_LINES.map((_, i) => String(i + 1))
-    const arr = []
-    arr.push('1', '2')
-    capabilities.forEach((_, i) => arr.push(String(i + 3)))
-    arr.push(String(capabilities.length + 3), String(capabilities.length + 4))
+    const arr = ['1', '2']
+    let n = 3
+    capabilities.forEach(() => {
+      arr.push(String(n)); n++  // export line
+      arr.push(String(n)); n++  // desc-area row 1 (top padding)
+      arr.push(String(n)); n++  // desc-area row 2 (desc text)
+      arr.push(String(n)); n++  // desc-area row 3 (tags + bottom padding)
+    })
+    arr.push(String(n)); n++  // bottom spacer
+    arr.push(String(n))       // caret
     return arr
   }, [activeTab])
 
@@ -952,30 +956,20 @@ function Capabilities() {
     }
   }, [phase])
 
-  // demo auto-click — open Payment row once (only if user hasn't clicked yet)
-  useEffect(() => {
-    if (phase !== 'browse' || userInteracted) return
-    const t = setTimeout(() => {
-      setOpenIdx((cur) => (cur === null ? 1 : cur))
-    }, 700)
-    return () => clearTimeout(t)
-  }, [phase, userInteracted])
-
-  const handleLineClick = (i) => {
-    setUserInteracted(true)
-    setOpenIdx(openIdx === i ? null : i)
-  }
-
   // status bar position
+  //   gutter layout: 1 comment + 1 spacer + N×(export + 3 desc) + 1 spacer + 1 caret
+  //   last revealed export sits at line  3 + (revealCount - 1) × 4
+  //   caret sits at line                 2 + N × 4 + 2
   let statusLine = 1
   let statusCol = 1
   if (activeTab === 'caps') {
     if (phase === 'comment') {
       statusCol = Math.max(1, comment.length + 1)
     } else if (phase === 'exports') {
-      statusLine = 2 + Math.max(1, revealCount)
+      const n = Math.max(1, revealCount)
+      statusLine = 4 * n - 1
     } else if (phase !== 'idle') {
-      statusLine = capabilities.length + 4
+      statusLine = 2 + capabilities.length * 4 + 2
     }
   }
 
@@ -1043,18 +1037,12 @@ function Capabilities() {
                   phase === 'browse' ||
                   phase === 'done'
                 const showCaretHere = phase === 'exports' && i === revealCount - 1
-                const isOpen = openIdx === i
                 return (
                   <div
                     key={c.title}
-                    className={`caps-block${isOpen ? ' is-open' : ''}${isRevealed ? ' is-revealed' : ''}`}
+                    className={`caps-block is-open${isRevealed ? ' is-revealed' : ''}`}
                   >
-                    <button
-                      type="button"
-                      className="caps-line caps-line--export"
-                      aria-expanded={isOpen}
-                      onClick={() => handleLineClick(i)}
-                    >
+                    <div className="caps-line caps-line--export">
                       <span className="caps-kw">export</span>{' '}
                       <span className="caps-brace">{'{'}</span>{' '}
                       <span className="caps-name">{padModule(c.module)}</span>{' '}
@@ -1063,8 +1051,8 @@ function Capabilities() {
                       <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
                       <span className="caps-com">// {c.title}</span>
                       {showCaretHere && <span className="caps-caret" aria-hidden="true" />}
-                    </button>
-                    <div className="caps-detail" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
+                    </div>
+                    <div className="caps-detail" style={{ gridTemplateRows: '1fr' }}>
                       <div className="caps-detail__inner">
                         <p className="caps-detail__desc">→ {c.desc}</p>
                         <div className="caps-detail__tags">
