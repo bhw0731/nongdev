@@ -13,7 +13,6 @@ import useDocumentMeta from '../hooks/useDocumentMeta.js'
 import { openChannelTalk } from '../lib/channeltalk.js'
 import { profile } from '../data/profile.js'
 import { services } from '../data/services.js'
-import { capabilities } from '../data/capabilities.js'
 import { process } from '../data/process.js'
 import { splitFlow, splitStats, fullstackLayers, fullstackStats, benefits } from '../data/whyFullstack.js'
 import { faq } from '../data/faq.js'
@@ -697,514 +696,293 @@ function ProcessSection() {
   )
 }
 
-const PKG_JSON_LINES = [
-  '{',
-  '  "name": "@nongdev/portfolio",',
-  '  "version": "1.0.0",',
-  '  "description": "1인 풀스택 개발 스튜디오 — 기획부터 배포까지",',
-  '  "author": "nongdev <bhw0731@gmail.com>",',
-  '  "tiers": ["STANDARD", "DELUXE", "PREMIUM"],',
-  '  "scripts": {',
-  '    "consult":   "channeltalk open",',
-  '    "build":     "design + code + deploy",',
-  '    "deliver":   "one developer, end-to-end"',
-  '  },',
-  '  "stack": {',
-  '    "frontend": ["React", "TypeScript", "Next.js"],',
-  '    "backend":  ["Node.js", "Express", "PostgreSQL"],',
-  '    "mobile":   ["React Native", "Flutter"],',
-  '    "infra":    ["Vercel", "AWS", "Docker"]',
-  '  },',
-  '  "availability": "1 slot",',
-  '  "responseTime": "~1h",',
-  '  "license": "MIT"',
-  '}',
-]
+// --- Capabilities: interactive mini-demos ---
 
-const README_LINES = [
-  '# nongdev',
-  '',
-  '> 1인 풀스택 개발 스튜디오',
-  '> 기획부터 배포까지 한 사람의 손에서.',
-  '',
-  '## What I build',
-  '',
-  '- 웹사이트 · 랜딩페이지',
-  '- 쇼핑몰 (커머스)',
-  '- 웹앱 · 관리자 시스템',
-  '- 모바일 앱 (React Native / Flutter)',
-  '',
-  '## Why fullstack',
-  '',
-  '여러 외주를 거치지 않고 한 사람과만 소통하면 됩니다.',
-  '',
-  '- 커뮤니케이션 비용 0',
-  '- 책임 소재 명확',
-  '- 즉시 반영 가능',
-  '- 전체 맥락 이해',
-  '',
-  '## How it works',
-  '',
-  '1. ChannelTalk으로 1:1 상담',
-  '2. 요구사항 정리 (24h 이내)',
-  '3. 패키지 선택 (`STANDARD` / `DELUXE` / `PREMIUM`)',
-  '4. 시안 → 수정 → 최종 전달',
-  '5. 배포 & 안정화',
-  '',
-  '## Contact',
-  '',
-  '- ChannelTalk: 우측 하단 채팅',
-  '- 평균 응답: 1시간 이내',
-]
-
-function tokenizeJson(line) {
-  const tokens = []
-  let i = 0
-  while (i < line.length) {
-    const c = line[i]
-    if (c === '"') {
-      let j = i + 1
-      while (j < line.length) {
-        if (line[j] === '\\') { j += 2; continue }
-        if (line[j] === '"') break
-        j++
-      }
-      const str = line.slice(i, j + 1)
-      let k = j + 1
-      while (k < line.length && /\s/.test(line[k])) k++
-      tokens.push({ type: line[k] === ':' ? 'key' : 'str', value: str })
-      i = j + 1
-    } else if (/\d/.test(c) || (c === '-' && /\d/.test(line[i + 1] || ''))) {
-      let j = i + 1
-      while (j < line.length && /[\d.]/.test(line[j])) j++
-      tokens.push({ type: 'num', value: line.slice(i, j) })
-      i = j
-    } else if (/[a-z]/i.test(c)) {
-      let j = i + 1
-      while (j < line.length && /[a-z]/i.test(line[j])) j++
-      const word = line.slice(i, j)
-      tokens.push({
-        type: (word === 'true' || word === 'false' || word === 'null') ? 'bool' : 'text',
-        value: word,
-      })
-      i = j
-    } else {
-      let j = i + 1
-      while (
-        j < line.length &&
-        line[j] !== '"' &&
-        !/[\da-z]/i.test(line[j]) &&
-        !(line[j] === '-' && /\d/.test(line[j + 1] || ''))
-      ) j++
-      tokens.push({ type: 'text', value: line.slice(i, j) })
-      i = j
-    }
+function AuthDemo() {
+  const [email, setEmail] = useState('')
+  const [pw, setPw] = useState('')
+  const [done, setDone] = useState(false)
+  const submit = (e) => {
+    e.preventDefault()
+    setDone(true)
+    setTimeout(() => { setDone(false); setEmail(''); setPw('') }, 2400)
   }
-  return tokens
-}
-
-function renderJsonLine(line) {
-  if (!line) return ' '
-  return tokenizeJson(line).map((t, i) =>
-    t.type === 'text'
-      ? <span key={i}>{t.value}</span>
-      : <span key={i} className={`jstk-${t.type}`}>{t.value}</span>
+  return (
+    <form className="demo-auth" onSubmit={submit}>
+      <label className="demo-label">이메일</label>
+      <input type="email" className="demo-input" placeholder="you@example.com"
+        value={email} onChange={(e) => setEmail(e.target.value)} disabled={done} />
+      <label className="demo-label">비밀번호</label>
+      <input type="password" className="demo-input" placeholder="••••••••"
+        value={pw} onChange={(e) => setPw(e.target.value)} disabled={done} />
+      <button type="submit" className={`demo-btn${done ? ' is-success' : ''}`} disabled={done}>
+        {done ? '✓ 로그인 성공' : '로그인'}
+      </button>
+    </form>
   )
 }
 
-function renderInlineMd(text, keyBase) {
-  const parts = text.split(/(`[^`]+`)/g)
-  return parts.map((p, i) => {
-    const k = `${keyBase}-${i}`
-    if (p.length >= 2 && p.startsWith('`') && p.endsWith('`')) {
-      return <span key={k} className="mdtk-code">{p.slice(1, -1)}</span>
-    }
-    return <span key={k}>{p}</span>
-  })
+function PaymentDemo() {
+  const [card, setCard] = useState('')
+  const [exp, setExp] = useState('')
+  const [cvv, setCvv] = useState('')
+  const formatCard = (v) => v.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim()
+  const formatExp = (v) => {
+    const d = v.replace(/\D/g, '').slice(0, 4)
+    return d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d
+  }
+  const brand = (() => {
+    const d = card.replace(/\s/g, '')
+    if (d.startsWith('4')) return 'VISA'
+    if (d.startsWith('5')) return 'MASTER'
+    if (d.startsWith('3')) return 'AMEX'
+    return ''
+  })()
+  return (
+    <div className="demo-payment">
+      <label className="demo-label">카드 번호</label>
+      <div className="demo-payment__card">
+        <input type="text" className="demo-input demo-input--mono"
+          placeholder="0000 0000 0000 0000" value={card}
+          onChange={(e) => setCard(formatCard(e.target.value))}
+          maxLength={19} inputMode="numeric" />
+        {brand && <span className="demo-payment__brand mono">{brand}</span>}
+      </div>
+      <div className="demo-payment__row">
+        <div>
+          <label className="demo-label">만료일</label>
+          <input type="text" className="demo-input demo-input--mono" placeholder="MM/YY"
+            value={exp} onChange={(e) => setExp(formatExp(e.target.value))}
+            maxLength={5} inputMode="numeric" />
+        </div>
+        <div>
+          <label className="demo-label">CVV</label>
+          <input type="password" className="demo-input demo-input--mono" placeholder="•••"
+            value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
+            maxLength={3} inputMode="numeric" />
+        </div>
+      </div>
+      <button type="button" className="demo-btn">₩49,000 결제하기</button>
+    </div>
+  )
 }
 
-function renderMarkdownLine(line, idx) {
-  if (!line) return ' '
-  if (line.startsWith('### ')) return <span className="mdtk-h3">{line}</span>
-  if (line.startsWith('## ')) return <span className="mdtk-h2">{line}</span>
-  if (line.startsWith('# ')) return <span className="mdtk-h1">{line}</span>
-  if (line.startsWith('> ')) return <span className="mdtk-quote">{line}</span>
-  if (line.startsWith('- ') || line.startsWith('* ')) {
-    return (
-      <>
-        <span className="mdtk-bullet">{line.slice(0, 2)}</span>
-        {renderInlineMd(line.slice(2), idx)}
-      </>
-    )
-  }
-  const olMatch = line.match(/^(\d+\. )/)
-  if (olMatch) {
-    return (
-      <>
-        <span className="mdtk-bullet">{olMatch[1]}</span>
-        {renderInlineMd(line.slice(olMatch[1].length), idx)}
-      </>
-    )
-  }
-  return renderInlineMd(line, idx)
+const CHAT_SCRIPT = [
+  { from: 'them', text: '안녕하세요, 쇼핑몰 만들고 싶어요' },
+  { from: 'me',   text: '안녕하세요! 어떤 제품 판매하세요?' },
+  { from: 'them', text: '의류·악세사리예요. 결제 연동 필수!' },
+  { from: 'me',   text: '토스페이먼츠로 가능합니다 ✨' },
+]
+
+function ChatDemo() {
+  const [shown, setShown] = useState(1)
+  const [typing, setTyping] = useState(false)
+  const bodyRef = useRef(null)
+  useEffect(() => {
+    let t
+    const advance = () => {
+      setShown((s) => {
+        const next = s >= CHAT_SCRIPT.length ? 1 : s + 1
+        if (next < CHAT_SCRIPT.length) {
+          setTyping(true)
+          t = setTimeout(() => setTyping(false), 700)
+        } else {
+          setTyping(false)
+        }
+        return next
+      })
+    }
+    const id = setInterval(advance, 2400)
+    return () => { clearInterval(id); clearTimeout(t) }
+  }, [])
+  useEffect(() => {
+    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
+  }, [shown, typing])
+  return (
+    <div className="demo-chat" ref={bodyRef}>
+      {CHAT_SCRIPT.slice(0, shown).map((m, i) => (
+        <div key={i} className={`demo-chat__msg demo-chat__msg--${m.from}`}>{m.text}</div>
+      ))}
+      {typing && (
+        <div className="demo-chat__msg demo-chat__msg--them demo-chat__msg--typing" aria-label="typing">
+          <span /><span /><span />
+        </div>
+      )}
+    </div>
+  )
 }
+
+const SEARCH_ITEMS = [
+  '쇼핑몰 제작', '랜딩페이지', '관리자 대시보드', '예약 시스템',
+  '결제 연동', '회원 관리', '커뮤니티', '리뷰 시스템', '챗봇 연동',
+]
+
+function SearchDemo() {
+  const [q, setQ] = useState('')
+  const query = q.trim()
+  const matches = query ? SEARCH_ITEMS.filter((s) => s.includes(query)).slice(0, 5) : []
+  return (
+    <div className="demo-search">
+      <div className="demo-search__field">
+        <span className="demo-search__icon" aria-hidden="true">🔍</span>
+        <input type="text" className="demo-input"
+          placeholder="찾고 있는 기능을 입력해보세요"
+          value={q} onChange={(e) => setQ(e.target.value)} />
+      </div>
+      {matches.length > 0 && (
+        <ul className="demo-search__dropdown">
+          {matches.map((m) => {
+            const idx = m.indexOf(query)
+            return (
+              <li key={m} className="demo-search__item">
+                {m.slice(0, idx)}
+                <strong>{m.slice(idx, idx + query.length)}</strong>
+                {m.slice(idx + query.length)}
+              </li>
+            )
+          })}
+        </ul>
+      )}
+      {query && matches.length === 0 && (
+        <div className="demo-search__empty mono">no results</div>
+      )}
+      {!query && (
+        <p className="demo-search__hint mono">예: "쇼핑", "예약", "회원"</p>
+      )}
+    </div>
+  )
+}
+
+const AI_RESPONSES = [
+  'Next.js + Tailwind으로 빠르게 구축 가능합니다. 일정 약 2주, 비용 ₩199,000부터.',
+  '결제는 토스페이먼츠 / 포트원 추천드려요. 정기 결제·환불 처리까지 함께 만듭니다.',
+  'PostgreSQL로 사용자·주문·재고 데이터를 한 번에 설계해드릴 수 있어요.',
+]
+
+function AIDemo() {
+  const [text, setText] = useState('')
+  const [running, setRunning] = useState(false)
+  const [idx, setIdx] = useState(0)
+  const run = () => {
+    if (running) return
+    setRunning(true)
+    const target = AI_RESPONSES[idx]
+    setText('')
+    let i = 0
+    const tick = () => {
+      i++
+      setText(target.slice(0, i))
+      if (i < target.length) {
+        setTimeout(tick, 22)
+      } else {
+        setRunning(false)
+        setIdx((p) => (p + 1) % AI_RESPONSES.length)
+      }
+    }
+    setTimeout(tick, 240)
+  }
+  return (
+    <div className="demo-ai">
+      <div className="demo-ai__prompt">
+        <span className="demo-ai__prompt-tag mono">PROMPT</span>
+        쇼핑몰 만들고 싶은데 추천해줘
+      </div>
+      <div className="demo-ai__response">
+        {text || <span className="demo-ai__placeholder">↓ 클릭하면 AI가 답변을 생성해요</span>}
+        {running && <span className="demo-ai__caret" aria-hidden="true" />}
+      </div>
+      <button type="button" className="demo-btn" onClick={run} disabled={running}>
+        {running ? '생성 중…' : '✨ 응답 생성'}
+      </button>
+    </div>
+  )
+}
+
+const FAKE_FILES = [
+  { name: 'product-01.jpg',   size: '1.2 MB', icon: '🖼' },
+  { name: 'banner-hero.png',  size: '320 KB', icon: '🖼' },
+  { name: 'invoice-2026.pdf', size: '54 KB',  icon: '📄' },
+]
+
+function UploadDemo() {
+  const [files, setFiles] = useState([])
+  const [progress, setProgress] = useState(0)
+  const simulate = () => {
+    setFiles(FAKE_FILES)
+    setProgress(0)
+    let p = 0
+    const id = setInterval(() => {
+      p += 9
+      if (p >= 100) { setProgress(100); clearInterval(id) }
+      else setProgress(p)
+    }, 70)
+  }
+  return (
+    <div className="demo-upload">
+      <button type="button" className="demo-upload__zone"
+        onClick={simulate}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => { e.preventDefault(); simulate() }}>
+        <span className="demo-upload__icon" aria-hidden="true">📁</span>
+        <span>파일을 끌어다 놓거나 클릭</span>
+      </button>
+      {files.length > 0 && (
+        <>
+          <ul className="demo-upload__list mono">
+            {files.map((f, i) => (
+              <li key={i}>
+                <span>{f.icon} {f.name}</span>
+                <span className="demo-upload__size">{f.size}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="demo-upload__bar" aria-hidden="true">
+            <span style={{ width: `${progress}%` }} />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+const DEMO_CARDS = [
+  { id: 'auth',    title: 'Auth',    sub: '회원가입 · 로그인',   icon: '🔐', tags: ['NextAuth', 'JWT', 'OAuth'],          Demo: AuthDemo },
+  { id: 'payment', title: 'Payment', sub: '결제 시스템',         icon: '💳', tags: ['토스페이먼츠', 'PortOne', 'Stripe'], Demo: PaymentDemo },
+  { id: 'chat',    title: 'Chat',    sub: '실시간 채팅 · 알림',  icon: '💬', tags: ['Socket.IO', 'WebSocket', '알림톡'],   Demo: ChatDemo },
+  { id: 'search',  title: 'Search',  sub: '검색 · 자동완성',     icon: '🔍', tags: ['Algolia', 'Meilisearch', 'PG FTS'],   Demo: SearchDemo },
+  { id: 'ai',      title: 'AI',      sub: 'AI 기능 연동',        icon: '✨', tags: ['OpenAI', 'Claude', 'LangChain'],      Demo: AIDemo },
+  { id: 'upload',  title: 'Upload',  sub: '파일 · 이미지 업로드', icon: '📁', tags: ['S3', 'Cloudinary', 'Resize'],         Demo: UploadDemo },
+]
 
 function Capabilities() {
-  const [activeTab, setActiveTab] = useState('caps')
-  const [comment, setComment] = useState('')
-  const [revealCount, setRevealCount] = useState(0)
-  const [rowState, setRowState] = useState(null)
-  const [phase, setPhase] = useState('idle')
-  const sectionRef = useRef(null)
-
-  const maxLen = useMemo(() => Math.max(...capabilities.map((c) => c.module.length)), [])
-  const padModule = (m) => m + ' '.repeat(maxLen - m.length)
-  const headerComment = useMemo(
-    () => `// ${capabilities.length} modules · 0 hidden dependencies`,
-    [],
-  )
-  const lineNumbers = useMemo(() => {
-    if (activeTab === 'package') return PKG_JSON_LINES.map((_, i) => String(i + 1))
-    if (activeTab === 'readme') return README_LINES.map((_, i) => String(i + 1))
-    const arr = ['1', '2']
-    let n = 3
-    capabilities.forEach(() => {
-      arr.push(String(n)); n++  // export line
-      arr.push(String(n)); n++  // desc-area row 1 (top padding)
-      arr.push(String(n)); n++  // desc-area row 2 (desc text)
-      arr.push(String(n)); n++  // desc-area row 3 (tags + bottom padding)
-    })
-    arr.push(String(n))  // bottom spacer
-    return arr
-  }, [activeTab])
-
-  const TAB_LANG = { caps: 'TypeScript', package: 'JSON', readme: 'Markdown' }
-
-  // start typing when IDE enters viewport (with delay so Reveal fade-in completes first)
-  useEffect(() => {
-    const el = sectionRef.current
-    let startTimer
-    const trigger = () => {
-      startTimer = setTimeout(() => {
-        setPhase((p) => (p === 'idle' ? 'comment' : p))
-      }, 600)
-    }
-    if (!el) {
-      trigger()
-      return () => clearTimeout(startTimer)
-    }
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            trigger()
-            obs.unobserve(el)
-          }
-        })
-      },
-      { threshold: 0.2, rootMargin: '0px 0px -60px 0px' },
-    )
-    obs.observe(el)
-    return () => {
-      obs.disconnect()
-      clearTimeout(startTimer)
-    }
-  }, [])
-
-  // phase: comment — single-fire animation loop (avoids React rerender issues)
-  useEffect(() => {
-    if (phase !== 'comment') return
-    let cancelled = false
-    let i = 0
-    let timer
-    const tick = () => {
-      if (cancelled) return
-      if (i < headerComment.length) {
-        i++
-        setComment(headerComment.slice(0, i))
-        timer = setTimeout(tick, 28)
-      } else {
-        timer = setTimeout(() => {
-          if (!cancelled) setPhase('exports')
-        }, 280)
-      }
-    }
-    timer = setTimeout(tick, 60)
-    return () => {
-      cancelled = true
-      clearTimeout(timer)
-    }
-  }, [phase, headerComment])
-
-  // phase: exports — type each module's export / desc / tags char-by-char
-  useEffect(() => {
-    if (phase !== 'exports') return
-    let cancelled = false
-    let timer
-
-    const typeRow = (i) => {
-      if (cancelled) return
-      if (i >= capabilities.length) {
-        setRevealCount(capabilities.length)
-        setRowState(null)
-        timer = setTimeout(() => {
-          if (!cancelled) setPhase('browse')
-        }, 350)
-        return
-      }
-      const c = capabilities[i]
-      const fullExport = `export { ${padModule(c.module)} } from '@nongdev/${c.pkg}'  // ${c.title}`
-      const fullDesc = `→ ${c.desc}`
-
-      setRevealCount(i)
-      setRowState({ stage: 'export', exportText: '', descText: '', tagsCount: 0 })
-
-      let charI = 0
-      const typeExport = () => {
-        if (cancelled) return
-        charI++
-        if (charI <= fullExport.length) {
-          setRowState((s) => ({ ...s, exportText: fullExport.slice(0, charI) }))
-          timer = setTimeout(typeExport, 6)
-        } else {
-          timer = setTimeout(() => {
-            if (cancelled) return
-            setRowState((s) => ({ ...s, stage: 'desc', exportText: fullExport, descText: '' }))
-            charI = 0
-            typeDesc()
-          }, 110)
-        }
-      }
-
-      const typeDesc = () => {
-        if (cancelled) return
-        charI++
-        if (charI <= fullDesc.length) {
-          setRowState((s) => ({ ...s, descText: fullDesc.slice(0, charI) }))
-          timer = setTimeout(typeDesc, 8)
-        } else {
-          timer = setTimeout(() => {
-            if (cancelled) return
-            setRowState((s) => ({ ...s, stage: 'tags', descText: fullDesc, tagsCount: 0 }))
-            charI = 0
-            showTag()
-          }, 100)
-        }
-      }
-
-      const showTag = () => {
-        if (cancelled) return
-        charI++
-        if (charI <= c.tags.length) {
-          setRowState((s) => ({ ...s, tagsCount: charI }))
-          timer = setTimeout(showTag, 65)
-        } else {
-          timer = setTimeout(() => {
-            if (cancelled) return
-            typeRow(i + 1)
-          }, 160)
-        }
-      }
-
-      typeExport()
-    }
-
-    timer = setTimeout(() => typeRow(0), 120)
-    return () => {
-      cancelled = true
-      clearTimeout(timer)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase])
-
-  // status bar position
-  //   gutter layout: 1 comment + 1 spacer + N×(export + 3 desc) + 1 spacer + 1 caret
-  //   row i's export sits at gutter line 3 + i × 4
-  //   caret sits at line                 2 + N × 4 + 2
-  let statusLine = 1
-  let statusCol = 1
-  if (activeTab === 'caps') {
-    if (phase === 'comment') {
-      statusCol = Math.max(1, comment.length + 1)
-    } else if (phase === 'exports') {
-      // statusLine follows the row currently being typed
-      const i = Math.min(revealCount, capabilities.length - 1)
-      statusLine = 3 + i * 4
-    } else if (phase !== 'idle') {
-      statusLine = 2 + capabilities.length * 4 + 1
-    }
-  }
-
   return (
     <section id="capabilities" className="section caps-section">
       <SectionNum num="05" />
       <div className="container-wide">
         <SectionHeader
           title={'이런 기능들,\n다 만들어드릴 수 있어요'}
-          desc={'각 줄을 클릭하면 자세한 설명과 사용 가능한 기술 스택이 펼쳐져요.'}
+          desc={'직접 만져보세요. 입력하거나 클릭하면 실제로 동작합니다.'}
         />
-        <div ref={sectionRef}>
-        <Reveal className="caps-ide">
-          {/* IDE title bar */}
-          <div className="caps-ide__titlebar">
-            <span className="caps-ide__win-dots">
-              <span className="caps-ide__win-dot caps-ide__win-dot--r" />
-              <span className="caps-ide__win-dot caps-ide__win-dot--y" />
-              <span className="caps-ide__win-dot caps-ide__win-dot--g" />
-            </span>
-            <span className="caps-ide__title mono">nongdev — Visual Studio Code</span>
-          </div>
-          {/* tabs */}
-          <div className="caps-ide__tabs mono">
-            {[
-              { id: 'caps', icon: '⚛', name: 'capabilities.ts' },
-              { id: 'package', icon: '📦', name: 'package.json' },
-              { id: 'readme', icon: '📄', name: 'README.md' },
-            ].map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className={`caps-ide__tab${activeTab === t.id ? ' is-active' : ''}`}
-                onClick={() => setActiveTab(t.id)}
-              >
-                <span className="caps-ide__tab-icon">{t.icon}</span>
-                {t.name}
-                {activeTab === t.id && <span className="caps-ide__tab-x" aria-hidden="true">×</span>}
-              </button>
-            ))}
-          </div>
-          {/* editor area: gutter + code */}
-          <div className="caps-ide__editor">
-            <div className="caps-ide__gutter mono" aria-hidden="true">
-              {lineNumbers.map((n, idx) => (
-                <span
-                  key={idx}
-                  className={`caps-ide__lineno${activeTab === 'caps' && parseInt(n, 10) === statusLine ? ' is-active' : ''}`}
-                >
-                  {n}
-                </span>
-              ))}
-            </div>
-            <div className="caps-ide__code mono">
-              {activeTab === 'caps' && (
-              <>
-              <div className="caps-line caps-line--com">
-                {comment || ' '}
-                {phase === 'comment' && <span className="caps-caret" aria-hidden="true" />}
+        <div className="demo-grid">
+          {DEMO_CARDS.map((d, i) => (
+            <Reveal as="article" key={d.id} className="demo-card" delay={i * 60}>
+              <header className="demo-card__head">
+                <span className="demo-card__icon" aria-hidden="true">{d.icon}</span>
+                <div>
+                  <h3 className="demo-card__title">{d.title}</h3>
+                  <p className="demo-card__sub mono">{d.sub}</p>
+                </div>
+              </header>
+              <div className="demo-card__body">
+                <d.Demo />
               </div>
-              <div className="caps-spacer" />
-              {capabilities.map((c, i) => {
-                const isPast = i < revealCount
-                const isCurrent =
-                  phase === 'exports' && i === revealCount && rowState !== null
-                if (!isPast && !isCurrent && phase !== 'browse' && phase !== 'done') {
-                  return null
-                }
-                // Fully typed rows (or post-typing 'browse'/'done' phases)
-                if (isPast || phase === 'browse' || phase === 'done') {
-                  return (
-                    <div key={c.title} className="caps-block is-open is-revealed">
-                      <div className="caps-line caps-line--export">
-                        <span className="caps-kw">export</span>{' '}
-                        <span className="caps-brace">{'{'}</span>{' '}
-                        <span className="caps-name">{padModule(c.module)}</span>{' '}
-                        <span className="caps-brace">{'}'}</span>{' '}
-                        <span className="caps-kw">from</span>{' '}
-                        <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
-                        <span className="caps-com">// {c.title}</span>
-                      </div>
-                      <div className="caps-detail" style={{ gridTemplateRows: '1fr' }}>
-                        <div className="caps-detail__inner">
-                          <p className="caps-detail__desc">→ {c.desc}</p>
-                          <div className="caps-detail__tags">
-                            {c.tags.map((t) => (
-                              <span key={t} className="caps-detail__tag">[{t}]</span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                }
-                // Currently typing row — partial render based on rowState
-                const { stage, exportText, descText, tagsCount } = rowState
-                const showDescArea = stage === 'desc' || stage === 'tags'
-                return (
-                  <div key={c.title} className="caps-block is-open is-revealed">
-                    <div className="caps-line caps-line--export">
-                      {stage === 'export' ? (
-                        <>
-                          {exportText}
-                                                  </>
-                      ) : (
-                        <>
-                          <span className="caps-kw">export</span>{' '}
-                          <span className="caps-brace">{'{'}</span>{' '}
-                          <span className="caps-name">{padModule(c.module)}</span>{' '}
-                          <span className="caps-brace">{'}'}</span>{' '}
-                          <span className="caps-kw">from</span>{' '}
-                          <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
-                          <span className="caps-com">// {c.title}</span>
-                        </>
-                      )}
-                    </div>
-                    {showDescArea && (
-                      <div className="caps-detail" style={{ gridTemplateRows: '1fr' }}>
-                        <div className="caps-detail__inner">
-                          <p className="caps-detail__desc">
-                            {stage === 'desc' ? (
-                              <>
-                                {descText}
-                                                              </>
-                            ) : (
-                              `→ ${c.desc}`
-                            )}
-                          </p>
-                          {stage === 'tags' && (
-                            <div className="caps-detail__tags">
-                              {c.tags.slice(0, tagsCount).map((t) => (
-                                <span key={t} className="caps-detail__tag">[{t}]</span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-              <div className="caps-spacer" />
-              </>
-              )}
-              {activeTab === 'package' && (
-                <div className="caps-ide__plain">
-                  {PKG_JSON_LINES.map((line, i) => (
-                    <div key={i} className="caps-line">{renderJsonLine(line)}</div>
-                  ))}
-                </div>
-              )}
-              {activeTab === 'readme' && (
-                <div className="caps-ide__plain">
-                  {README_LINES.map((line, i) => (
-                    <div key={i} className="caps-line">{renderMarkdownLine(line, i)}</div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          {/* status bar */}
-          <div className="caps-ide__statusbar mono">
-            <span className="caps-ide__status-left">
-              <span className="caps-ide__status-item">⎇ main</span>
-              <span className="caps-ide__status-item">⚙ 0 errors · 0 warnings</span>
-            </span>
-            <span className="caps-ide__status-right">
-              <span className="caps-ide__status-item">Ln {statusLine}, Col {statusCol}</span>
-              <span className="caps-ide__status-item">UTF-8</span>
-              <span className="caps-ide__status-item">{TAB_LANG[activeTab]}</span>
-            </span>
-          </div>
-        </Reveal>
+              <footer className="demo-card__tags mono">
+                {d.tags.map((t) => (
+                  <span key={t} className="demo-card__tag">{t}</span>
+                ))}
+              </footer>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
