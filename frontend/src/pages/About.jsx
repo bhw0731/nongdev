@@ -4,7 +4,43 @@ import { Link } from 'react-router-dom'
 import useDocumentMeta from '../hooks/useDocumentMeta.js'
 import { openChannelTalk } from '../lib/channeltalk.js'
 import { profile } from '../data/profile.js'
+import {
+  SiReact, SiNextdotjs, SiVuedotjs, SiTypescript, SiTailwindcss, SiThreedotjs,
+  SiNodedotjs, SiExpress, SiPython, SiMysql, SiPostgresql, SiMongodb,
+  SiFlutter, SiVercel, SiDocker, SiGithubactions,
+} from 'react-icons/si'
+import { FaAws } from 'react-icons/fa'
+import { FiCode, FiLayers, FiSmartphone, FiServer, FiBriefcase, FiCalendar } from 'react-icons/fi'
 import './Pages.css'
+
+// 기술 → { Icon, color } 매핑. 다크모드에서 안 보이는 검정 계열은 currentColor 사용.
+const TECH = {
+  React:          { Icon: SiReact,         color: '#61DAFB' },
+  'Next.js':      { Icon: SiNextdotjs,     color: 'currentColor' },
+  Vue:            { Icon: SiVuedotjs,      color: '#4FC08D' },
+  TypeScript:     { Icon: SiTypescript,    color: '#3178C6' },
+  'Tailwind CSS': { Icon: SiTailwindcss,   color: '#06B6D4' },
+  'Three.js':     { Icon: SiThreedotjs,    color: 'currentColor' },
+  'Node.js':      { Icon: SiNodedotjs,     color: '#5FA04E' },
+  Express:        { Icon: SiExpress,       color: 'currentColor' },
+  Python:         { Icon: SiPython,        color: '#3776AB' },
+  MySQL:          { Icon: SiMysql,         color: '#4479A1' },
+  PostgreSQL:     { Icon: SiPostgresql,    color: '#4169E1' },
+  MongoDB:        { Icon: SiMongodb,       color: '#47A248' },
+  'React Native': { Icon: SiReact,         color: '#61DAFB' },
+  Flutter:        { Icon: SiFlutter,       color: '#02569B' },
+  AWS:            { Icon: FaAws,           color: '#FF9900' },
+  Vercel:         { Icon: SiVercel,        color: 'currentColor' },
+  Docker:         { Icon: SiDocker,        color: '#2496ED' },
+  'CI/CD':        { Icon: SiGithubactions, color: '#2088FF' },
+}
+
+const GROUP_ICON = {
+  FRONTEND: FiLayers,
+  BACKEND:  FiServer,
+  MOBILE:   FiSmartphone,
+  INFRA:    FiCode,
+}
 
 export default function About() {
   useDocumentMeta(
@@ -26,16 +62,36 @@ export default function About() {
             <h2 className="section-title">기술 스택</h2>
           </Reveal>
           <div className="skill-groups">
-            {profile.skills.map((g, i) => (
-              <Reveal key={g.group} className="skill-group" delay={i * 70}>
-                <h3 className="skill-group__title mono">{g.group}</h3>
-                <div className="skill-tags">
-                  {g.items.map((s) => (
-                    <span key={s} className="skill-tag">{s}</span>
-                  ))}
-                </div>
-              </Reveal>
-            ))}
+            {profile.skills.map((g, i) => {
+              const GroupIcon = GROUP_ICON[g.group] || FiCode
+              return (
+                <Reveal key={g.group} className="skill-group" delay={i * 70}>
+                  <div className="skill-group__head">
+                    <GroupIcon className="skill-group__head-icon" aria-hidden="true" />
+                    <h3 className="skill-group__title mono">{g.group}</h3>
+                  </div>
+                  <div className="skill-grid">
+                    {g.items.map((s) => {
+                      const tech = TECH[s]
+                      return (
+                        <div key={s} className="skill-chip">
+                          {tech?.Icon ? (
+                            <tech.Icon
+                              className="skill-chip__icon"
+                              style={{ color: tech.color }}
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <span className="skill-chip__icon skill-chip__icon--dot" aria-hidden="true" />
+                          )}
+                          <span className="skill-chip__label">{s}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -49,10 +105,16 @@ export default function About() {
           <div className="timeline">
             {profile.career.map((c, i) => (
               <Reveal as="div" key={i} className="timeline-item" delay={i * 80}>
-                <span className="timeline-period mono">{c.period}</span>
-                <div className="timeline-content">
-                  <h3>{c.title}</h3>
-                  <p>{c.desc}</p>
+                <div className="timeline-marker" aria-hidden="true">
+                  <FiBriefcase />
+                </div>
+                <div className="timeline-body">
+                  <div className="timeline-meta mono">
+                    <FiCalendar className="timeline-meta__icon" aria-hidden="true" />
+                    <span className="timeline-period">{c.period}</span>
+                  </div>
+                  <h3 className="timeline-title">{c.title}</h3>
+                  <p className="timeline-desc">{c.desc}</p>
                 </div>
               </Reveal>
             ))}

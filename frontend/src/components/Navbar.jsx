@@ -30,7 +30,7 @@ export default function Navbar() {
       <div className="navbar-inner">
         <div className="navbar-brand">
           <Link className="navbar-logo" to="/" translate="no">
-            nong<span className="navbar-logo-accent">dev</span><span className="navbar-logo-caret">_</span>
+            nong<span className="navbar-logo-accent">dev</span>
           </Link>
           <span className="navbar-status mono" aria-hidden="true">
             <span className="navbar-status__dot" /> online

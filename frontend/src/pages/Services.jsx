@@ -200,7 +200,6 @@ export default function Services() {
         <div className="container-wide">
           <Reveal className="tier-cmd mono">
             <span className="tier-cmd__prompt">$</span> npm pkg list @nongdev
-            <span className="tier-cmd__cursor" />
           </Reveal>
           <div className="tier-grid">
             {services.map((s, i) => (

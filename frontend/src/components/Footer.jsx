@@ -61,7 +61,6 @@ export default function Footer() {
 
       <div className="container-wide footer-prompt mono" aria-hidden="true">
         <span className="footer-prompt__path">nongdev@portfolio:~$</span>
-        <span className="footer-prompt__cursor" />
       </div>
 
       <div className="container-wide footer-bottom">

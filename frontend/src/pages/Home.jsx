@@ -89,7 +89,7 @@ function Hero() {
               <div className="crt-row crt-info">→ 기획 · 디자인 · 개발 · 배포 진행중…</div>
               <div className="crt-row crt-ok">✓ 제품이 완성되었습니다 (2.4s)</div>
               <div className="crt-row crt-dim"># 추가 비용 깜짝 청구 없음</div>
-              <div className="crt-row"><span className="crt-prompt">$</span> deploy --to production<span className="crt-caret" /></div>
+              <div className="crt-row"><span className="crt-prompt">$</span> deploy --to production</div>
             </div>
           </div>
         </div>
@@ -98,7 +98,6 @@ function Hero() {
       <div className="scroll-hint mono" aria-hidden="true">
         <span className="scroll-hint__prompt">$</span>
         <span>./scroll --down</span>
-        <span className="scroll-hint__cursor" />
       </div>
     </section>
   )
@@ -875,8 +874,7 @@ function Capabilities() {
       arr.push(String(n)); n++  // desc-area row 2 (desc text)
       arr.push(String(n)); n++  // desc-area row 3 (tags + bottom padding)
     })
-    arr.push(String(n)); n++  // bottom spacer
-    arr.push(String(n))       // caret
+    arr.push(String(n))  // bottom spacer
     return arr
   }, [activeTab])
 
@@ -1033,7 +1031,7 @@ function Capabilities() {
       const i = Math.min(revealCount, capabilities.length - 1)
       statusLine = 3 + i * 4
     } else if (phase !== 'idle') {
-      statusLine = 2 + capabilities.length * 4 + 2
+      statusLine = 2 + capabilities.length * 4 + 1
     }
   }
 
@@ -1137,8 +1135,7 @@ function Capabilities() {
                       {stage === 'export' ? (
                         <>
                           {exportText}
-                          <span className="caps-caret" aria-hidden="true" />
-                        </>
+                                                  </>
                       ) : (
                         <>
                           <span className="caps-kw">export</span>{' '}
@@ -1158,8 +1155,7 @@ function Capabilities() {
                             {stage === 'desc' ? (
                               <>
                                 {descText}
-                                <span className="caps-caret" aria-hidden="true" />
-                              </>
+                                                              </>
                             ) : (
                               `→ ${c.desc}`
                             )}
@@ -1178,11 +1174,6 @@ function Capabilities() {
                 )
               })}
               <div className="caps-spacer" />
-              {(phase === 'browse' || phase === 'done') && (
-                <div className="caps-line caps-line--caret">
-                  <span className="caps-caret" aria-hidden="true" />
-                </div>
-              )}
               </>
               )}
               {activeTab === 'package' && (
@@ -1285,7 +1276,6 @@ function Trust() {
         <Reveal className="trust-jest">
           <div className="trust-jest__topbar mono">
             <span className="trust-jest__topbar-prompt">$</span> jest src/promises.test.ts
-            <span className="trust-jest__topbar-cursor" />
           </div>
           <div className="trust-jest__head mono">
             <span className="trust-jest__pass">PASS</span>
