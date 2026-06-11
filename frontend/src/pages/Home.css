@@ -86,7 +86,7 @@
 .crt-dim { color: #8b8676; }
 .crt-info { color: #6ea8ff; }
 .crt-ok { color: #7dff8a; }
-.crt-caret { display: inline-block; width: 9px; height: 1.05em; background: #d8ff36; margin-left: 4px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+.crt-caret { display: inline-block; width: 9px; height: 1.05em; background: #d8ff36; margin-left: 4px; vertical-align: -2px; /* blink animation removed */ }
 @keyframes blink { 50% { opacity: 0; } }
 
 .scroll-hint {
@@ -104,7 +104,7 @@
   width: 8px; height: 1em;
   background: var(--accent);
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 @keyframes scroll-bob { 50% { transform: translate(-50%, 5px); } }
 @media (max-width: 900px) { .hero-full__content { grid-template-columns: 1fr; } .crt-wrap { display: none; } }
@@ -251,6 +251,20 @@
   color: #e6e3d6;
   white-space: pre;
 }
+.intro-term__placeholder {
+  color: #8b8676;
+  opacity: 0.55;
+  font-style: italic;
+  font-size: 0.82rem;
+  margin-left: 8px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.intro-term__placeholder strong {
+  color: #d8ff36;
+  font-weight: 700;
+  font-style: normal;
+}
 .intro-term__caret {
   display: inline-block;
   width: 0.55em;
@@ -351,7 +365,7 @@
   width: 9px; height: 9px;
   background: #34d399;
   border: 1.5px solid var(--ink);
-  animation: avb-pulse-dot 1.5s steps(1) infinite;
+  /* pulse dot animation removed */
 }
 @keyframes avb-pulse-dot { 50% { opacity: 0.25; } }
 .intro-metric__big {
@@ -689,7 +703,7 @@
   background: #d8ff36;
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 @media (max-width: 720px) {
   .proc-terminal__body { padding: 20px; font-size: 0.84rem; line-height: 1.75; }
@@ -820,7 +834,7 @@
   background: #d8ff36;
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 @media (max-width: 760px) {
   .svc-terminal__body { padding: 18px; font-size: 0.78rem; line-height: 1.7; }
@@ -848,7 +862,7 @@
   background: var(--accent-ink);
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 
 /* ---------- avb-chip tag enhancement ---------- */
@@ -924,7 +938,7 @@
   background: #d8ff36;
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 @media (max-width: 720px) {
   .diff-terminal__body { padding: 18px; font-size: 0.82rem; line-height: 1.7; }
@@ -1020,7 +1034,7 @@
   background: #d8ff36;
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 @media (max-width: 760px) {
   .caps-module__body { padding: 18px; font-size: 0.78rem; line-height: 1.7; }
@@ -1166,7 +1180,7 @@
   width: 8px; height: 8px;
   background: #7dff8a;
   border-radius: 50%;
-  animation: blink 1.6s steps(1) infinite;
+  /* blink animation removed */
 }
 .ci-pipeline__sub {
   padding: 10px 18px;
@@ -1397,7 +1411,7 @@
   background: #d8ff36;
   margin-left: 2px;
   vertical-align: -2px;
-  animation: capsCaret 1s steps(1) infinite;
+  /* caps typing caret blink removed */
 }
 @keyframes capsCaret {
   0%, 50% { opacity: 1; }
@@ -1501,7 +1515,7 @@
   background: #d8ff36;
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 .trust-jest__head {
   display: flex;

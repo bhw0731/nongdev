@@ -149,7 +149,8 @@ function Marquee() {
 
 const TERM_INITIAL = [
   { type: 'out', text: 'nongdev terminal — v1.0' },
-  { type: 'out', text: 'Type "help" to see what you can do.' },
+  { type: 'out', text: '↓ 아래 프롬프트에 직접 명령어를 입력해보세요.' },
+  { type: 'out', text: '   예: help · services · portfolio · contact' },
   { type: 'spacer' },
 ]
 
@@ -360,6 +361,11 @@ function IntroTerminal() {
           <span className="intro-term__inputbox">
             <span className="intro-term__typed">{input}</span>
             <span className="intro-term__caret" aria-hidden="true" />
+            {!input && cmds.length === 0 && (
+              <span className="intro-term__placeholder mono" aria-hidden="true">
+                여기에 입력해보세요 — 예: <strong>help</strong>
+              </span>
+            )}
             <input
               ref={inputRef}
               className="intro-term__input mono"

@@ -180,7 +180,7 @@
   background: #d8ff36;
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 .nf-title { font-size: 2rem; margin-bottom: 12px; }
 .nf-desc { color: var(--text-soft); margin-bottom: 26px; }
@@ -535,7 +535,7 @@
   background: var(--accent);
   margin-left: 4px;
   vertical-align: -2px;
-  animation: blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 
 .tier-grid {

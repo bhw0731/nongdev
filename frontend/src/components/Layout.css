@@ -60,7 +60,7 @@
   width: 9px; height: 9px;
   background: var(--lime);
   border: 1.5px solid var(--ink);
-  animation: avb-blink 1.4s steps(1) infinite;
+  /* blink animation removed */
 }
 @keyframes avb-blink { 50% { opacity: 0.25; } }
 .avb-bar-text { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; }
@@ -93,7 +93,7 @@
   letter-spacing: -0.04em;
 }
 .navbar-logo-accent { color: var(--accent); }
-.navbar-logo-caret { color: var(--accent); animation: avb-blink 1s steps(1) infinite; }
+.navbar-logo-caret { color: var(--accent); /* blink animation removed */ }
 .navbar-status {
   display: inline-flex;
   align-items: center;
@@ -228,7 +228,7 @@
   height: 1em;
   background: var(--accent);
   vertical-align: -2px;
-  animation: avb-blink 1s steps(1) infinite;
+  /* blink animation removed */
 }
 .footer-bottom {
   display: flex; justify-content: space-between; align-items: center;
