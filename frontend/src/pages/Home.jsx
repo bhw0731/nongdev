@@ -848,6 +848,7 @@ function Capabilities() {
   const [activeTab, setActiveTab] = useState('caps')
   const [comment, setComment] = useState('')
   const [revealCount, setRevealCount] = useState(0)
+  const [rowState, setRowState] = useState(null)
   const [phase, setPhase] = useState('idle')
   const sectionRef = useRef(null)
 
@@ -931,34 +932,90 @@ function Capabilities() {
     }
   }, [phase, headerComment])
 
-  // phase: exports — single-fire reveal loop
+  // phase: exports — type each module's export / desc / tags char-by-char
   useEffect(() => {
     if (phase !== 'exports') return
     let cancelled = false
-    let i = 0
     let timer
-    const tick = () => {
+
+    const typeRow = (i) => {
       if (cancelled) return
-      if (i < capabilities.length) {
-        i++
-        setRevealCount(i)
-        timer = setTimeout(tick, 140)
-      } else {
+      if (i >= capabilities.length) {
+        setRevealCount(capabilities.length)
+        setRowState(null)
         timer = setTimeout(() => {
           if (!cancelled) setPhase('browse')
-        }, 400)
+        }, 350)
+        return
       }
+      const c = capabilities[i]
+      const fullExport = `export { ${padModule(c.module)} } from '@nongdev/${c.pkg}'  // ${c.title}`
+      const fullDesc = `→ ${c.desc}`
+
+      setRevealCount(i)
+      setRowState({ stage: 'export', exportText: '', descText: '', tagsCount: 0 })
+
+      let charI = 0
+      const typeExport = () => {
+        if (cancelled) return
+        charI++
+        if (charI <= fullExport.length) {
+          setRowState((s) => ({ ...s, exportText: fullExport.slice(0, charI) }))
+          timer = setTimeout(typeExport, 6)
+        } else {
+          timer = setTimeout(() => {
+            if (cancelled) return
+            setRowState((s) => ({ ...s, stage: 'desc', exportText: fullExport, descText: '' }))
+            charI = 0
+            typeDesc()
+          }, 110)
+        }
+      }
+
+      const typeDesc = () => {
+        if (cancelled) return
+        charI++
+        if (charI <= fullDesc.length) {
+          setRowState((s) => ({ ...s, descText: fullDesc.slice(0, charI) }))
+          timer = setTimeout(typeDesc, 8)
+        } else {
+          timer = setTimeout(() => {
+            if (cancelled) return
+            setRowState((s) => ({ ...s, stage: 'tags', descText: fullDesc, tagsCount: 0 }))
+            charI = 0
+            showTag()
+          }, 100)
+        }
+      }
+
+      const showTag = () => {
+        if (cancelled) return
+        charI++
+        if (charI <= c.tags.length) {
+          setRowState((s) => ({ ...s, tagsCount: charI }))
+          timer = setTimeout(showTag, 65)
+        } else {
+          timer = setTimeout(() => {
+            if (cancelled) return
+            typeRow(i + 1)
+          }, 160)
+        }
+      }
+
+      typeExport()
     }
-    timer = setTimeout(tick, 100)
+
+    timer = setTimeout(() => typeRow(0), 120)
     return () => {
       cancelled = true
       clearTimeout(timer)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase])
 
   // status bar position
   //   gutter layout: 1 comment + 1 spacer + N×(export + 3 desc) + 1 spacer + 1 caret
-  //   last revealed export sits at line  3 + (revealCount - 1) × 4
+  //   row i's export sits at gutter line 3 + i × 4
   //   caret sits at line                 2 + N × 4 + 2
   let statusLine = 1
   let statusCol = 1
@@ -966,8 +1023,9 @@ function Capabilities() {
     if (phase === 'comment') {
       statusCol = Math.max(1, comment.length + 1)
     } else if (phase === 'exports') {
-      const n = Math.max(1, revealCount)
-      statusLine = 4 * n - 1
+      // statusLine follows the row currently being typed
+      const i = Math.min(revealCount, capabilities.length - 1)
+      statusLine = 3 + i * 4
     } else if (phase !== 'idle') {
       statusLine = 2 + capabilities.length * 4 + 2
     }
@@ -1032,36 +1090,84 @@ function Capabilities() {
               </div>
               <div className="caps-spacer" />
               {capabilities.map((c, i) => {
-                const isRevealed =
-                  (phase === 'exports' && i < revealCount) ||
-                  phase === 'browse' ||
-                  phase === 'done'
-                const showCaretHere = phase === 'exports' && i === revealCount - 1
-                return (
-                  <div
-                    key={c.title}
-                    className={`caps-block is-open${isRevealed ? ' is-revealed' : ''}`}
-                  >
-                    <div className="caps-line caps-line--export">
-                      <span className="caps-kw">export</span>{' '}
-                      <span className="caps-brace">{'{'}</span>{' '}
-                      <span className="caps-name">{padModule(c.module)}</span>{' '}
-                      <span className="caps-brace">{'}'}</span>{' '}
-                      <span className="caps-kw">from</span>{' '}
-                      <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
-                      <span className="caps-com">// {c.title}</span>
-                      {showCaretHere && <span className="caps-caret" aria-hidden="true" />}
-                    </div>
-                    <div className="caps-detail" style={{ gridTemplateRows: '1fr' }}>
-                      <div className="caps-detail__inner">
-                        <p className="caps-detail__desc">→ {c.desc}</p>
-                        <div className="caps-detail__tags">
-                          {c.tags.map((t) => (
-                            <span key={t} className="caps-detail__tag">[{t}]</span>
-                          ))}
+                const isPast = i < revealCount
+                const isCurrent =
+                  phase === 'exports' && i === revealCount && rowState !== null
+                if (!isPast && !isCurrent && phase !== 'browse' && phase !== 'done') {
+                  return null
+                }
+                // Fully typed rows (or post-typing 'browse'/'done' phases)
+                if (isPast || phase === 'browse' || phase === 'done') {
+                  return (
+                    <div key={c.title} className="caps-block is-open is-revealed">
+                      <div className="caps-line caps-line--export">
+                        <span className="caps-kw">export</span>{' '}
+                        <span className="caps-brace">{'{'}</span>{' '}
+                        <span className="caps-name">{padModule(c.module)}</span>{' '}
+                        <span className="caps-brace">{'}'}</span>{' '}
+                        <span className="caps-kw">from</span>{' '}
+                        <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
+                        <span className="caps-com">// {c.title}</span>
+                      </div>
+                      <div className="caps-detail" style={{ gridTemplateRows: '1fr' }}>
+                        <div className="caps-detail__inner">
+                          <p className="caps-detail__desc">→ {c.desc}</p>
+                          <div className="caps-detail__tags">
+                            {c.tags.map((t) => (
+                              <span key={t} className="caps-detail__tag">[{t}]</span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
+                  )
+                }
+                // Currently typing row — partial render based on rowState
+                const { stage, exportText, descText, tagsCount } = rowState
+                const showDescArea = stage === 'desc' || stage === 'tags'
+                return (
+                  <div key={c.title} className="caps-block is-open is-revealed">
+                    <div className="caps-line caps-line--export">
+                      {stage === 'export' ? (
+                        <>
+                          {exportText}
+                          <span className="caps-caret" aria-hidden="true" />
+                        </>
+                      ) : (
+                        <>
+                          <span className="caps-kw">export</span>{' '}
+                          <span className="caps-brace">{'{'}</span>{' '}
+                          <span className="caps-name">{padModule(c.module)}</span>{' '}
+                          <span className="caps-brace">{'}'}</span>{' '}
+                          <span className="caps-kw">from</span>{' '}
+                          <span className="caps-str">'@nongdev/{c.pkg}'</span>{' '}
+                          <span className="caps-com">// {c.title}</span>
+                        </>
+                      )}
+                    </div>
+                    {showDescArea && (
+                      <div className="caps-detail" style={{ gridTemplateRows: '1fr' }}>
+                        <div className="caps-detail__inner">
+                          <p className="caps-detail__desc">
+                            {stage === 'desc' ? (
+                              <>
+                                {descText}
+                                <span className="caps-caret" aria-hidden="true" />
+                              </>
+                            ) : (
+                              `→ ${c.desc}`
+                            )}
+                          </p>
+                          {stage === 'tags' && (
+                            <div className="caps-detail__tags">
+                              {c.tags.slice(0, tagsCount).map((t) => (
+                                <span key={t} className="caps-detail__tag">[{t}]</span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )
               })}
