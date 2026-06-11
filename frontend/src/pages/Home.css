@@ -1493,29 +1493,59 @@
   margin: 0 auto;
 }
 .demo-card {
+  position: relative;
   border: var(--bd) solid var(--ink);
   background: var(--surface);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease);
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.demo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.32s var(--ease);
+  z-index: 2;
 }
 .demo-card:hover { transform: translate(-3px, -3px); box-shadow: var(--shadow-lg); }
+.demo-card:hover::before { transform: scaleX(1); }
+
+.demo-card__num {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  z-index: 1;
+}
 
 .demo-card__head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  border-bottom: 1.5px dashed var(--border);
+  padding: 24px 24px 18px;
 }
-.demo-card__icon { font-size: 1.7rem; flex-shrink: 0; }
-.demo-card__title { font-size: 1.05rem; margin: 0; font-weight: 800; }
-.demo-card__sub { font-size: 0.74rem; color: var(--text-dim); margin: 2px 0 0; letter-spacing: 0.04em; }
+.demo-card__title {
+  font-size: 1.35rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+}
+.demo-card__sub {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin: 5px 0 0;
+  letter-spacing: 0.03em;
+}
 
 .demo-card__body {
-  padding: 18px;
+  padding: 6px 24px 22px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1523,20 +1553,16 @@
 }
 
 .demo-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 12px 18px;
-  border-top: 1px dashed var(--border);
+  padding: 13px 24px;
+  border-top: 1px solid var(--border);
   background: var(--bg-2);
-}
-.demo-card__tag {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  background: var(--surface);
+  font-size: 0.72rem;
   color: var(--text-soft);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* shared form bits */
@@ -1794,9 +1820,11 @@
 }
 @media (max-width: 640px) {
   .demo-grid { grid-template-columns: 1fr; gap: 16px; }
-  .demo-card__body { min-height: 200px; padding: 14px; }
-  .demo-card__head { padding: 14px; }
-  .demo-card__tags { padding: 10px 14px; }
+  .demo-card__head { padding: 18px 18px 14px; }
+  .demo-card__num { top: 14px; right: 18px; }
+  .demo-card__body { min-height: 200px; padding: 4px 18px 18px; }
+  .demo-card__tags { padding: 10px 18px; }
+  .demo-card__title { font-size: 1.2rem; }
 }
 
 /* ---------- TRUST — Jest test output ---------- */

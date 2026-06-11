@@ -946,12 +946,12 @@ function UploadDemo() {
 }
 
 const DEMO_CARDS = [
-  { id: 'auth',    title: 'Auth',    sub: '회원가입 · 로그인',   icon: '🔐', tags: ['NextAuth', 'JWT', 'OAuth'],          Demo: AuthDemo },
-  { id: 'payment', title: 'Payment', sub: '결제 시스템',         icon: '💳', tags: ['토스페이먼츠', 'PortOne', 'Stripe'], Demo: PaymentDemo },
-  { id: 'chat',    title: 'Chat',    sub: '실시간 채팅 · 알림',  icon: '💬', tags: ['Socket.IO', 'WebSocket', '알림톡'],   Demo: ChatDemo },
-  { id: 'search',  title: 'Search',  sub: '검색 · 자동완성',     icon: '🔍', tags: ['Algolia', 'Meilisearch', 'PG FTS'],   Demo: SearchDemo },
-  { id: 'ai',      title: 'AI',      sub: 'AI 기능 연동',        icon: '✨', tags: ['OpenAI', 'Claude', 'LangChain'],      Demo: AIDemo },
-  { id: 'upload',  title: 'Upload',  sub: '파일 · 이미지 업로드', icon: '📁', tags: ['S3', 'Cloudinary', 'Resize'],         Demo: UploadDemo },
+  { id: 'auth',    title: 'Auth',    sub: '회원가입 · 로그인',   tags: ['NextAuth', 'JWT', 'OAuth'],          Demo: AuthDemo },
+  { id: 'payment', title: 'Payment', sub: '결제 시스템',         tags: ['토스페이먼츠', 'PortOne', 'Stripe'], Demo: PaymentDemo },
+  { id: 'chat',    title: 'Chat',    sub: '실시간 채팅 · 알림',  tags: ['Socket.IO', 'WebSocket', '알림톡'],   Demo: ChatDemo },
+  { id: 'search',  title: 'Search',  sub: '검색 · 자동완성',     tags: ['Algolia', 'Meilisearch', 'PG FTS'],   Demo: SearchDemo },
+  { id: 'ai',      title: 'AI',      sub: 'AI 기능 연동',        tags: ['OpenAI', 'Claude', 'LangChain'],      Demo: AIDemo },
+  { id: 'upload',  title: 'Upload',  sub: '파일 · 이미지 업로드', tags: ['S3', 'Cloudinary', 'Resize'],         Demo: UploadDemo },
 ]
 
 function Capabilities() {
@@ -966,20 +966,18 @@ function Capabilities() {
         <div className="demo-grid">
           {DEMO_CARDS.map((d, i) => (
             <Reveal as="article" key={d.id} className="demo-card" delay={i * 60}>
+              <span className="demo-card__num mono" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <header className="demo-card__head">
-                <span className="demo-card__icon" aria-hidden="true">{d.icon}</span>
-                <div>
-                  <h3 className="demo-card__title">{d.title}</h3>
-                  <p className="demo-card__sub mono">{d.sub}</p>
-                </div>
+                <h3 className="demo-card__title">{d.title}</h3>
+                <p className="demo-card__sub mono">{d.sub}</p>
               </header>
               <div className="demo-card__body">
                 <d.Demo />
               </div>
               <footer className="demo-card__tags mono">
-                {d.tags.map((t) => (
-                  <span key={t} className="demo-card__tag">{t}</span>
-                ))}
+                {d.tags.join('  ·  ')}
               </footer>
             </Reveal>
           ))}
