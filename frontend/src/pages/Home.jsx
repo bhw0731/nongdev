@@ -812,7 +812,7 @@ function renderInlineMd(text, keyBase) {
   return parts.map((p, i) => {
     const k = `${keyBase}-${i}`
     if (p.length >= 2 && p.startsWith('`') && p.endsWith('`')) {
-      return <span key={k} className="mdtk-code">{p}</span>
+      return <span key={k} className="mdtk-code">{p.slice(1, -1)}</span>
     }
     return <span key={k}>{p}</span>
   })

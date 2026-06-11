@@ -1358,8 +1358,15 @@
 .caps-ide__editor {
   display: grid;
   grid-template-columns: 56px 1fr;
-  min-height: 380px;
+  height: 480px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3c3c3c #1e1e1e;
 }
+.caps-ide__editor::-webkit-scrollbar { width: 10px; }
+.caps-ide__editor::-webkit-scrollbar-track { background: #1e1e1e; }
+.caps-ide__editor::-webkit-scrollbar-thumb { background: #3c3c3c; border: 2px solid #1e1e1e; }
+.caps-ide__editor::-webkit-scrollbar-thumb:hover { background: #4e4e4e; }
 .caps-ide__gutter {
   background: #1e1e1e;
   padding: 14px 8px 14px 0;
@@ -1454,9 +1461,10 @@
 
 /* plain content wrapper (package / readme tabs) */
 .caps-ide__plain { display: flex; flex-direction: column; }
+.caps-ide__plain .caps-line { white-space: pre-wrap; word-break: break-word; min-height: 1.85em; }
 
 @media (max-width: 760px) {
-  .caps-ide__editor { grid-template-columns: 36px 1fr; min-height: 0; }
+  .caps-ide__editor { grid-template-columns: 36px 1fr; height: 420px; }
   .caps-ide__gutter { padding: 12px 6px 12px 0; font-size: 0.72rem; }
   .caps-ide__code { padding: 12px 14px; font-size: 0.78rem; line-height: 1.7; }
   .caps-ide__statusbar { font-size: 0.66rem; padding: 4px 10px; }
