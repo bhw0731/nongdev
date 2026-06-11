@@ -7,9 +7,8 @@ const sections = [
   { id: 'process', num: '04', label: 'PROCESS' },
   { id: 'capabilities', num: '05', label: 'CAPABILITIES' },
   { id: 'works', num: '06', label: 'WORKS' },
-  { id: 'reviews', num: '07', label: 'REVIEWS' },
-  { id: 'faq', num: '08', label: 'FAQ' },
-  { id: 'trust', num: '09', label: 'TRUST' },
+  { id: 'faq', num: '07', label: 'FAQ' },
+  { id: 'trust', num: '08', label: 'TRUST' },
 ]
 
 // 우측 사이드에 떠 있는 섹션 네비 (scroll spy)

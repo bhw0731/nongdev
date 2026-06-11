@@ -19,7 +19,6 @@ import { splitFlow, splitStats, fullstackLayers, fullstackStats, benefits } from
 import { faq } from '../data/faq.js'
 import { trust } from '../data/trust.js'
 import { works } from '../data/works.js'
-import { reviews } from '../data/reviews.js'
 import './Home.css'
 
 function Roller({ words }) {
@@ -1149,39 +1148,10 @@ function Works() {
   )
 }
 
-function ReviewsSection() {
-  return (
-    <section id="reviews" className="section reviews-section">
-      <SectionNum num="07" />
-      <div className="container-wide">
-        <SectionHeader
-          title="고객 후기"
-          desc={'실제로 함께 일한 분들이 남겨주신 후기입니다.\n사람마다 결과는 다를 수 있어요.'}
-        />
-        <div className="reviews-grid">
-          {reviews.map((r, i) => (
-            <Reveal as="figure" key={r.id} className="review-card" delay={(i % 3) * 70}>
-              <div className="review-stars" aria-label={`별점 ${r.rating}점`}>
-                <span className="review-stars__fill">{'★★★★★'.slice(0, r.rating)}</span>
-                <span className="review-stars__empty">{'★★★★★'.slice(r.rating)}</span>
-              </div>
-              <blockquote className="review-quote">&ldquo;{r.content}&rdquo;</blockquote>
-              <figcaption className="review-meta">
-                <strong>{r.author}</strong>
-                <span className="mono">{r.project}</span>
-              </figcaption>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function FaqSection() {
   return (
     <section id="faq" className="section faq-section">
-      <SectionNum num="08" />
+      <SectionNum num="07" />
       <div className="container">
         <SectionHeader
           title="자주 묻는 질문"
@@ -1197,7 +1167,7 @@ function FaqSection() {
 function Trust() {
   return (
     <section id="trust" className="section trust-section">
-      <SectionNum num="09" />
+      <SectionNum num="08" />
       <Sticker
         tone="ink"
         tilt={-5}
@@ -1304,7 +1274,6 @@ export default function Home() {
       <ProcessSection />
       <Capabilities />
       <Works />
-      <ReviewsSection />
       <FaqSection />
       <Trust />
       <ClosingCTA />
