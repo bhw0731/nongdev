@@ -1838,6 +1838,7 @@
   padding: 4px 10px;
   background: var(--lime-ink);
   color: var(--lime);
+  border: 1.5px solid var(--lime);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -1873,7 +1874,12 @@
 .fs-stat--bad .fs-stat__row dd { color: #a04020; }
 .fs-stat--good { background: rgba(216, 255, 54, 0.15); }
 .fs-stat--good .fs-stat__row dd { color: var(--ink); }
-:root[data-theme='dark'] .fs-stat--good .fs-stat__row dd { color: var(--accent); }
+:root[data-theme='dark'] .fs-stat--good {
+  background: rgba(0, 0, 0, 0.35);
+  border-top-color: var(--lime);
+}
+:root[data-theme='dark'] .fs-stat--good .fs-stat__row dd { color: var(--lime); }
+:root[data-theme='dark'] .fs-stat--good .fs-stat__row dt { color: rgba(242, 239, 228, 0.5); }
 
 @media (max-width: 760px) {
   .fs-compare { grid-template-columns: 1fr; gap: 18px; }
