@@ -975,7 +975,7 @@ function Capabilities() {
     } else if (phase === 'exports') {
       statusLine = 2 + Math.max(1, revealCount)
     } else if (phase !== 'idle') {
-      statusLine = capabilities.length + 3
+      statusLine = capabilities.length + 4
     }
   }
 
