@@ -946,12 +946,12 @@ function UploadDemo() {
 }
 
 const DEMO_CARDS = [
-  { id: 'auth',    cat: 'identity',       title: 'Auth',    sub: '회원가입 · 로그인',   tone: 'sky',    tags: ['NextAuth', 'JWT', 'OAuth'],          Demo: AuthDemo },
-  { id: 'payment', cat: 'commerce',       title: 'Payment', sub: '결제 시스템',         tone: 'mint',   tags: ['토스페이먼츠', 'PortOne', 'Stripe'], Demo: PaymentDemo },
-  { id: 'chat',    cat: 'realtime',       title: 'Chat',    sub: '실시간 채팅 · 알림',  tone: 'violet', tags: ['Socket.IO', 'WebSocket', '알림톡'],   Demo: ChatDemo },
-  { id: 'search',  cat: 'discovery',      title: 'Search',  sub: '검색 · 자동완성',     tone: 'amber',  tags: ['Algolia', 'Meilisearch', 'PG FTS'],   Demo: SearchDemo },
-  { id: 'ai',      cat: 'intelligence',   title: 'AI',      sub: 'AI 기능 연동',        tone: 'pink',   tags: ['OpenAI', 'Claude', 'LangChain'],      Demo: AIDemo },
-  { id: 'upload',  cat: 'storage',        title: 'Upload',  sub: '파일 · 이미지 업로드', tone: 'teal',   tags: ['S3', 'Cloudinary', 'Resize'],         Demo: UploadDemo },
+  { id: 'auth',    cat: 'identity',     title: 'Auth',    sub: '회원가입 · 로그인',   tags: ['NextAuth', 'JWT', 'OAuth'],          Demo: AuthDemo },
+  { id: 'payment', cat: 'commerce',     title: 'Payment', sub: '결제 시스템',         tags: ['토스페이먼츠', 'PortOne', 'Stripe'], Demo: PaymentDemo },
+  { id: 'chat',    cat: 'realtime',     title: 'Chat',    sub: '실시간 채팅 · 알림',  tags: ['Socket.IO', 'WebSocket', '알림톡'],   Demo: ChatDemo },
+  { id: 'search',  cat: 'discovery',    title: 'Search',  sub: '검색 · 자동완성',     tags: ['Algolia', 'Meilisearch', 'PG FTS'],   Demo: SearchDemo },
+  { id: 'ai',      cat: 'intelligence', title: 'AI',      sub: 'AI 기능 연동',        tags: ['OpenAI', 'Claude', 'LangChain'],      Demo: AIDemo },
+  { id: 'upload',  cat: 'storage',      title: 'Upload',  sub: '파일 · 이미지 업로드', tags: ['S3', 'Cloudinary', 'Resize'],         Demo: UploadDemo },
 ]
 
 function Capabilities() {
@@ -969,7 +969,6 @@ function Capabilities() {
               as="article"
               key={d.id}
               className="demo-card"
-              data-tone={d.tone}
               delay={i * 60}
             >
               <header className="demo-card__head">

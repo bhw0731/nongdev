@@ -217,18 +217,60 @@ export default function Services() {
       <section className="section section-soft">
         <div className="container-wide">
           <Reveal className="section-header section-header--center">
-            <span className="section-label">HOW WE WORK</span>
             <h2 className="section-title">진행 방식</h2>
           </Reveal>
-          <div className="svc-process">
-            {process.map((step) => (
-              <Reveal key={step.num} className="svc-process-step">
-                <span className="proc-step-num mono">{step.num}</span>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal as="div" className="svc-receipt">
+            <header className="svc-receipt__head">
+              <div className="svc-receipt__brand mono">NONGDEV STUDIO</div>
+              <div className="svc-receipt__title">PROJECT INVOICE</div>
+              <div className="svc-receipt__sub mono">— 진행 방식 명세서 —</div>
+            </header>
+
+            <div className="svc-receipt__meta mono">
+              <span><span className="svc-receipt__meta-k">ORDER</span> #NONGDEV-2026</span>
+              <span><span className="svc-receipt__meta-k">SCOPE</span> FULL-CYCLE</span>
+            </div>
+
+            <ol className="svc-receipt__items">
+              {process.map((step) => (
+                <li key={step.num} className="svc-receipt__item">
+                  <div className="svc-receipt__row mono">
+                    <span className="svc-receipt__num">{step.num}</span>
+                    <span className="svc-receipt__tag">{step.tag}</span>
+                    <span className="svc-receipt__leader" aria-hidden="true" />
+                    <span className="svc-receipt__check">✓</span>
+                  </div>
+                  <div className="svc-receipt__detail">
+                    <h3 className="svc-receipt__detail-title">{step.title}</h3>
+                    <p className="svc-receipt__detail-desc">{step.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div className="svc-receipt__total mono">
+              <span className="svc-receipt__total-k">TOTAL DELIVERABLE</span>
+              <span className="svc-receipt__leader" aria-hidden="true" />
+              <span className="svc-receipt__total-v">완성된 제품 1 EA</span>
+            </div>
+
+            <dl className="svc-receipt__sign mono">
+              <div className="svc-receipt__sign-row">
+                <dt>SIGNED</dt>
+                <span className="svc-receipt__leader" aria-hidden="true" />
+                <dd>nongdev_</dd>
+              </div>
+              <div className="svc-receipt__sign-row">
+                <dt>DATE</dt>
+                <span className="svc-receipt__leader" aria-hidden="true" />
+                <dd>{new Date().toISOString().slice(0, 10)}</dd>
+              </div>
+            </dl>
+
+            <p className="svc-receipt__footer mono">
+              THANK YOU — 안정적으로 운영되도록 끝까지 책임집니다.
+            </p>
+          </Reveal>
           <div className="page-cta">
             <Link className="btn btn-outline btn-lg" to="/portfolio">작업물 보기</Link>
             <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>1:1 상담 시작</button>

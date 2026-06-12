@@ -52,6 +52,181 @@
 .svc-process-step { padding: 24px; border: var(--bd) solid var(--ink); background: var(--surface); box-shadow: var(--shadow-sm); }
 .svc-process-step h3 { margin: 12px 0 8px; font-size: 1.2rem; }
 .svc-process-step p { color: var(--text-soft); font-size: 0.92rem; }
+
+/* ---------- services · receipt / invoice ---------- */
+.svc-receipt {
+  max-width: 720px;
+  margin: 0 auto;
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  padding: 42px 52px 36px;
+}
+.svc-receipt__head {
+  text-align: center;
+  padding-bottom: 22px;
+  border-bottom: 2.5px solid var(--ink);
+  margin-bottom: 22px;
+}
+.svc-receipt__brand {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  color: var(--text-dim);
+}
+.svc-receipt__title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin: 8px 0 6px;
+  line-height: 1.05;
+}
+.svc-receipt__sub {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.22em;
+}
+
+.svc-receipt__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  letter-spacing: 0.06em;
+  padding-bottom: 12px;
+  border-bottom: 1.5px dashed var(--border);
+  margin-bottom: 14px;
+}
+.svc-receipt__meta-k {
+  color: var(--text-dim);
+  margin-right: 6px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.svc-receipt__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.svc-receipt__item {
+  padding: 18px 0;
+  border-bottom: 1.5px dashed var(--border);
+}
+.svc-receipt__item:last-child { border-bottom: none; }
+
+.svc-receipt__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.svc-receipt__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 22px;
+  background: var(--ink);
+  color: var(--bg);
+  letter-spacing: 0.04em;
+  font-size: 0.74rem;
+}
+.svc-receipt__tag {
+  letter-spacing: 0.24em;
+  color: var(--ink);
+}
+.svc-receipt__leader {
+  flex: 1;
+  border-bottom: 2px dotted var(--ink);
+  height: 0.65em;
+  min-width: 20px;
+}
+.svc-receipt__check {
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 0 7px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0;
+}
+
+.svc-receipt__detail {
+  margin: 9px 0 0 38px;
+}
+.svc-receipt__detail-title {
+  font-size: 1.18rem;
+  margin: 0 0 5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.svc-receipt__detail-desc {
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.svc-receipt__total {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 0 14px;
+  border-top: 2.5px solid var(--ink);
+  margin-top: 18px;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+.svc-receipt__total-k { letter-spacing: 0.18em; }
+.svc-receipt__total-v {
+  font-size: 0.95rem;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.svc-receipt__sign {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  letter-spacing: 0.04em;
+}
+.svc-receipt__sign-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+.svc-receipt__sign-row dt {
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  min-width: 58px;
+}
+.svc-receipt__sign-row dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.svc-receipt__footer {
+  text-align: center;
+  margin: 24px 0 0;
+  padding-top: 18px;
+  border-top: 1.5px dashed var(--border);
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 640px) {
+  .svc-receipt { padding: 28px 22px 24px; }
+  .svc-receipt__title { font-size: 1.45rem; letter-spacing: 0.06em; }
+  .svc-receipt__sub { font-size: 0.68rem; letter-spacing: 0.16em; }
+  .svc-receipt__detail { margin-left: 28px; }
+  .svc-receipt__meta { font-size: 0.7rem; flex-wrap: wrap; gap: 6px; }
+  .svc-receipt__sign-row dt { min-width: 48px; }
+}
 @media (max-width: 860px) {
   .svc-row { grid-template-columns: 1fr; gap: 18px; }
   .svc-row__price { padding-left: 0; border-left: none; border-top: var(--bd) solid var(--ink); padding-top: 18px; }
