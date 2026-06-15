@@ -4,7 +4,6 @@ import Reveal from '../components/Reveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import SectionNum from '../components/SectionNum.jsx'
 import SectionNav from '../components/SectionNav.jsx'
-import Sticker from '../components/Sticker.jsx'
 import ServiceCard from '../components/ServiceCard.jsx'
 import WorkCard from '../components/WorkCard.jsx'
 import FaqAccordion from '../components/FaqAccordion.jsx'
@@ -39,13 +38,6 @@ function Hero() {
   return (
     <section className="hero-full">
       <div className="hero-full__bg" />
-      <Sticker
-        tone="lime"
-        tilt={-6}
-        style={{ position: 'absolute', top: '120px', right: '32px', zIndex: 5 }}
-      >
-        [ STATUS: AVAILABLE ]
-      </Sticker>
       <div className="container-wide hero-full__content">
         <div className="hero-full__text">
           <button type="button" className="avb-chip" onClick={openChannelTalk}>
@@ -386,13 +378,6 @@ function Intro() {
   return (
     <section id="intro" className="section intro-section">
       <SectionNum num="01" />
-      <Sticker
-        tone="accent"
-        tilt={4}
-        style={{ position: 'absolute', bottom: 30, right: 28, zIndex: 2 }}
-      >
-        [ REPLY: ~1H ]
-      </Sticker>
       <div className="container-wide intro-grid">
         <Reveal className="intro-left">
           <h2 className="intro-title">{profile.introTitle}</h2>
@@ -1041,13 +1026,6 @@ function Trust() {
   return (
     <section id="trust" className="section trust-section">
       <SectionNum num="08" />
-      <Sticker
-        tone="ink"
-        tilt={-5}
-        style={{ position: 'absolute', top: 30, right: 28, zIndex: 2 }}
-      >
-        [ COSTS: NO HIDDEN ]
-      </Sticker>
       <div className="trust-grid-bg" aria-hidden="true" />
       <div className="container-wide">
         <SectionHeader
