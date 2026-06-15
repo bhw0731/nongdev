@@ -203,7 +203,7 @@ function IntroTerminal() {
       case 'about':
         output = [
           'nongdev — 1인 풀스택 개발 스튜디오',
-          '2022 — NOW · 외주 50건+ 진행',
+          'EST. 2026 · 기획부터 배포까지 한 사람의 손에서.',
           '',
           profile.introDesc,
         ].join('\n')

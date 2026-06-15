@@ -7,7 +7,7 @@ export default function PageHero({ label, title, desc }) {
       <div className="container-wide">
         <div className="page-hero__strip mono">
           <span className="page-hero__brand">nongdev studio_</span>
-          <span className="page-hero__year">© 2022 — 2026</span>
+          <span className="page-hero__year">© EST. 2026</span>
         </div>
         <Reveal>
           {label && (

@@ -14,7 +14,7 @@ export const profile = {
     { group: 'INFRA', items: ['AWS', 'Vercel', 'Docker', 'CI/CD'] },
   ],
   career: [
-    { period: '2022 — NOW', title: '1인 개발 스튜디오 nongdev 운영', desc: '웹·앱·쇼핑몰 외주 50건 이상 진행' },
-    { period: '2019 — 2022', title: '스타트업 풀스택 개발자', desc: '웹 서비스 기획·개발·운영 전반 담당' },
+    { period: '2026 — NOW', title: '1인 개발 스튜디오 nongdev 운영', desc: '웹·앱·쇼핑몰을 기획부터 배포까지 한 사람의 손에서.' },
+    { period: '2023 — 2026', title: '스타트업 풀스택 개발자', desc: '웹 서비스 기획·개발·운영 전반 담당.' },
   ],
 }

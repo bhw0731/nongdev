@@ -27,7 +27,7 @@ export default function Portfolio() {
               <span className="pf-index__sep">·</span>
               <span>{works.length} WORKS</span>
             </span>
-            <span className="pf-index__year">2022 — 2026</span>
+            <span className="pf-index__year">EST. 2026</span>
           </div>
 
           <div className="pf-sheet">
