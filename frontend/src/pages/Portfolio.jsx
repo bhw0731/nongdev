@@ -1,4 +1,3 @@
-import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -11,12 +10,6 @@ export default function Portfolio() {
     '포트폴리오 | nongdev',
     'nongdev가 실제로 진행한 웹·앱·쇼핑몰 프로젝트 모음. 비슷한 작업이 필요하면 1:1 상담으로 문의해 주세요.',
   )
-  const categories = useMemo(
-    () => ['전체', ...Array.from(new Set(works.map((w) => w.category)))],
-    [],
-  )
-  const [active, setActive] = useState('전체')
-  const filtered = active === '전체' ? works : works.filter((w) => w.category === active)
 
   return (
     <>
@@ -32,27 +25,14 @@ export default function Portfolio() {
             <span>
               <span className="pf-index__k">INDEX</span>
               <span className="pf-index__sep">·</span>
-              <span>{filtered.length} OF {works.length} WORKS</span>
+              <span>{works.length} WORKS</span>
             </span>
             <span className="pf-index__year">2022 — 2026</span>
           </div>
 
-          <div className="filter-bar">
-            {categories.map((c) => (
-              <button
-                key={c}
-                type="button"
-                className={`filter-chip${active === c ? ' active' : ''}`}
-                onClick={() => setActive(c)}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
           <div className="pf-sheet">
-            {filtered.map((w, i) => (
-              <Reveal as="div" key={w.id} delay={(i % 3) * 70}>
+            {works.map((w, i) => (
+              <Reveal as="div" key={w.id} delay={i * 60}>
                 <Link className="pf-cell" to={`/portfolio/${w.id}`}>
                   <div className="pf-cell__image">
                     <span className="pf-cell__index mono" aria-hidden="true">
@@ -68,18 +48,16 @@ export default function Portfolio() {
                     </div>
                     <h3 className="pf-cell__name">{w.name}</h3>
                     <div className="pf-cell__client mono">{w.client}</div>
+                    <p className="pf-cell__summary">{w.summary}</p>
                     <div className="pf-cell__tags mono">
-                      {w.tags.slice(0, 4).join(' · ')}
+                      {w.tags.slice(0, 5).join(' · ')}
                     </div>
+                    <span className="pf-cell__cta mono">VIEW PROJECT →</span>
                   </div>
                 </Link>
               </Reveal>
             ))}
           </div>
-
-          {filtered.length === 0 && (
-            <p className="pf-empty mono">no works in this category</p>
-          )}
         </div>
       </section>
     </>
