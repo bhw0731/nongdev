@@ -2005,7 +2005,11 @@
 }
 .fs-col--bad .fs-col__head { background: #e7decd; }
 :root[data-theme='dark'] .fs-col--bad .fs-col__head { background: #332e25; }
-.fs-col--good .fs-col__head { background: var(--accent); color: var(--accent-ink); }
+.fs-col--good .fs-col__head {
+  background: var(--surface);
+  color: var(--ink);
+  border-bottom: 3px solid var(--accent);
+}
 .fs-col__mark {
   width: 34px; height: 34px;
   display: inline-flex;
@@ -2016,7 +2020,7 @@
   border: 2px solid var(--ink);
 }
 .fs-col--bad .fs-col__mark { background: #c43e1f; color: #fff; }
-.fs-col--good .fs-col__mark { background: var(--ink); color: var(--accent); }
+.fs-col--good .fs-col__mark { background: var(--accent); color: var(--ink); }
 .fs-col__title { font-size: 1.05rem; font-weight: 800; }
 .fs-col__sub {
   font-size: 0.74rem;
@@ -2024,7 +2028,7 @@
   letter-spacing: 0.06em;
   margin-top: 2px;
 }
-.fs-col--good .fs-col__sub { color: var(--accent-ink); opacity: 0.72; }
+.fs-col--good .fs-col__sub { color: var(--text-dim); }
 
 /* chat (left) */
 .fs-chat {
@@ -2121,10 +2125,10 @@
   width: 5px; height: 5px;
   border-radius: 50%;
   background: var(--text-dim);
-  animation: fsDot 1.2s infinite;
+  animation: fsDot 2.4s infinite;
 }
-.fs-chat__dots span:nth-child(2) { animation-delay: 0.2s; }
-.fs-chat__dots span:nth-child(3) { animation-delay: 0.4s; }
+.fs-chat__dots span:nth-child(2) { animation-delay: 0.4s; }
+.fs-chat__dots span:nth-child(3) { animation-delay: 0.8s; }
 .fs-chat__dots--big { margin-left: 0; gap: 5px; }
 .fs-chat__dots--big span { width: 8px; height: 8px; background: var(--ink); }
 @keyframes fsDot {
@@ -2142,19 +2146,7 @@
   flex: 1;
   min-height: 410px;
 }
-.fs-stack::before {
-  content: '';
-  position: absolute;
-  top: 30px;
-  bottom: 30px;
-  left: 28px;
-  width: 3px;
-  background: var(--accent);
-  z-index: 0;
-  transform: scaleY(var(--rail-scale, 0));
-  transform-origin: top;
-  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
+/* rail removed — the fragmented dashes between cards read as breakage */
 .fs-stack__layer {
   position: relative;
   z-index: 1;
@@ -2215,21 +2207,24 @@
   margin: 0;
 }
 .fs-stat__row {
-  padding: 12px 8px;
+  padding: 16px 8px 14px;
   text-align: center;
   border-right: 1px dashed var(--border);
 }
 .fs-stat__row:last-child { border-right: 0; }
 .fs-stat__row dt {
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   color: var(--text-dim);
-  letter-spacing: 0.06em;
-  margin-bottom: 4px;
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 .fs-stat__row dd {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.18rem;
   font-weight: 800;
+  letter-spacing: -0.018em;
+  line-height: 1;
 }
 .fs-stat--bad .fs-stat__row dd { color: #a04020; }
 .fs-stat--good { background: rgba(216, 255, 54, 0.15); }

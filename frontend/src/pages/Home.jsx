@@ -505,8 +505,6 @@ function WhyFullstack() {
     }
   }, [totalSteps])
 
-  const railScale = Math.min(1, step / totalSteps)
-
   return (
     <section id="why" className="section why-section" ref={sectionRef}>
       <SectionNum num="03" />
@@ -587,7 +585,7 @@ function WhyFullstack() {
                 <div className="fs-col__sub mono">nongdev · single owner</div>
               </div>
             </div>
-            <div className="fs-stack" style={{ '--rail-scale': railScale }}>
+            <div className="fs-stack">
               {fullstackLayers.map((l, i) => {
                 if (i >= step) return null
                 return (
