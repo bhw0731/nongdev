@@ -1,10 +1,10 @@
 /* ===================== shared page styles (brutalist) ===================== */
 .section-soft { background: var(--bg-2); }
 
-/* ---------- page hero ---------- */
+/* ---------- page hero · magazine masthead ---------- */
 .page-hero {
   position: relative;
-  padding: 56px 0 42px;
+  padding: 32px 0 64px;
   overflow: hidden;
   border-bottom: var(--bd) solid var(--ink);
 }
@@ -15,11 +15,84 @@
     linear-gradient(var(--border) 1px, transparent 1px),
     linear-gradient(90deg, var(--border) 1px, transparent 1px);
   background-size: 56px 56px;
-  opacity: 0.06;
+  opacity: 0.045;
   pointer-events: none;
 }
-.page-hero__title { font-size: clamp(2.2rem, 5vw, 3.4rem); margin-top: 10px; letter-spacing: -0.03em; }
-.page-hero__desc { margin-top: 18px; color: var(--text-soft); font-size: 1.05rem; max-width: 640px; }
+.page-hero > .container-wide { position: relative; z-index: 1; }
+
+/* top strip — brand left, year right, divider rule below */
+.page-hero__strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 56px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.page-hero__brand { color: var(--ink); }
+.page-hero__year { color: var(--text-dim); letter-spacing: 0.16em; }
+
+/* section label · § PORTFOLIO ─────── */
+.page-hero__label-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.page-hero__label-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.page-hero__label-text { color: var(--ink); }
+.page-hero__label-rule {
+  flex: 1;
+  height: 1.5px;
+  background: var(--ink);
+  opacity: 0.85;
+  margin-top: 2px;
+  max-width: 240px;
+}
+
+.page-hero__title {
+  font-size: clamp(2.4rem, 5.6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.04;
+  margin: 0;
+  max-width: 920px;
+}
+.page-hero__desc {
+  margin: 26px 0 0;
+  color: var(--text-soft);
+  font-size: 1.06rem;
+  line-height: 1.6;
+  max-width: 620px;
+}
+
+@media (max-width: 640px) {
+  .page-hero { padding: 24px 0 44px; }
+  .page-hero__strip { margin-bottom: 36px; font-size: 0.66rem; letter-spacing: 0.14em; }
+  .page-hero__label-row { gap: 10px; margin-bottom: 16px; font-size: 0.7rem; letter-spacing: 0.18em; }
+  .page-hero__label-mark { width: 22px; height: 22px; font-size: 0.78rem; }
+  .page-hero__label-rule { max-width: 80px; }
+}
 
 .page-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 54px; }
 
