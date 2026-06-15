@@ -2119,7 +2119,7 @@
   border: 1.5px solid var(--c-border-2);
   background: var(--c-bg-3);
   padding: 8px 12px;
-  box-shadow: 3px 3px 0 var(--c-border);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
   position: relative;
 }
 .fs-chat__body::before {
@@ -2247,11 +2247,10 @@
 }
 .fs-stat__row:last-child { border-right: 0; }
 .fs-stat__row dt {
-  font-size: 0.66rem;
+  font-size: 0.7rem;
   color: var(--c-text-dim);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.02em;
   margin-bottom: 8px;
-  text-transform: uppercase;
 }
 .fs-stat__row dd {
   margin: 0;
