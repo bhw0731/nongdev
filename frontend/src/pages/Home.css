@@ -2008,7 +2008,7 @@
 .fs-col--good .fs-col__head {
   background: var(--surface);
   color: var(--ink);
-  border-bottom: 3px solid var(--accent);
+  border-bottom: 3px solid var(--lime);
 }
 .fs-col__mark {
   width: 34px; height: 34px;
@@ -2020,7 +2020,7 @@
   border: 2px solid var(--ink);
 }
 .fs-col--bad .fs-col__mark { background: #c43e1f; color: #fff; }
-.fs-col--good .fs-col__mark { background: var(--accent); color: var(--ink); }
+.fs-col--good .fs-col__mark { background: var(--lime); color: var(--lime-ink); }
 .fs-col__title { font-size: 1.05rem; font-weight: 800; }
 .fs-col__sub {
   font-size: 0.74rem;
