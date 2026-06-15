@@ -27,7 +27,7 @@ export default function PortfolioDetail() {
   }
 
   const idx = works.findIndex((w) => w.id === id)
-  const next = works[(idx + 1) % works.length]
+  const next = works.length > 1 ? works[(idx + 1) % works.length] : null
   const indexNum = String(idx + 1).padStart(2, '0')
 
   return (
@@ -96,13 +96,15 @@ export default function PortfolioDetail() {
           </Reveal>
         </div>
 
-        <Link className="pf-detail__next" to={`/portfolio/${next.id}`}>
-          <div className="pf-detail__next-left">
-            <span className="pf-detail__next-k mono">NEXT WORK</span>
-            <strong className="pf-detail__next-name">{next.name}</strong>
-          </div>
-          <span className="pf-detail__next-arrow" aria-hidden="true">→</span>
-        </Link>
+        {next && (
+          <Link className="pf-detail__next" to={`/portfolio/${next.id}`}>
+            <div className="pf-detail__next-left">
+              <span className="pf-detail__next-k mono">NEXT WORK</span>
+              <strong className="pf-detail__next-name">{next.name}</strong>
+            </div>
+            <span className="pf-detail__next-arrow" aria-hidden="true">→</span>
+          </Link>
+        )}
       </div>
     </article>
   )

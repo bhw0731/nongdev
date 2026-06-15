@@ -25,7 +25,7 @@ export default function Portfolio() {
             <span>
               <span className="pf-index__k">INDEX</span>
               <span className="pf-index__sep">·</span>
-              <span>{works.length} WORKS</span>
+              <span>{works.length} {works.length === 1 ? 'WORK' : 'WORKS'}</span>
             </span>
             <span className="pf-index__year">EST. 2026</span>
           </div>
