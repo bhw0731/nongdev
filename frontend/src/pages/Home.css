@@ -2246,7 +2246,6 @@
   .fs-chat__avatar { width: 30px; height: 30px; font-size: 0.84rem; }
   .fs-chat__body::before { top: 11px; left: -6px; width: 10px; height: 10px; }
   .fs-stack { padding: 14px; }
-  .fs-stack::before { left: 22px; }
   .fs-stack__layer { padding: 12px 14px; flex-wrap: wrap; }
   .fs-stack__owner { font-size: 0.7rem; padding: 3px 8px; }
   .fs-stat__row dd { font-size: 0.9rem; }
