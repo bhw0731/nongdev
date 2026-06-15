@@ -13,7 +13,6 @@ import { FaAws } from 'react-icons/fa'
 import { FiCode, FiLayers, FiSmartphone, FiServer, FiBriefcase, FiCalendar } from 'react-icons/fi'
 import './Pages.css'
 
-// 기술 → { Icon, color } 매핑. 다크모드에서 안 보이는 검정 계열은 currentColor 사용.
 const TECH = {
   React:          { Icon: SiReact,         color: '#61DAFB' },
   'Next.js':      { Icon: SiNextdotjs,     color: 'currentColor' },
@@ -42,11 +41,47 @@ const GROUP_ICON = {
   INFRA:    FiCode,
 }
 
+const STATS = [
+  { num: '18+',  label: 'TECHS' },
+  { num: '4',    label: 'DOMAINS' },
+  { num: '~1H',  label: 'RESPONSE' },
+  { num: '1',    label: 'OWNER' },
+]
+
+const PRINCIPLES = [
+  {
+    num: '01',
+    title: '솔직한 견적',
+    desc: '작업 시작 전 모든 비용과 일정을 명확히 합의합니다. 진행 중 깜짝 청구 없이.',
+  },
+  {
+    num: '02',
+    title: '인수 가능한 코드',
+    desc: '6개월 뒤 본인이 보거나 다른 개발자가 이어받아도 막힘없이 동작하도록 작성합니다.',
+  },
+  {
+    num: '03',
+    title: '신뢰가 먼저',
+    desc: '한 번의 큰 거래보다, 다시 찾아올 수 있는 관계를 우선합니다.',
+  },
+]
+
+function SectionHead({ num, label, rule = true }) {
+  return (
+    <div className="about-head mono">
+      <span className="about-head__num">{num}</span>
+      <span className="about-head__label">{label}</span>
+      {rule && <span className="about-head__rule" aria-hidden="true" />}
+    </div>
+  )
+}
+
 export default function About() {
   useDocumentMeta(
     '소개 | nongdev',
     'nongdev 소개·보유 기술·경력. 기획부터 배포까지 한 사람의 손에서 일관되게 책임지는 1인 개발 스튜디오입니다.',
   )
+
   return (
     <>
       <PageHero
@@ -55,12 +90,45 @@ export default function About() {
         desc={profile.introDesc}
       />
 
+      {/* §01 — INTRODUCTION */}
+      <section className="section">
+        <div className="container-wide">
+          <SectionHead num="01" label="INTRODUCTION" />
+          <h2 className="about-title">한 사람이 끝까지</h2>
+
+          <Reveal className="about-bio">
+            <p className="about-bio__paragraph">
+              여러 회사와 프로젝트를 거치며 한 가지를 깨달았습니다.
+              작은 사이트 하나도 결국 디자이너 → 퍼블리셔 → 프론트 → 백엔드 → 배포까지
+              여러 단계를 거치는 동안 의도가 흐릿해진다는 것.
+              처음부터 끝까지 한 사람이 잡으면 더 빠르고, 더 정확하고,
+              더 솔직하게 만들 수 있다는 가정에서 nongdev를 시작했습니다.
+            </p>
+            <blockquote className="about-bio__quote">
+              <span className="about-bio__quote-text">
+                복잡한 과정 없이, 결과물로 말합니다.
+              </span>
+              <cite className="about-bio__quote-cite mono">— nongdev</cite>
+            </blockquote>
+          </Reveal>
+
+          <Reveal as="dl" className="about-stats mono" delay={120}>
+            {STATS.map((s) => (
+              <div key={s.label} className="about-stats__row">
+                <dt className="about-stats__num">{s.num}</dt>
+                <dd className="about-stats__label">{s.label}</dd>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* §02 — SKILLS */}
       <section className="section section-soft">
         <div className="container-wide">
-          <Reveal className="section-header">
-            <span className="section-label">SKILLS</span>
-            <h2 className="section-title">기술 스택</h2>
-          </Reveal>
+          <SectionHead num="02" label="SKILLS" />
+          <h2 className="about-title">기술 스택</h2>
+
           <div className="skill-groups">
             {profile.skills.map((g, i) => {
               const GroupIcon = GROUP_ICON[g.group] || FiCode
@@ -96,12 +164,30 @@ export default function About() {
         </div>
       </section>
 
+      {/* §03 — PRINCIPLES */}
       <section className="section">
         <div className="container-wide">
-          <Reveal className="section-header">
-            <span className="section-label">CAREER</span>
-            <h2 className="section-title">경력</h2>
-          </Reveal>
+          <SectionHead num="03" label="PRINCIPLES" />
+          <h2 className="about-title">일하는 원칙</h2>
+
+          <div className="about-principles">
+            {PRINCIPLES.map((p, i) => (
+              <Reveal as="article" key={p.num} className="about-principle" delay={i * 80}>
+                <span className="about-principle__num mono">{p.num}</span>
+                <h3 className="about-principle__title">{p.title}</h3>
+                <p className="about-principle__desc">{p.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* §04 — CAREER */}
+      <section className="section section-soft">
+        <div className="container-wide">
+          <SectionHead num="04" label="CAREER" />
+          <h2 className="about-title">경력</h2>
+
           <div className="timeline">
             {profile.career.map((c, i) => (
               <Reveal as="div" key={i} className="timeline-item" delay={i * 80}>
@@ -119,6 +205,7 @@ export default function About() {
               </Reveal>
             ))}
           </div>
+
           <div className="page-cta">
             <Link className="btn btn-outline btn-lg" to="/portfolio">작업물 보기</Link>
             <button className="btn btn-primary btn-lg" onClick={openChannelTalk}>1:1 상담 시작</button>
