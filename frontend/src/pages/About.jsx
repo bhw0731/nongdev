@@ -41,13 +41,6 @@ const GROUP_ICON = {
   INFRA:    FiCode,
 }
 
-const STATS = [
-  { num: '18+',  label: 'TECHS' },
-  { num: '4',    label: 'DOMAINS' },
-  { num: '~1H',  label: 'RESPONSE' },
-  { num: '1',    label: 'OWNER' },
-]
-
 const PRINCIPLES = [
   {
     num: '01',
@@ -90,43 +83,10 @@ export default function About() {
         desc={profile.introDesc}
       />
 
-      {/* §01 — INTRODUCTION */}
-      <section className="section">
-        <div className="container-wide">
-          <SectionHead num="01" label="INTRODUCTION" />
-          <h2 className="about-title">한 사람이 끝까지</h2>
-
-          <Reveal className="about-bio">
-            <p className="about-bio__paragraph">
-              여러 회사와 프로젝트를 거치며 한 가지를 깨달았습니다.
-              작은 사이트 하나도 결국 디자이너 → 퍼블리셔 → 프론트 → 백엔드 → 배포까지
-              여러 단계를 거치는 동안 의도가 흐릿해진다는 것.
-              처음부터 끝까지 한 사람이 잡으면 더 빠르고, 더 정확하고,
-              더 솔직하게 만들 수 있다는 가정에서 nongdev를 시작했습니다.
-            </p>
-            <blockquote className="about-bio__quote">
-              <span className="about-bio__quote-text">
-                복잡한 과정 없이, 결과물로 말합니다.
-              </span>
-              <cite className="about-bio__quote-cite mono">— nongdev</cite>
-            </blockquote>
-          </Reveal>
-
-          <Reveal as="dl" className="about-stats mono" delay={120}>
-            {STATS.map((s) => (
-              <div key={s.label} className="about-stats__row">
-                <dt className="about-stats__num">{s.num}</dt>
-                <dd className="about-stats__label">{s.label}</dd>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* §02 — SKILLS */}
+      {/* §01 — SKILLS */}
       <section className="section section-soft">
         <div className="container-wide">
-          <SectionHead num="02" label="SKILLS" />
+          <SectionHead num="01" label="SKILLS" />
           <h2 className="about-title">기술 스택</h2>
 
           <div className="skill-groups">
@@ -164,10 +124,10 @@ export default function About() {
         </div>
       </section>
 
-      {/* §03 — PRINCIPLES */}
+      {/* §02 — PRINCIPLES */}
       <section className="section">
         <div className="container-wide">
-          <SectionHead num="03" label="PRINCIPLES" />
+          <SectionHead num="02" label="PRINCIPLES" />
           <h2 className="about-title">일하는 원칙</h2>
 
           <div className="about-principles">
@@ -182,10 +142,10 @@ export default function About() {
         </div>
       </section>
 
-      {/* §04 — CAREER */}
+      {/* §03 — CAREER */}
       <section className="section section-soft">
         <div className="container-wide">
-          <SectionHead num="04" label="CAREER" />
+          <SectionHead num="03" label="CAREER" />
           <h2 className="about-title">경력</h2>
 
           <div className="timeline">
