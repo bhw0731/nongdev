@@ -406,19 +406,7 @@ function ServicesPreview() {
       <div className="container-wide">
         <SectionHeader title={'필요한 결과물,\n바로 만들어드립니다'} />
         <Reveal className="svc-terminal">
-          <div className="svc-terminal__head">
-            <span className="svc-terminal__dots">
-              <span className="svc-terminal__dot svc-terminal__dot--r" />
-              <span className="svc-terminal__dot svc-terminal__dot--y" />
-              <span className="svc-terminal__dot svc-terminal__dot--g" />
-            </span>
-            <span className="svc-terminal__file mono">package.json</span>
-          </div>
           <div className="svc-terminal__body mono">
-            <div className="svc-line svc-line--cmd">
-              <span className="svc-prompt">$</span> npm install @nongdev/services
-            </div>
-            <div className="svc-spacer" />
             {services.map((s, i) => {
               const pkgId = s.id.replace(/^svc-/, '')
               return (
@@ -435,14 +423,6 @@ function ServicesPreview() {
                 </Reveal>
               )
             })}
-            <div className="svc-spacer" />
-            <div className="svc-line svc-line--ok">
-              + added {services.length} packages, 0 vulnerabilities found
-            </div>
-            <div className="svc-line svc-line--cmd">
-              <span className="svc-prompt">$</span>
-              <span className="svc-cursor" />
-            </div>
           </div>
         </Reveal>
       </div>
