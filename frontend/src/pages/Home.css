@@ -1971,7 +1971,7 @@
   .trust-jest__test { padding-left: 8px; font-size: 0.84rem; }
 }
 
-/* ---------- WHY FULL-STACK · compare.sh terminal ---------- */
+/* ---------- WHY FULL-STACK · clean comparison table ---------- */
 .why-cmp {
   max-width: 920px;
   margin: 0 auto;
@@ -1982,53 +1982,11 @@
   font-family: var(--font-mono);
 }
 
-.why-cmp__head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 16px;
-  background: #14130e;
-  border-bottom: 1px solid rgba(242, 239, 228, 0.1);
-}
-.why-cmp__dots { display: flex; gap: 6px; }
-.why-cmp__dot { width: 12px; height: 12px; border: 1.5px solid #0c0b07; }
-.why-cmp__dot--r { background: #ff5f57; }
-.why-cmp__dot--y { background: #febc2e; }
-.why-cmp__dot--g { background: #28c840; }
-.why-cmp__file {
-  margin-left: 8px;
-  font-size: 0.78rem;
-  color: #c2bfb1;
-  font-weight: 600;
-}
-.why-cmp__branch {
-  margin-left: auto;
-  font-size: 0.72rem;
-  color: #8b8676;
-  letter-spacing: 0.06em;
-}
-
 .why-cmp__body {
-  padding: 24px 28px 28px;
+  padding: 28px 32px;
   font-size: 0.9rem;
   line-height: 1.75;
   color: #e6e3d6;
-}
-
-.why-cmp__cmd {
-  display: block;
-  color: #f2efe4;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.why-cmp__prompt { color: #d8ff36; margin-right: 9px; font-weight: 800; }
-.why-cmp__cmd-text { color: #f2efe4; }
-
-.why-cmp__sub {
-  color: #8b8676;
-  font-size: 0.82rem;
-  padding-left: 22px;
-  margin-bottom: 22px;
 }
 
 /* shared grid for head + body rows */
@@ -2108,19 +2066,8 @@
   margin: 8px 0;
 }
 
-.why-cmp__result {
-  margin-top: 10px;
-  color: #7dff8a;
-  font-weight: 600;
-  padding-left: 50px;
-}
-.why-cmp__check { color: #7dff8a; font-weight: 900; margin-right: 10px; }
-
 @media (max-width: 780px) {
-  .why-cmp__body { padding: 18px 20px; font-size: 0.82rem; }
-  .why-cmp__head { padding: 10px 12px; }
-  .why-cmp__file { font-size: 0.72rem; }
-  .why-cmp__branch { display: none; }
+  .why-cmp__body { padding: 20px 22px; font-size: 0.82rem; }
 
   .why-cmp__row {
     grid-template-columns: 30px 1fr;

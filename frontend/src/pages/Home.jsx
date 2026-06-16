@@ -462,23 +462,7 @@ function WhyFullstack() {
         />
 
         <Reveal as="div" className="why-cmp mono">
-          <div className="why-cmp__head">
-            <span className="why-cmp__dots">
-              <span className="why-cmp__dot why-cmp__dot--r" />
-              <span className="why-cmp__dot why-cmp__dot--y" />
-              <span className="why-cmp__dot why-cmp__dot--g" />
-            </span>
-            <span className="why-cmp__file">~/nongdev — compare.sh</span>
-            <span className="why-cmp__branch">6 categories</span>
-          </div>
-
           <div className="why-cmp__body">
-            <div className="why-cmp__cmd">
-              <span className="why-cmp__prompt">$</span>
-              <span className="why-cmp__cmd-text">./compare.sh multi-vendor nongdev</span>
-            </div>
-            <div className="why-cmp__sub">comparing handoff path vs single-owner path...</div>
-
             <div className="why-cmp__row why-cmp__row--head">
               <span className="why-cmp__c-num">N°</span>
               <span className="why-cmp__c-label">CATEGORY</span>
@@ -501,12 +485,6 @@ function WhyFullstack() {
                 <span className="why-cmp__c-good">{row.good}</span>
               </Reveal>
             ))}
-
-            <div className="why-cmp__rule" aria-hidden="true" />
-            <div className="why-cmp__result">
-              <span className="why-cmp__check">✓</span>
-              shipped · 한 번에, 명확하게
-            </div>
           </div>
         </Reveal>
       </div>
