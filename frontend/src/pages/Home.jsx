@@ -461,54 +461,72 @@ function WhyFullstack() {
           center
         />
 
-        <Reveal as="div" className="why-table">
-          <div className="why-meta mono">
-            <span className="why-meta__k">SPEC</span>
-            <span className="why-meta__rule" aria-hidden="true" />
-            <span className="why-meta__v">SAME JOB · DIFFERENT OUTCOME</span>
+        <Reveal as="div" className="why-diff mono">
+          <div className="why-diff__head">
+            <span className="why-diff__dots">
+              <span className="why-diff__dot why-diff__dot--r" />
+              <span className="why-diff__dot why-diff__dot--y" />
+              <span className="why-diff__dot why-diff__dot--g" />
+            </span>
+            <span className="why-diff__file">vs.diff — git</span>
+            <span className="why-diff__branch">multi-vendor → nongdev</span>
           </div>
 
-          <div className="why-row why-row--head mono">
-            <div className="why-cell why-cell--num">N°</div>
-            <div className="why-cell why-cell--label">기준</div>
-            <div className="why-cell why-cell--bad">
-              <span className="why-col-mark why-col-mark--bad" aria-hidden="true">✗</span>
-              <span className="why-col-title">다수 외주 (분업)</span>
+          <div className="why-diff__body">
+            <div className="why-diff__row why-diff__row--cmd">
+              <span className="why-diff__prompt">$</span>
+              <span className="why-diff__cmd">git diff multi-vendor..nongdev</span>
             </div>
-            <div className="why-cell why-cell--good">
-              <span className="why-col-mark why-col-mark--good" aria-hidden="true">✓</span>
-              <span className="why-col-title">풀스택 (1인)</span>
+            <div className="why-diff__row why-diff__row--meta">
+              6 files changed, 6 deletions(<span className="why-diff__del-c">-</span>),
+              6 insertions(<span className="why-diff__add-c">+</span>)
             </div>
-          </div>
 
-          {compareRows.map((row, i) => {
-            const quoted = row.bad.startsWith('"') && row.bad.endsWith('"')
-            return (
-              <Reveal as="div" key={row.label} className="why-row" delay={i * 60}>
-                <div className="why-cell why-cell--num mono">
-                  {String(i + 1).padStart(2, '0')}
-                </div>
-                <div className="why-cell why-cell--label">{row.label}</div>
-                <div className="why-cell why-cell--bad">
-                  {quoted ? (
-                    <span className="why-quote">
-                      {row.bad.slice(1, -1)}
-                    </span>
-                  ) : row.bad}
-                </div>
-                <div className="why-cell why-cell--good">
-                  <span className="why-good-val">{row.good}</span>
-                </div>
-              </Reveal>
-            )
-          })}
+            <div className="why-diff__spacer" />
 
-          <div className="why-row why-row--foot mono">
-            <div className="why-cell why-cell--num">→</div>
-            <div className="why-cell why-cell--label">RESULT</div>
-            <div className="why-cell why-cell--bad">시간·비용·신뢰 손실</div>
-            <div className="why-cell why-cell--good">
-              <span className="why-good-val">한 번에, 명확하게</span>
+            {compareRows.map((row, i) => {
+              const quoted = row.bad.startsWith('"') && row.bad.endsWith('"')
+              const badText = quoted ? row.bad.slice(1, -1) : row.bad
+              return (
+                <Reveal as="div" key={row.label} className="why-diff__hunk" delay={i * 50}>
+                  <div className="why-diff__row why-diff__row--file">
+                    <span className="why-diff__file-mark">diff --git</span>
+                    <span className="why-diff__file-a">a/{row.label.replace(/\s+/g, '-')}</span>
+                    <span className="why-diff__file-b">b/{row.label.replace(/\s+/g, '-')}</span>
+                  </div>
+                  <div className="why-diff__row why-diff__row--hunk">
+                    <span className="why-diff__at">@@</span>
+                    <span className="why-diff__hunk-label"> {row.label} </span>
+                    <span className="why-diff__at">@@</span>
+                  </div>
+                  <div className="why-diff__row why-diff__row--del">
+                    <span className="why-diff__sign">-</span>
+                    {quoted ? `"${badText}"` : badText}
+                  </div>
+                  <div className="why-diff__row why-diff__row--add">
+                    <span className="why-diff__sign">+</span>
+                    {row.good}
+                  </div>
+                </Reveal>
+              )
+            })}
+
+            <div className="why-diff__spacer" />
+            <div className="why-diff__row why-diff__row--rule" aria-hidden="true">
+              ───────────────────────────────────────────────
+            </div>
+            <div className="why-diff__row why-diff__row--ok">
+              <span className="why-diff__check">✓</span> diff applied · 6 contexts simplified
+            </div>
+
+            <div className="why-diff__spacer" />
+
+            <div className="why-diff__row why-diff__row--cmd">
+              <span className="why-diff__prompt">$</span>
+              <span className="why-diff__cmd">deploy --to=client</span>
+            </div>
+            <div className="why-diff__row why-diff__row--ok">
+              <span className="why-diff__check">✓</span> shipped · 한 번에, 명확하게
             </div>
           </div>
         </Reveal>

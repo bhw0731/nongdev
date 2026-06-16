@@ -1971,7 +1971,134 @@
   .trust-jest__test { padding-left: 8px; font-size: 0.84rem; }
 }
 
-/* ---------- WHY FULL-STACK · refined comparison spec sheet ---------- */
+/* ---------- WHY FULL-STACK · git diff terminal ---------- */
+.why-diff {
+  max-width: 900px;
+  margin: 0 auto;
+  border: var(--bd) solid var(--ink);
+  background: #0c0b07;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+
+.why-diff__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  background: #14130e;
+  border-bottom: 1px solid rgba(242, 239, 228, 0.1);
+}
+.why-diff__dots { display: flex; gap: 6px; }
+.why-diff__dot {
+  width: 12px; height: 12px;
+  border: 1.5px solid #0c0b07;
+}
+.why-diff__dot--r { background: #ff5f57; }
+.why-diff__dot--y { background: #febc2e; }
+.why-diff__dot--g { background: #28c840; }
+.why-diff__file {
+  margin-left: 8px;
+  font-size: 0.78rem;
+  color: #c2bfb1;
+  font-weight: 600;
+}
+.why-diff__branch {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: #8b8676;
+  letter-spacing: 0.06em;
+}
+
+.why-diff__body {
+  padding: 24px 26px 28px;
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: #e6e3d6;
+}
+
+.why-diff__row {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.why-diff__row--cmd { color: #f2efe4; font-weight: 600; }
+.why-diff__prompt { color: #d8ff36; margin-right: 9px; font-weight: 800; }
+.why-diff__cmd { color: #f2efe4; }
+
+.why-diff__row--meta {
+  color: #8b8676;
+  font-size: 0.84rem;
+  padding-left: 22px;
+}
+.why-diff__del-c { color: #ff8a76; font-weight: 800; }
+.why-diff__add-c { color: #7dff8a; font-weight: 800; }
+
+.why-diff__hunk { margin-bottom: 14px; }
+
+.why-diff__row--file {
+  color: #8b8676;
+  font-size: 0.78rem;
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.why-diff__file-mark { color: #c2bfb1; font-weight: 600; }
+.why-diff__file-a, .why-diff__file-b { color: #6ea8ff; }
+
+.why-diff__row--hunk {
+  color: #c585c4;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.why-diff__at { color: #c585c4; font-weight: 800; letter-spacing: 0; }
+.why-diff__hunk-label { color: #c585c4; }
+
+.why-diff__row--del {
+  color: #ff8a76;
+  background: rgba(255, 100, 80, 0.07);
+  padding: 0 6px;
+  margin-left: -6px;
+  display: block;
+}
+.why-diff__row--add {
+  color: #7dff8a;
+  background: rgba(120, 255, 130, 0.08);
+  padding: 0 6px;
+  margin-left: -6px;
+  display: block;
+}
+.why-diff__sign {
+  display: inline-block;
+  width: 14px;
+  font-weight: 900;
+  margin-right: 4px;
+}
+
+.why-diff__spacer { height: 0.6em; }
+
+.why-diff__row--rule {
+  color: #3a3528;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.why-diff__row--ok {
+  color: #7dff8a;
+  font-weight: 600;
+  padding-left: 22px;
+}
+.why-diff__check { color: #7dff8a; font-weight: 900; margin-right: 8px; }
+
+@media (max-width: 720px) {
+  .why-diff__body { padding: 16px 18px 22px; font-size: 0.8rem; }
+  .why-diff__head { padding: 10px 12px; }
+  .why-diff__file { font-size: 0.72rem; }
+  .why-diff__branch { display: none; }
+  .why-diff__row--file { font-size: 0.7rem; }
+}
+
+/* ---------- WHY FULL-STACK · refined comparison spec sheet (LEGACY) ---------- */
 .why-table {
   max-width: 940px;
   margin: 0 auto;
