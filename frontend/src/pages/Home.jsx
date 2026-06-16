@@ -461,72 +461,51 @@ function WhyFullstack() {
           center
         />
 
-        <Reveal as="div" className="why-diff mono">
-          <div className="why-diff__head">
-            <span className="why-diff__dots">
-              <span className="why-diff__dot why-diff__dot--r" />
-              <span className="why-diff__dot why-diff__dot--y" />
-              <span className="why-diff__dot why-diff__dot--g" />
+        <Reveal as="div" className="why-cmp mono">
+          <div className="why-cmp__head">
+            <span className="why-cmp__dots">
+              <span className="why-cmp__dot why-cmp__dot--r" />
+              <span className="why-cmp__dot why-cmp__dot--y" />
+              <span className="why-cmp__dot why-cmp__dot--g" />
             </span>
-            <span className="why-diff__file">vs.diff — git</span>
-            <span className="why-diff__branch">multi-vendor → nongdev</span>
+            <span className="why-cmp__file">~/nongdev — compare.sh</span>
+            <span className="why-cmp__branch">6 categories</span>
           </div>
 
-          <div className="why-diff__body">
-            <div className="why-diff__row why-diff__row--cmd">
-              <span className="why-diff__prompt">$</span>
-              <span className="why-diff__cmd">git diff multi-vendor..nongdev</span>
+          <div className="why-cmp__body">
+            <div className="why-cmp__cmd">
+              <span className="why-cmp__prompt">$</span>
+              <span className="why-cmp__cmd-text">./compare.sh multi-vendor nongdev</span>
             </div>
-            <div className="why-diff__row why-diff__row--meta">
-              6 files changed, 6 deletions(<span className="why-diff__del-c">-</span>),
-              6 insertions(<span className="why-diff__add-c">+</span>)
+            <div className="why-cmp__sub">comparing handoff path vs single-owner path...</div>
+
+            <div className="why-cmp__row why-cmp__row--head">
+              <span className="why-cmp__c-num">N°</span>
+              <span className="why-cmp__c-label">CATEGORY</span>
+              <span className="why-cmp__c-bad">
+                <span className="why-cmp__col-mark why-cmp__col-mark--bad" aria-hidden="true">✗</span>
+                multi-vendor
+              </span>
+              <span className="why-cmp__c-good">
+                <span className="why-cmp__col-mark why-cmp__col-mark--good" aria-hidden="true">✓</span>
+                nongdev
+              </span>
             </div>
+            <div className="why-cmp__rule" aria-hidden="true" />
 
-            <div className="why-diff__spacer" />
+            {compareRows.map((row, i) => (
+              <Reveal as="div" key={row.label} className="why-cmp__row" delay={i * 50}>
+                <span className="why-cmp__c-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="why-cmp__c-label">{row.label}</span>
+                <span className="why-cmp__c-bad">{row.bad}</span>
+                <span className="why-cmp__c-good">{row.good}</span>
+              </Reveal>
+            ))}
 
-            {compareRows.map((row, i) => {
-              const quoted = row.bad.startsWith('"') && row.bad.endsWith('"')
-              const badText = quoted ? row.bad.slice(1, -1) : row.bad
-              return (
-                <Reveal as="div" key={row.label} className="why-diff__hunk" delay={i * 50}>
-                  <div className="why-diff__row why-diff__row--file">
-                    <span className="why-diff__file-mark">diff --git</span>
-                    <span className="why-diff__file-a">a/{row.label.replace(/\s+/g, '-')}</span>
-                    <span className="why-diff__file-b">b/{row.label.replace(/\s+/g, '-')}</span>
-                  </div>
-                  <div className="why-diff__row why-diff__row--hunk">
-                    <span className="why-diff__at">@@</span>
-                    <span className="why-diff__hunk-label"> {row.label} </span>
-                    <span className="why-diff__at">@@</span>
-                  </div>
-                  <div className="why-diff__row why-diff__row--del">
-                    <span className="why-diff__sign">-</span>
-                    {quoted ? `"${badText}"` : badText}
-                  </div>
-                  <div className="why-diff__row why-diff__row--add">
-                    <span className="why-diff__sign">+</span>
-                    {row.good}
-                  </div>
-                </Reveal>
-              )
-            })}
-
-            <div className="why-diff__spacer" />
-            <div className="why-diff__row why-diff__row--rule" aria-hidden="true">
-              ───────────────────────────────────────────────
-            </div>
-            <div className="why-diff__row why-diff__row--ok">
-              <span className="why-diff__check">✓</span> diff applied · 6 contexts simplified
-            </div>
-
-            <div className="why-diff__spacer" />
-
-            <div className="why-diff__row why-diff__row--cmd">
-              <span className="why-diff__prompt">$</span>
-              <span className="why-diff__cmd">deploy --to=client</span>
-            </div>
-            <div className="why-diff__row why-diff__row--ok">
-              <span className="why-diff__check">✓</span> shipped · 한 번에, 명확하게
+            <div className="why-cmp__rule" aria-hidden="true" />
+            <div className="why-cmp__result">
+              <span className="why-cmp__check">✓</span>
+              shipped · 한 번에, 명확하게
             </div>
           </div>
         </Reveal>

@@ -1971,7 +1971,183 @@
   .trust-jest__test { padding-left: 8px; font-size: 0.84rem; }
 }
 
-/* ---------- WHY FULL-STACK · git diff terminal ---------- */
+/* ---------- WHY FULL-STACK · compare.sh terminal ---------- */
+.why-cmp {
+  max-width: 920px;
+  margin: 0 auto;
+  border: var(--bd) solid var(--ink);
+  background: #0c0b07;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+
+.why-cmp__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  background: #14130e;
+  border-bottom: 1px solid rgba(242, 239, 228, 0.1);
+}
+.why-cmp__dots { display: flex; gap: 6px; }
+.why-cmp__dot { width: 12px; height: 12px; border: 1.5px solid #0c0b07; }
+.why-cmp__dot--r { background: #ff5f57; }
+.why-cmp__dot--y { background: #febc2e; }
+.why-cmp__dot--g { background: #28c840; }
+.why-cmp__file {
+  margin-left: 8px;
+  font-size: 0.78rem;
+  color: #c2bfb1;
+  font-weight: 600;
+}
+.why-cmp__branch {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: #8b8676;
+  letter-spacing: 0.06em;
+}
+
+.why-cmp__body {
+  padding: 24px 28px 28px;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: #e6e3d6;
+}
+
+.why-cmp__cmd {
+  display: block;
+  color: #f2efe4;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.why-cmp__prompt { color: #d8ff36; margin-right: 9px; font-weight: 800; }
+.why-cmp__cmd-text { color: #f2efe4; }
+
+.why-cmp__sub {
+  color: #8b8676;
+  font-size: 0.82rem;
+  padding-left: 22px;
+  margin-bottom: 22px;
+}
+
+/* shared grid for head + body rows */
+.why-cmp__row {
+  display: grid;
+  grid-template-columns: 32px 1fr 1.3fr 1.5fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-radius: 2px;
+  transition: background 0.15s ease;
+}
+.why-cmp__row:not(.why-cmp__row--head):hover {
+  background: rgba(216, 255, 54, 0.04);
+}
+
+.why-cmp__row--head {
+  color: #8b8676;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 8px 0 4px;
+}
+
+.why-cmp__c-num {
+  color: #5a5240;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.why-cmp__c-label {
+  color: #f0ebdb;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  font-size: 0.92rem;
+}
+.why-cmp__c-bad {
+  color: #ff8a76;
+  font-weight: 500;
+}
+.why-cmp__c-good {
+  color: #7dff8a;
+  font-weight: 700;
+}
+
+.why-cmp__row--head .why-cmp__c-num {
+  color: #5a5240;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+.why-cmp__row--head .why-cmp__c-label {
+  color: #8b8676;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+}
+
+.why-cmp__col-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 16px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  margin-right: 8px;
+  letter-spacing: 0;
+}
+.why-cmp__col-mark--bad { background: #c43e1f; color: #fff; }
+.why-cmp__col-mark--good { background: #d8ff36; color: #14140e; }
+
+.why-cmp__rule {
+  height: 1px;
+  background: rgba(242, 239, 228, 0.1);
+  margin: 8px 0;
+}
+
+.why-cmp__result {
+  margin-top: 10px;
+  color: #7dff8a;
+  font-weight: 600;
+  padding-left: 50px;
+}
+.why-cmp__check { color: #7dff8a; font-weight: 900; margin-right: 10px; }
+
+@media (max-width: 780px) {
+  .why-cmp__body { padding: 18px 20px; font-size: 0.82rem; }
+  .why-cmp__head { padding: 10px 12px; }
+  .why-cmp__file { font-size: 0.72rem; }
+  .why-cmp__branch { display: none; }
+
+  .why-cmp__row {
+    grid-template-columns: 30px 1fr;
+    row-gap: 4px;
+    column-gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(242, 239, 228, 0.1);
+  }
+  .why-cmp__row--head { display: none; }
+  .why-cmp__c-bad,
+  .why-cmp__c-good {
+    grid-column: 2 / -1;
+    padding-left: 0;
+  }
+  .why-cmp__c-bad::before {
+    content: '✗  ';
+    color: #c43e1f;
+    font-weight: 800;
+  }
+  .why-cmp__c-good::before {
+    content: '✓  ';
+    color: #d8ff36;
+    font-weight: 800;
+  }
+}
+
+/* ---------- WHY FULL-STACK · git diff terminal (LEGACY) ---------- */
 .why-diff {
   max-width: 900px;
   margin: 0 auto;
