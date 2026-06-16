@@ -94,7 +94,7 @@ function Hero() {
   )
 }
 
-const marqueeWords = [
+const SERVICE_LIST = [
   'WEB DEVELOPMENT',
   'APP DEVELOPMENT',
   'UI/UX DESIGN',
@@ -103,37 +103,26 @@ const marqueeWords = [
   'CONSULTING',
 ]
 
-function MarqueeGroup() {
-  return (
-    <span className="marquee__group">
-      {marqueeWords.map((w, i) => (
-        <span className="marquee__item" key={i}>
-          <span className="marquee__star">✦</span>
-          <span className={`marquee__word${i % 2 ? ' marquee__word--outline' : ''}`}>{w}</span>
-        </span>
-      ))}
-    </span>
-  )
-}
-
-function MarqueeRow({ reverse }) {
-  return (
-    <div className={`marquee__row${reverse ? ' marquee__row--rev' : ''}`}>
-      <div className="marquee__track">
-        {[0, 1, 2].map((g) => (
-          <MarqueeGroup key={g} />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 function Marquee() {
   return (
-    <div className="marquee" aria-hidden="true">
-      <MarqueeRow />
-      <MarqueeRow reverse />
-    </div>
+    <section className="svc-banner" aria-label="services we offer">
+      <div className="container-wide svc-banner__inner">
+        <div className="svc-banner__counter">
+          <span className="svc-banner__count mono" aria-hidden="true">06</span>
+          <span className="svc-banner__label mono">SERVICES</span>
+          <span className="svc-banner__caption mono">nongdev studio · est. 2026</span>
+        </div>
+        <ul className="svc-banner__list mono">
+          {SERVICE_LIST.map((s, i) => (
+            <li key={s} className="svc-banner__item">
+              <span className="svc-banner__num">{String(i + 1).padStart(2, '0')}</span>
+              <span className="svc-banner__dash" aria-hidden="true">─</span>
+              <span className="svc-banner__name">{s}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   )
 }
 
