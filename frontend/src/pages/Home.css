@@ -1971,7 +1971,133 @@
   .trust-jest__test { padding-left: 8px; font-size: 0.84rem; }
 }
 
-/* ---------- WHY FULL-STACK — split-vendor vs single-owner ---------- */
+/* ---------- WHY FULL-STACK · single comparison table ---------- */
+.why-table {
+  max-width: 880px;
+  margin: 0 auto;
+  border: var(--bd) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.why-row {
+  display: grid;
+  grid-template-columns: 0.9fr 1.2fr 1.2fr;
+  border-bottom: 1.5px dashed var(--border);
+  transition: background 0.15s var(--ease);
+}
+.why-row:last-child { border-bottom: none; }
+.why-row:hover:not(.why-row--head):not(.why-row--foot) {
+  background: rgba(216, 255, 54, 0.05);
+}
+
+.why-row--head {
+  background: var(--ink);
+  color: var(--bg);
+  border-bottom: var(--bd) solid var(--ink);
+}
+.why-row--head .why-cell {
+  padding: 14px 22px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--bg);
+  border-right-color: rgba(255, 255, 255, 0.15);
+}
+.why-row--head .why-cell--label {
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.18em;
+  background: transparent;
+}
+
+.why-col-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 20px;
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.why-col-mark--bad { background: #c43e1f; color: #fff; }
+.why-col-mark--good { background: var(--lime); color: var(--lime-ink); }
+
+.why-cell {
+  padding: 18px 22px;
+  border-right: 1.5px dashed var(--border);
+  display: flex;
+  align-items: center;
+  font-size: 0.96rem;
+  line-height: 1.4;
+}
+.why-cell:last-child { border-right: none; }
+
+.why-cell--label {
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  background: var(--bg-2);
+}
+
+.why-cell--bad {
+  color: var(--text-soft);
+  font-weight: 500;
+}
+.why-cell--good {
+  color: var(--ink);
+  font-weight: 700;
+  position: relative;
+}
+.why-cell--good::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--lime);
+}
+
+.why-row--foot {
+  background: var(--bg-2);
+  border-top: 2px solid var(--ink);
+}
+.why-row--foot .why-cell--label {
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  font-weight: 800;
+}
+.why-row--foot .why-cell--bad,
+.why-row--foot .why-cell--good {
+  font-size: 0.96rem;
+  font-weight: 800;
+}
+.why-row--foot .why-cell--bad { color: #a04020; }
+
+@media (max-width: 720px) {
+  .why-table { max-width: 100%; }
+  .why-row { grid-template-columns: 1fr; }
+  .why-cell {
+    border-right: none;
+    border-bottom: 1px dashed var(--border);
+    padding: 14px 18px;
+    font-size: 0.92rem;
+  }
+  .why-cell--label {
+    padding-top: 16px;
+    padding-bottom: 8px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--ink);
+  }
+  .why-cell--good::before { width: 100%; height: 3px; top: 0; }
+  .why-row--head .why-cell { font-size: 0.7rem; padding: 10px 18px; }
+}
+
+/* ---------- LEGACY (old chat + stack — kept dead until pruned) ---------- */
 .fs-compare {
   display: grid;
   grid-template-columns: 1fr 1fr;

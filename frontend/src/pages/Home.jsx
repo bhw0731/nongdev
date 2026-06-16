@@ -13,7 +13,7 @@ import { openChannelTalk } from '../lib/channeltalk.js'
 import { profile } from '../data/profile.js'
 import { services } from '../data/services.js'
 import { process } from '../data/process.js'
-import { splitFlow, splitStats, fullstackLayers, fullstackStats, benefits } from '../data/whyFullstack.js'
+import { compareRows } from '../data/whyFullstack.js'
 import { faq } from '../data/faq.js'
 import { trust } from '../data/trust.js'
 import { works } from '../data/works.js'
@@ -451,182 +451,43 @@ function ServicesPreview() {
 }
 
 function WhyFullstack() {
-  const totalSteps = Math.max(splitFlow.length, fullstackLayers.length)
-  const [step, setStep] = useState(0)
-  const [typingIdx, setTypingIdx] = useState(-1)
-  const sectionRef = useRef(null)
-
-  useEffect(() => {
-    const reduce =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) {
-      setStep(totalSteps)
-      setTypingIdx(-1)
-      return
-    }
-    const el = sectionRef.current
-    if (!el) {
-      setStep(totalSteps)
-      return
-    }
-    let cancelled = false
-    let triggered = false
-    let timer
-
-    const playStep = (i) => {
-      if (cancelled || i >= totalSteps) return
-      setTypingIdx(i)
-      timer = setTimeout(() => {
-        if (cancelled) return
-        setTypingIdx(-1)
-        setStep(i + 1)
-        timer = setTimeout(() => playStep(i + 1), 320)
-      }, 480)
-    }
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting && !triggered) {
-            triggered = true
-            obs.unobserve(el)
-            timer = setTimeout(() => playStep(0), 450)
-          }
-        })
-      },
-      { threshold: 0.18, rootMargin: '0px 0px -50px 0px' },
-    )
-    obs.observe(el)
-    return () => {
-      cancelled = true
-      obs.disconnect()
-      clearTimeout(timer)
-    }
-  }, [totalSteps])
-
   return (
-    <section id="why" className="section why-section" ref={sectionRef}>
+    <section id="why" className="section why-section">
       <SectionNum num="03" />
       <div className="container-wide">
         <SectionHeader
           title="왜 풀스택 개발이어야 할까요?"
-          desc={'여러 사람을 거치지 않는다는 건 단순히 빠른 게 아닙니다.\n오해도, 핸드오프 비용도, 책임 분산도 없습니다.'}
+          desc={'여러 사람을 거치지 않는다는 건 단순히 빠른 게 아닙니다.\n같은 작업, 다른 결과를 만듭니다.'}
           center
         />
-        <div className="fs-compare">
-          {/* LEFT — 외주 분업의 혼란 */}
-          <Reveal as="div" className="fs-col fs-col--bad">
-            <div className="fs-col__head">
-              <span className="fs-col__mark mono">✗</span>
-              <div>
-                <div className="fs-col__title">다수 외주 (분업)</div>
-                <div className="fs-col__sub mono">multi-vendor handoff</div>
-              </div>
-            </div>
-            <div className="fs-chat">
-              <div className="fs-chat__topbar mono">
-                <span className="fs-chat__topbar-icon">#</span> project-channel · 4명
-              </div>
-              <ul className="fs-chat__list">
-                {splitFlow.map((m, i) => {
-                  const shown = i < step
-                  const typing = i === typingIdx
-                  if (!shown && !typing) return null
-                  return (
-                    <li
-                      key={m.role}
-                      className={`fs-chat__row${typing ? ' is-typing' : ''}${shown ? ' is-shown' : ''}`}
-                    >
-                      <span className="fs-chat__avatar" data-r={i}>{m.avatar}</span>
-                      <div className="fs-chat__body">
-                        <div className="fs-chat__meta mono">
-                          <span className="fs-chat__role">{m.role}</span>
-                          <span className="fs-chat__tag">{m.tag}</span>
-                        </div>
-                        <div className="fs-chat__msg">
-                          {typing ? (
-                            <span className="fs-chat__dots fs-chat__dots--big">
-                              <span /><span /><span />
-                            </span>
-                          ) : (
-                            <>
-                              {m.msg}
-                              {m.waiting && (
-                                <span className="fs-chat__dots">
-                                  <span /><span /><span />
-                                </span>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-            <dl className="fs-stat fs-stat--bad mono">
-              {splitStats.map((s) => (
-                <div key={s.label} className="fs-stat__row">
-                  <dt>{s.label}</dt>
-                  <dd>{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
 
-          {/* RIGHT — 풀스택 1인 */}
-          <Reveal as="div" className="fs-col fs-col--good" delay={120}>
-            <div className="fs-col__head">
-              <span className="fs-col__mark mono">✓</span>
-              <div>
-                <div className="fs-col__title">풀스택 (1인)</div>
-                <div className="fs-col__sub mono">nongdev · single owner</div>
-              </div>
+        <Reveal as="div" className="why-table mono">
+          <div className="why-row why-row--head">
+            <div className="why-cell why-cell--label">항목</div>
+            <div className="why-cell why-cell--bad">
+              <span className="why-col-mark why-col-mark--bad">✗</span>
+              다수 외주 (분업)
             </div>
-            <div className="fs-stack">
-              {fullstackLayers.map((l, i) => {
-                if (i >= step) return null
-                return (
-                  <div key={l.layer} className="fs-stack__layer">
-                    <div className="fs-stack__layer-main">
-                      <span className="fs-stack__layer-name">{l.layer}</span>
-                      <span className="fs-stack__layer-tech mono">{l.tech}</span>
-                    </div>
-                    <span className="fs-stack__owner mono">
-                      <span className="fs-stack__owner-check">✓</span> nongdev
-                    </span>
-                  </div>
-                )
-              })}
+            <div className="why-cell why-cell--good">
+              <span className="why-col-mark why-col-mark--good">✓</span>
+              풀스택 (1인)
             </div>
-            <dl className="fs-stat fs-stat--good mono">
-              {fullstackStats.map((s) => (
-                <div key={s.label} className="fs-stat__row">
-                  <dt>{s.label}</dt>
-                  <dd>{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
-
-        <div className="why-benefits">
-          <Reveal className="why-benefits-head">
-            <h3>풀스택 개발이 비즈니스에 주는 4가지 가치</h3>
-          </Reveal>
-          <div className="why-cards">
-            {benefits.map((b, i) => (
-              <Reveal key={b.num} className="why-card" delay={i * 80}>
-                <span className="why-card-num mono">{b.num}</span>
-                <h4>{b.title}</h4>
-                <span className="why-card-highlight">{b.highlight}</span>
-                <p>{b.desc}</p>
-              </Reveal>
-            ))}
           </div>
-        </div>
+
+          {compareRows.map((row, i) => (
+            <Reveal as="div" key={row.label} className="why-row" delay={i * 60}>
+              <div className="why-cell why-cell--label">{row.label}</div>
+              <div className="why-cell why-cell--bad">{row.bad}</div>
+              <div className="why-cell why-cell--good">{row.good}</div>
+            </Reveal>
+          ))}
+
+          <div className="why-row why-row--foot">
+            <div className="why-cell why-cell--label">결과</div>
+            <div className="why-cell why-cell--bad">시간·비용·신뢰 손실</div>
+            <div className="why-cell why-cell--good">한 번에, 명확하게</div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )
