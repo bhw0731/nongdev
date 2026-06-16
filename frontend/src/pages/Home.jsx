@@ -461,31 +461,55 @@ function WhyFullstack() {
           center
         />
 
-        <Reveal as="div" className="why-table mono">
-          <div className="why-row why-row--head">
-            <div className="why-cell why-cell--label">항목</div>
+        <Reveal as="div" className="why-table">
+          <div className="why-meta mono">
+            <span className="why-meta__k">SPEC</span>
+            <span className="why-meta__rule" aria-hidden="true" />
+            <span className="why-meta__v">SAME JOB · DIFFERENT OUTCOME</span>
+          </div>
+
+          <div className="why-row why-row--head mono">
+            <div className="why-cell why-cell--num">N°</div>
+            <div className="why-cell why-cell--label">기준</div>
             <div className="why-cell why-cell--bad">
-              <span className="why-col-mark why-col-mark--bad">✗</span>
-              다수 외주 (분업)
+              <span className="why-col-mark why-col-mark--bad" aria-hidden="true">✗</span>
+              <span className="why-col-title">다수 외주 (분업)</span>
             </div>
             <div className="why-cell why-cell--good">
-              <span className="why-col-mark why-col-mark--good">✓</span>
-              풀스택 (1인)
+              <span className="why-col-mark why-col-mark--good" aria-hidden="true">✓</span>
+              <span className="why-col-title">풀스택 (1인)</span>
             </div>
           </div>
 
-          {compareRows.map((row, i) => (
-            <Reveal as="div" key={row.label} className="why-row" delay={i * 60}>
-              <div className="why-cell why-cell--label">{row.label}</div>
-              <div className="why-cell why-cell--bad">{row.bad}</div>
-              <div className="why-cell why-cell--good">{row.good}</div>
-            </Reveal>
-          ))}
+          {compareRows.map((row, i) => {
+            const quoted = row.bad.startsWith('"') && row.bad.endsWith('"')
+            return (
+              <Reveal as="div" key={row.label} className="why-row" delay={i * 60}>
+                <div className="why-cell why-cell--num mono">
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <div className="why-cell why-cell--label">{row.label}</div>
+                <div className="why-cell why-cell--bad">
+                  {quoted ? (
+                    <span className="why-quote">
+                      {row.bad.slice(1, -1)}
+                    </span>
+                  ) : row.bad}
+                </div>
+                <div className="why-cell why-cell--good">
+                  <span className="why-good-val">{row.good}</span>
+                </div>
+              </Reveal>
+            )
+          })}
 
-          <div className="why-row why-row--foot">
-            <div className="why-cell why-cell--label">결과</div>
+          <div className="why-row why-row--foot mono">
+            <div className="why-cell why-cell--num">→</div>
+            <div className="why-cell why-cell--label">RESULT</div>
             <div className="why-cell why-cell--bad">시간·비용·신뢰 손실</div>
-            <div className="why-cell why-cell--good">한 번에, 명확하게</div>
+            <div className="why-cell why-cell--good">
+              <span className="why-good-val">한 번에, 명확하게</span>
+            </div>
           </div>
         </Reveal>
       </div>
