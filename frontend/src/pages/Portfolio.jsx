@@ -30,34 +30,41 @@ export default function Portfolio() {
             <span className="pf-index__year">EST. 2026</span>
           </div>
 
-          <div className="pf-sheet">
-            {works.map((w, i) => (
-              <Reveal as="div" key={w.id} delay={i * 60}>
-                <Link className="pf-cell" to={`/portfolio/${w.id}`}>
-                  <div className="pf-cell__image">
-                    <span className="pf-cell__index mono" aria-hidden="true">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <img src={w.image} alt={w.name} loading="lazy" decoding="async" />
-                  </div>
-                  <div className="pf-cell__caption">
-                    <div className="pf-cell__meta mono">
-                      <span>{w.category}</span>
-                      <span className="pf-cell__meta-sep">·</span>
-                      <span>{w.year}</span>
+          {works.length === 0 ? (
+            <div className="pf-empty mono">
+              <span className="pf-empty__k">PORTFOLIO</span>
+              <span className="pf-empty__v">UPDATING SOON · 작업물 준비 중</span>
+            </div>
+          ) : (
+            <div className="pf-sheet">
+              {works.map((w, i) => (
+                <Reveal as="div" key={w.id} delay={i * 60}>
+                  <Link className="pf-cell" to={`/portfolio/${w.id}`}>
+                    <div className="pf-cell__image">
+                      <span className="pf-cell__index mono" aria-hidden="true">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <img src={w.image} alt={w.name} loading="lazy" decoding="async" />
                     </div>
-                    <h3 className="pf-cell__name">{w.name}</h3>
-                    <div className="pf-cell__client mono">{w.client}</div>
-                    <p className="pf-cell__summary">{w.summary}</p>
-                    <div className="pf-cell__tags mono">
-                      {w.tags.slice(0, 5).join(' · ')}
+                    <div className="pf-cell__caption">
+                      <div className="pf-cell__meta mono">
+                        <span>{w.category}</span>
+                        <span className="pf-cell__meta-sep">·</span>
+                        <span>{w.year}</span>
+                      </div>
+                      <h3 className="pf-cell__name">{w.name}</h3>
+                      <div className="pf-cell__client mono">{w.client}</div>
+                      <p className="pf-cell__summary">{w.summary}</p>
+                      <div className="pf-cell__tags mono">
+                        {w.tags.slice(0, 5).join(' · ')}
+                      </div>
+                      <span className="pf-cell__cta mono">VIEW PROJECT →</span>
                     </div>
-                    <span className="pf-cell__cta mono">VIEW PROJECT →</span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>
