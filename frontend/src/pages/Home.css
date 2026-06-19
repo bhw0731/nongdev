@@ -61,33 +61,150 @@
 .hero-full__desc { margin: 26px 0 32px; color: var(--text-soft); font-size: 1.08rem; max-width: 440px; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
-/* terminal (flat brutalist) */
+/* hero — STUDIO BRIEF cream paper card */
 .crt-wrap { position: relative; }
-.crt-window {
+.hero-brief {
   border: var(--bd) solid var(--ink);
-  background: #14130e;
+  background: var(--surface);
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
+  padding: 30px 34px 24px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
 }
-:root[data-theme='dark'] .crt-window { background: #0c0b07; }
-.crt-header {
-  display: flex; align-items: center; gap: 8px;
-  padding: 11px 14px;
-  border-bottom: var(--bd) solid #f2efe4;
+
+.hero-brief__head {
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 2.5px solid var(--ink);
+  margin-bottom: 20px;
 }
-.crt-dot { width: 12px; height: 12px; border: 1.5px solid #0c0b07; }
-.crt-dot--red { background: #ff5f57; }
-.crt-dot--yellow { background: #febc2e; }
-.crt-dot--green { background: #28c840; }
-.crt-header-title { margin-left: 8px; font-size: 0.78rem; color: #8b8676; }
-.crt-body { padding: 18px; font-size: 0.85rem; line-height: 1.95; color: #e6e3d6; }
-.crt-row { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.crt-prompt { color: #d8ff36; margin-right: 6px; }
-.crt-dim { color: #8b8676; }
-.crt-info { color: #6ea8ff; }
-.crt-ok { color: #7dff8a; }
-.crt-caret { display: inline-block; width: 9px; height: 1.05em; background: #d8ff36; margin-left: 4px; vertical-align: -2px; /* blink animation removed */ }
-@keyframes blink { 50% { opacity: 0; } }
+.hero-brief__brand {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  color: var(--text-dim);
+}
+.hero-brief__title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 6px 0 4px;
+  color: var(--ink);
+}
+.hero-brief__sub {
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+}
+
+.hero-brief__meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 0.72rem;
+  padding-bottom: 12px;
+  border-bottom: 1.5px dashed var(--border);
+  margin-bottom: 16px;
+}
+.hero-brief__meta-k {
+  color: var(--text-dim);
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  margin-right: 8px;
+}
+.hero-brief__meta-v {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.hero-brief__steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+.hero-brief__step {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1.5px dashed var(--border);
+  font-size: 0.86rem;
+}
+.hero-brief__step:last-child { border-bottom: none; }
+.hero-brief__step-mark {
+  font-weight: 800;
+  text-align: center;
+  font-size: 1rem;
+}
+.hero-brief__step-mark--done { color: var(--text-dim); }
+.hero-brief__step-mark--active { color: var(--ink); }
+.hero-brief__step-mark--ok { color: #1a8e2a; font-size: 0.92rem; }
+.hero-brief__step-mark--note { color: var(--text-dim); font-style: normal; }
+.hero-brief__step-text {
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.hero-brief__step-status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--text-dim);
+  padding: 3px 9px;
+  border: 1.5px solid var(--border);
+  white-space: nowrap;
+}
+.hero-brief__step-status--active {
+  background: var(--lime);
+  color: var(--lime-ink);
+  border-color: var(--lime-ink);
+}
+.hero-brief__step-status--ok {
+  background: #1a8e2a;
+  color: #fff;
+  border-color: #1a8e2a;
+}
+.hero-brief__step-status--note {
+  background: var(--bg-2);
+  color: var(--text-soft);
+}
+
+.hero-brief__footer {
+  padding-top: 14px;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.72rem;
+}
+.hero-brief__sign-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-brief__sign-k {
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  min-width: 56px;
+}
+.hero-brief__sign-rule {
+  flex: 1;
+  border-bottom: 2px dotted var(--ink);
+  height: 0.5em;
+}
+.hero-brief__sign-v {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
 
 .scroll-hint {
   position: absolute; bottom: 24px; left: 50%;

@@ -66,23 +66,61 @@ function Hero() {
           </div>
         </div>
 
-        <div className="crt-wrap" aria-hidden="true">
-          <div className="crt-window">
-            <div className="crt-header">
-              <span className="crt-dot crt-dot--red" />
-              <span className="crt-dot crt-dot--yellow" />
-              <span className="crt-dot crt-dot--green" />
-              <span className="crt-header-title mono">~/nongdev — zsh</span>
+        <div className="crt-wrap">
+          <article className="hero-brief" aria-label="studio brief">
+            <header className="hero-brief__head">
+              <div className="hero-brief__brand mono">NONGDEV STUDIO</div>
+              <div className="hero-brief__title">STUDIO BRIEF</div>
+              <div className="hero-brief__sub mono">— 프로젝트 진행 명세 —</div>
+            </header>
+
+            <div className="hero-brief__meta mono">
+              <div>
+                <span className="hero-brief__meta-k">CLIENT</span>
+                <span className="hero-brief__meta-v">당신</span>
+              </div>
+              <div>
+                <span className="hero-brief__meta-k">SCOPE</span>
+                <span className="hero-brief__meta-v">FULL-STACK</span>
+              </div>
             </div>
-            <div className="crt-body mono">
-              <div className="crt-row"><span className="crt-prompt">$</span> nongdev init --client "당신"</div>
-              <div className="crt-row crt-dim">→ 요구사항 정리 완료</div>
-              <div className="crt-row crt-info">→ 기획 · 디자인 · 개발 · 배포 진행중…</div>
-              <div className="crt-row crt-ok">✓ 제품이 완성되었습니다 (2.4s)</div>
-              <div className="crt-row crt-dim"># 추가 비용 깜짝 청구 없음</div>
-              <div className="crt-row"><span className="crt-prompt">$</span> deploy --to production</div>
+
+            <ol className="hero-brief__steps mono">
+              <li className="hero-brief__step">
+                <span className="hero-brief__step-mark hero-brief__step-mark--done">→</span>
+                <span className="hero-brief__step-text">요구사항 정리</span>
+                <span className="hero-brief__step-status">완료</span>
+              </li>
+              <li className="hero-brief__step">
+                <span className="hero-brief__step-mark hero-brief__step-mark--active">→</span>
+                <span className="hero-brief__step-text">기획 · 디자인 · 개발 · 배포</span>
+                <span className="hero-brief__step-status hero-brief__step-status--active">진행중</span>
+              </li>
+              <li className="hero-brief__step">
+                <span className="hero-brief__step-mark hero-brief__step-mark--ok">✓</span>
+                <span className="hero-brief__step-text">제품 완성</span>
+                <span className="hero-brief__step-status hero-brief__step-status--ok">2.4s</span>
+              </li>
+              <li className="hero-brief__step">
+                <span className="hero-brief__step-mark hero-brief__step-mark--note">#</span>
+                <span className="hero-brief__step-text">추가 비용 깜짝 청구 없음</span>
+                <span className="hero-brief__step-status hero-brief__step-status--note">고정</span>
+              </li>
+            </ol>
+
+            <div className="hero-brief__footer mono">
+              <div className="hero-brief__sign-row">
+                <span className="hero-brief__sign-k">SIGNED</span>
+                <span className="hero-brief__sign-rule" aria-hidden="true" />
+                <span className="hero-brief__sign-v">nongdev_</span>
+              </div>
+              <div className="hero-brief__sign-row">
+                <span className="hero-brief__sign-k">DATE</span>
+                <span className="hero-brief__sign-rule" aria-hidden="true" />
+                <span className="hero-brief__sign-v">{new Date().toISOString().slice(0, 10)}</span>
+              </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
 
