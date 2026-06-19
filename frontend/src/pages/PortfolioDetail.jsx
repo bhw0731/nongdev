@@ -71,6 +71,28 @@ export default function PortfolioDetail() {
           <img src={work.image} alt={work.name} />
         </Reveal>
 
+        {work.gallery && work.gallery.length > 0 && (
+          <div className="pf-detail__gallery">
+            <div className="pf-detail__gallery-head mono">
+              <span className="pf-detail__gallery-k">GALLERY</span>
+              <span className="pf-detail__gallery-rule" aria-hidden="true" />
+              <span className="pf-detail__gallery-count">
+                {String(work.gallery.length).padStart(2, '0')} SHOTS
+              </span>
+            </div>
+            <div className="pf-detail__gallery-grid">
+              {work.gallery.map((src, i) => (
+                <Reveal as="div" key={src} className="pf-detail__gallery-item" delay={i * 80}>
+                  <span className="pf-detail__gallery-num mono" aria-hidden="true">
+                    {String(i + 2).padStart(2, '0')}
+                  </span>
+                  <img src={src} alt={`${work.name} ${i + 2}`} loading="lazy" decoding="async" />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="pf-detail__body">
           <Reveal className="pf-detail__main">
             <h2 className="pf-detail__h2 mono">ABOUT THE PROJECT</h2>
