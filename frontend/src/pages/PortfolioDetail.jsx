@@ -96,7 +96,9 @@ export default function PortfolioDetail() {
         <div className="pf-detail__body">
           <Reveal className="pf-detail__main">
             <h2 className="pf-detail__h2 mono">ABOUT THE PROJECT</h2>
-            <p className="pf-detail__desc">{work.description}</p>
+            {work.description.split('\n\n').map((para, i) => (
+              <p key={i} className="pf-detail__desc">{para}</p>
+            ))}
           </Reveal>
 
           <Reveal as="aside" className="pf-detail__aside" delay={100}>

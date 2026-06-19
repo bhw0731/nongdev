@@ -695,10 +695,18 @@
 
 .pf-detail__desc {
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.78;
   color: var(--text-soft);
-  margin: 0;
+  margin: 0 0 18px;
   max-width: 64ch;
+}
+.pf-detail__desc:last-child { margin-bottom: 0; }
+.pf-detail__desc:first-of-type {
+  font-size: 1.08rem;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.7;
 }
 
 .pf-detail__aside {
