@@ -228,11 +228,19 @@
 
 /* ---------- SERVICES BANNER · 06 counter + list ---------- */
 .svc-banner {
-  background: var(--lime);
-  color: var(--lime-ink);
+  --svc-bg: var(--lime);
+  --svc-ink: var(--lime-ink);
+  --svc-rule: rgba(22, 20, 14, 0.18);
+  background: var(--svc-bg);
+  color: var(--svc-ink);
   border-top: var(--bd) solid var(--ink);
   border-bottom: var(--bd) solid var(--ink);
   padding: 68px 0;
+}
+:root[data-theme='light'] .svc-banner {
+  --svc-bg: #2a38e8;
+  --svc-ink: #f4f1e8;
+  --svc-rule: rgba(244, 241, 232, 0.26);
 }
 .svc-banner__inner {
   display: grid;
@@ -251,7 +259,7 @@
   font-weight: 900;
   line-height: 0.82;
   letter-spacing: -0.05em;
-  color: var(--lime-ink);
+  color: var(--svc-ink);
   font-variant-numeric: tabular-nums;
 }
 .svc-banner__label {
@@ -260,13 +268,13 @@
   letter-spacing: 0.32em;
   margin: 14px 0 0;
   padding-top: 14px;
-  border-top: 3px solid var(--lime-ink);
+  border-top: 3px solid var(--svc-ink);
   width: 100%;
 }
 .svc-banner__caption {
   font-size: 0.74rem;
   letter-spacing: 0.22em;
-  color: var(--lime-ink);
+  color: var(--svc-ink);
   opacity: 0.55;
   margin-top: 22px;
 }
@@ -284,11 +292,11 @@
   align-items: baseline;
   gap: 14px;
   padding: 14px 0;
-  border-bottom: 1.5px solid rgba(22, 20, 14, 0.18);
+  border-bottom: 1.5px solid var(--svc-rule);
   font-size: clamp(0.95rem, 1.5vw, 1.18rem);
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: var(--lime-ink);
+  color: var(--svc-ink);
   text-transform: uppercase;
   transition: transform 0.18s var(--ease), padding 0.18s var(--ease);
 }
