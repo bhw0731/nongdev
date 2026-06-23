@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import PageHero from '../components/PageHero.jsx'
 import Reveal from '../components/Reveal.jsx'
-import Icon from '../components/Icon.jsx'
 import { openChannelTalk } from '../lib/channeltalk.js'
 import useDocumentMeta from '../hooks/useDocumentMeta.js'
 import { services, addOns } from '../data/services.js'
@@ -61,7 +60,6 @@ function TierCard({ svc, delay = 0 }) {
         <div className="tier-card__main">
           <div className="tier-card__tier mono">{svc.tier}</div>
           <div className="tier-card__name">{svc.ko}</div>
-          <div className="tier-card__icon"><Icon name={svc.icon} /></div>
 
           <div className="tier-card__price-block">
             <div className="tier-card__price mono">{fmt(total)}원</div>
